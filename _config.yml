@@ -1,40 +1,71 @@
 # Site
 title: PhucQuan Security Writeups
 description: Security research, CTF writeups, pentest notes, and learning logs
-author: Phuc Quan
-email: contact@phucquan.dev
+author:
+  name: Phuc Quan
+  email: contact@phucquan.dev
 url: https://phucquan.github.io
 baseurl: ""
+repository: PhucQuan/PhucQuan.github.io
 
-# Theme
-theme: jekyll-theme-hacker
-show_downloads: false
+# Theme (Minimal Mistakes)
+remote_theme: mmistakes/minimal-mistakes@4.26.2
+minimal_mistakes_skin: "default"
 
 # Build settings
 markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+highlighter: rouge
+permalink: /:year/:month/:day/:slug/
+
 plugins:
-  - jekyll-feed
-  - jekyll-seo-tag
   - jekyll-paginate
+  - jekyll-sitemap
+  - jekyll-gist
+  - jekyll-feed
+  - jekyll-include-cache
 
 # Pagination
 paginate: 10
-paginate_path: "/writeups/page:num/"
+paginate_path: "/page:num/"
 
 # Post defaults
 defaults:
+  # All posts
   - scope:
       path: "_posts"
+      type: posts
     values:
-      layout: post
+      layout: single
+      classes: wide
+      author_profile: true
+      read_time: true
+      comments: false
+      share: true
+      related: true
       permalink: /:year/:month/:day/:slug/
 
-# Excerpt
-show_excerpts: true
-post_excerpt_separator: "<!-- more -->"
+# Author profile
+author_bio: "Security student exploring CTF, pentesting, and cloud security"
+
+# Footer
+footer:
+  links:
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/PhucQuan"
+    - label: "Twitter"
+      icon: "fab fa-twitter"
+      url: "https://twitter.com/phucquan"
 
 # Exclude from processing
 exclude:
-  - README.md
+  - "*.gemspec"
   - Gemfile
   - Gemfile.lock
+  - README.md
+  - SETUP.md
+  - COMPLETE.md
+  - QUICK-REFERENCE.md
