@@ -1,12 +1,6 @@
-# Kích hoạt theme Minimal Mistakes từ xa
-remote_theme: mmistakes/minimal-mistakes
+theme: jekyll-theme-hacker
 
-# Thông tin cơ bản của web
-title: Blog Writeup của Tôi
-description: Nơi chia sẻ kiến thức CTF và Security
-author:
-  name: "Tên Của Bạn"
-  bio: "Security Researcher"
+title: QuanPhuc | Security Writeups
+description: CTF · Web · Pentest · Cloud Security
 
-# Cấu hình giao diện
-minimal_mistakes_skin: "dark" 
+show_downloads: false
