@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    {% seo %}
+    <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%2300ff00'>#</text></svg>">
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar">
+        <div class="navbar-brand">
+          <a href="{{ '/' | relative_url }}" class="brand-link">phucquan</a>
+        </div>
+        <ul class="navbar-menu">
+          <li><a href="{{ '/about/' | relative_url }}">about</a></li>
+          <li><a href="{{ '/writeups/' | relative_url }}">writeups</a></li>
+          <li><a href="https://github.com/PhucQuan" target="_blank">github</a></li>
+        </ul>
+      </nav>
+
+      <main class="content">
+        {{ content }}
+      </main>
+
+      <footer class="footer">
+        <p>
+          <span class="prompt">root@phucquan:~$</span>
+          <span class="footer-text">Security research & CTF writeups | Hosted on <a href="https://pages.github.com">GitHub Pages</a></span>
+        </p>
+        <p style="margin-top: 0.5rem; font-size: 0.85rem; color: #888;">
+          © 2024-{{ site.time | date: "%Y" }} Phuc Quan | All writeups are for educational purposes
+        </p>
+      </footer>
+    </div>
+
+    {% if site.google_analytics %}
+      <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', '{{ site.google_analytics }}', 'auto');
+        ga('send', 'pageview');
+      </script>
+    {% endif %}
+  </body>
+</html>
