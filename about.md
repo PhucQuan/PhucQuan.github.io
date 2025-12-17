@@ -1,144 +1,73 @@
 ---
 layout: single
-title: About
+title: About Me
 permalink: /about/
 ---
 
-<div class="terminal-header">
-  <span class="terminal-prompt">root@phucquan</span><span class="terminal-path">:~$ cat about.txt</span>
-</div>
+## Background
 
-# About Phuc Quan
+I'm a security student with a focus on offensive security through competitive hacking and hands-on labs. This blog documents my learning journey in security research, CTF challenges, and penetration testing.
 
-```
-████████████████████████████████████████████████████████████
-  Security Student | CTF Competitor | Bug Bounty Enthusiast
-████████████████████████████████████████████████████████████
-```
+## Current Focus
 
----
+- **Competitive Hacking** — CTF competitions (web, crypto, misc)
+- **Penetration Testing** — Web application assessments
+- **Cloud Security** — AWS and cloud infrastructure security
+- **Cryptography** — Algorithm analysis and implementation flaws
+- **Reverse Engineering** — Binary analysis basics
 
-## $ whoami
+## Skills
 
-I'm a security-focused developer and CTF competitor learning offensive security through hands-on experience. My goal is to understand how systems break and how to build them securely.
+**Programming Languages:**
+- Python (scripts, exploitation)
+- Bash (automation, reconnaissance)
+- JavaScript (web vulnerabilities)
+- SQL (database security)
 
-**Why security?**
-- Fascinated by attack/defense dynamics
-- Love solving complex puzzles under pressure (CTF competitions)
-- Want to build secure systems and help organizations fix vulnerabilities
-- Believe in continuous learning and knowledge sharing
+**Tools & Platforms:**
+- Burp Suite, Wireshark, Nmap, Metasploit
+- TryHackMe, HackTheBox, CTFtime
+- Ghidra, IDA Pro (basics)
 
----
+**Technical Knowledge:**
+- Web vulnerabilities (OWASP Top 10)
+- Authentication and authorization bypasses
+- Cryptographic concepts and flaws
+- Network protocols and analysis
+- Linux system administration
 
-## $ find . -name expertise
-
-### Active Learning Areas
-
-**CTF (Competitive Hacking)**
-- Web challenges (injections, authentication bypasses, logic flaws)
-- Cryptography (RSA, AES, hash functions)
-- Miscellaneous (OSINT, steganography, encoding)
-- Reverse engineering basics
-
-**Offensive Security**
-- Web application penetration testing (OWASP Top 10)
-- Reconnaissance and enumeration techniques
-- Exploitation and post-exploitation
-- Report writing and remediation suggestions
-
-**Cloud Security**
-- AWS security configurations
-- IAM policies and access control
-- Common misconfigurations
-- Cloud-native attack vectors
-
-**Foundational Skills**
-- Linux command line & scripting (Bash, Python)
-- Networking fundamentals (TCP/IP, DNS, HTTP)
-- Cryptographic concepts and implementation
-- SQL and database security
-
----
-
-## $ ls -la /learning-path
+## Learning Path
 
 ### Completed
-- ✅ TryHackMe: Security Fundamentals path
-- ✅ HackTheBox: Several beginner challenges
-- ✅ CTF Competition: NiteCTF 2024, multiple local competitions
+- ✅ TryHackMe security fundamentals
+- ✅ Multiple CTF competitions
 - ✅ OWASP Top 10 deep dive
+- ✅ Basic cryptography concepts
 
-### Current
-- 🔄 Advanced web exploitation techniques
-- 🔄 Cryptography challenges (CTF)
+### In Progress
+- 🔄 Advanced web exploitation
+- 🔄 Cryptography challenges
 - 🔄 AWS security assessments
 
 ### Planned
-- 🎯 Reverse engineering (IDA Pro, Ghidra)
-- 🎯 Advanced privilege escalation
-- 🎯 Malware analysis basics
-- 🎯 Bug bounty programs (HackerOne, Bugcrowd)
+- 🎯 Reverse engineering (advanced)
+- 🎯 Privilege escalation techniques
+- 🎯 Malware analysis
+- 🎯 Bug bounty programs
 
----
-
-## $ stat /blog
-
-This blog serves multiple purposes:
-
-1. **Learning Repository** — Documenting solutions to solidify understanding
-2. **Portfolio** — Demonstrating security knowledge to potential employers/team
-3. **Knowledge Sharing** — Helping other security students learn from my experience
-4. **Reference** — Quick lookup for techniques and tools I've used
+## About This Blog
 
 Each writeup includes:
-- Challenge background and difficulty assessment
-- My thought process and reconnaissance approach
-- Technical steps and exploitation methods
-- Tools and commands used
-- Key lessons and common pitfalls
-- Relevant resources and references
+- **Challenge Information** — Difficulty, category, platform
+- **Reconnaissance** — My initial exploration approach
+- **Analysis** — Technical deep-dive into the vulnerability
+- **Exploitation** — Step-by-step exploitation walkthrough
+- **Lessons Learned** — Key takeaways and prevention strategies
+- **References** — Tools and resources used
 
----
+**Disclaimer:** All writeups are based on public CTF challenges and authorized lab environments. Content is for educational purposes only.
 
-## $ cat skills.yaml
-
-```yaml
-languages:
-  - bash
-  - python
-  - javascript
-  - sql
-
-tools:
-  - burp-suite
-  - wireshark
-  - nmap
-  - metasploit
-  - ghidra
-  - ida-pro
-
-concepts:
-  - web-vulnerabilities
-  - cryptography
-  - network-security
-  - access-control
-  - authentication
-  - privilege-escalation
-
-platforms:
-  - tryhackme
-  - hackthebox
-  - ctf-competitions
-  - bug-bounty-programs
-
-certifications:
-  - planned: "OSCP"
-  - planned: "CEH"
-```
-
----
-
-## $ contact --method
+## Contact & Links
 
 - **GitHub:** [PhucQuan](https://github.com/PhucQuan)
 - **Email:** contact@phucquan.dev
@@ -146,6 +75,4 @@ certifications:
 
 ---
 
-<div class="terminal-footer">
-  <span class="blink">▌</span> Last updated: {{ site.time | date: "%Y-%m-%d %H:%M" }}
-</div>
+Last updated: {{ site.time | date: "%B %d, %Y" }}

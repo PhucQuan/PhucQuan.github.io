@@ -1,114 +1,56 @@
 ---
 layout: single
-title: Writeups
+title: All Writeups
 permalink: /writeups/
 ---
 
-<div class="terminal-header">
-  <span class="terminal-prompt">root@phucquan</span><span class="terminal-path">:~$ find . -name "*.writeup"</span>
-</div>
+## Security Writeups
 
-# Security Writeups
+Below is a collection of my security writeups, organized by category. Each writeup documents my approach to solving CTF challenges, lab exercises, and security research.
 
-```
- ___       ___ ___      ___  ___  ___  ___  ___    ___  ___  ___  ___ 
-|"  \     /"  |"  \    |"  \/"  |/"  |("  \"  \  /"  |("  \"  \ ("  \
- \__/    // __ \__/    (  T_T  )(  ( |_  T  T) (  /  |_  T  T) )_  T
-|"  \   /  \ |"  \    |: / |  :|: (_/  |: (_ : |: /    |: / |  |"  \
- \__/  (: ( \/  \__/   |__/|__/|_/\___ |_|  |_||_/     |___|_|_|_/\_|
-                                                                      
-```
+### Filter by Category
+
+{% assign categories = site.posts | map: 'categories' | join: ',' | split: ',' | uniq | sort %}
+
+{% for category in categories %}
+  {% if category != "" %}
+- [{{ category | capitalize }}](#{{ category }})
+  {% endif %}
+{% endfor %}
 
 ---
 
-## $ ls -la /writeups
+{% assign posts_by_category = site.posts | group_by: "categories" %}
 
-{% assign writeups_by_category = site.posts | group_by: "categories" | sort: "name" %}
-
-{% for category_group in writeups_by_category %}
-  {% assign category = category_group.name %}
+{% for category_group in posts_by_category %}
+  {% assign category = category_group.name | first %}
   {% if category != "" %}
 
-### 📂 {{ category | capitalize }}
+### {{ category | capitalize }}
 
-<ul class="writeup-grid">
-    {% for post in category_group.items %}
-    <li>
-      <div class="writeup-card">
-        <div class="writeup-date">[{{ post.date | date: "%Y-%m-%d" }}]</div>
-        <div class="writeup-title">
-          <a href="{{ post.url }}">{{ post.title }}</a>
-        </div>
-        {% if post.tags %}
-          <div class="writeup-tags">
-            {% for tag in post.tags %}
-              <span class="tag">#{{ tag }}</span>
-            {% endfor %}
-          </div>
-        {% endif %}
-        {% if post.excerpt %}
-          <div class="writeup-excerpt">
-            {{ post.excerpt | strip_html }}
-          </div>
-        {% endif %}
-      </div>
-    </li>
-    {% endfor %}
-</ul>
+| Title | Date | Tags |
+|-------|------|------|
+{% for post in category_group.items %}
+| [{{ post.title }}]({{ post.url }}) | {{ post.date | date: "%B %d, %Y" }} | {% for tag in post.tags %}`{{ tag }}`{% unless forloop.last %} {% endunless %}{% endfor %} |
+{% endfor %}
 
   {% endif %}
 {% endfor %}
 
 ---
 
-## $ grep -r "tags" .
+## Statistics
 
-<div class="tag-filter">
-  <strong>Popular Tags:</strong>
-  {% assign tags = site.posts | map: 'tags' | join: ',' | split: ',' | uniq | sort %}
-  {% for tag in tags %}
-    {% if tag != "" %}
-      <a href="/tags/#{{ tag }}" class="tag-link">#{{ tag }}</a>
-    {% endif %}
-  {% endfor %}
-</div>
+- **Total Writeups:** {{ site.posts | size }}
+- **Most Recent:** {{ site.posts.first.date | date: "%B %d, %Y" }}
 
 ---
 
-## 📋 Writeup Categories Explained
+## Getting Started
 
-| Category | Description |
-|----------|-------------|
-| **CTF** | Competitive hacking challenges (web, crypto, misc) |
-| **Pentest** | Web application penetration testing |
-| **Lab** | TryHackMe, HackTheBox, and similar lab writeups |
-| **Research** | Security research and technical deep-dives |
-| **Cloud** | Cloud security (AWS, Azure, GCP) assessments |
+New to my blog? Consider starting with:
+1. Read the [About](/about/) page to understand my focus areas
+2. Browse writeups by category above
+3. Check the latest posts for recent challenges
 
----
-
-## 🎯 Getting Started
-
-New to security writeups? Start here:
-- Read [How to use this blog](https://github.com/PhucQuan/PhucQuan.github.io#readme)
-- Check out writeups marked as **beginner-friendly**
-- Review the writeup template format
-- Join communities: HackTheBox, TryHackMe, CTFtime
-
----
-
-## $ wc -l *.md
-
-**Stats:**
-- Total writeups: **{{ site.posts | size }}**
-- Most active category: 
-  {% assign category_counts = site.posts | group_by: "categories" | map: "size" | max %}
-  {% for category_group in writeups_by_category %}
-    {% if category_group.size == category_counts %}{{ category_group.name | capitalize }}{% endif %}
-  {% endfor %}
-
----
-
-<div class="terminal-footer">
-  <span class="blink">▌</span> Last updated: {{ site.time | date: "%Y-%m-%d %H:%M" }}
-</div>
+Each writeup includes step-by-step explanations, actual commands used, and lessons learned.

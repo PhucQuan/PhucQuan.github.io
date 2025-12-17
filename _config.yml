@@ -31,6 +31,13 @@ plugins:
 paginate: 10
 paginate_path: "/page:num/"
 
+# Navigation
+navbar_links:
+  - Home: "/"
+  - About: "/about/"
+  - Writeups: "/writeups/"
+  - GitHub: "https://github.com/PhucQuan"
+
 # Post defaults
 defaults:
   # All posts
@@ -40,15 +47,12 @@ defaults:
     values:
       layout: single
       classes: wide
-      author_profile: true
+      author_profile: false
       read_time: true
       comments: false
       share: true
       related: true
       permalink: /:year/:month/:day/:slug/
-
-# Author profile
-author_bio: "Security student exploring CTF, pentesting, and cloud security"
 
 # Footer
 footer:

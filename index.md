@@ -1,110 +1,47 @@
 ---
 layout: home
 title: Home
+author_profile: false
 ---
 
-<div class="terminal-header">
-  <span class="terminal-prompt">root@phucquan</span><span class="terminal-path">:~$</span>
-</div>
+# Security Writeups & Learning Notes
 
-# PhucQuan | Security Writeups
+Welcome to my personal documentation of security research, CTF challenges, and pentesting exercises.
 
-```
- _____  _     _   _       ____  _   _          _   _ 
-|  __ \| |   | | | |     / __ \| | | |   /\   | \ | |
-| |__) | |_  | | | |    | |  | | | | |  /  \  |  \| |
-|  ___/| __|  \_/ \_/    | |  | | | | | / /\ \ | . ` |
-| |    | |_    ___  ___  | |__| | |_| |/ ____ \| |\  |
-|_|     \__|  |___||___/  \___\_\\___//_/    \_\_| \_|
+## Featured Areas
 
-      Security Research & CTF Writeups
-```
-
----
-
-## $ whoami
-
-Security student exploring offensive security through competitive hacking and hands-on labs.
-
-**Focus areas:**
-- **CTF** — Web challenges, cryptography, misc
-- **Pentesting** — Web application security, reconnaissance
-- **Cloud Security** — AWS, cloud misconfigurations
+- **CTF** — Web challenges, cryptography, miscellaneous
+- **Pentesting** — Web application security, reconnaissance, exploitation
+- **Cloud Security** — AWS, cloud configurations, IAM
 - **Cryptography** — Algorithms, key exchange, padding attacks
 - **Malware Analysis** — Reverse engineering basics
 
----
+## Latest Writeups
 
-## $ find . -name writeups -type f
-
-### Latest Writeups
-
-<ul class="writeup-list">
-{% for post in site.posts limit:3 %}
+{% for post in site.posts limit:5 %}
+  {% if forloop.first %}<ul>{% endif %}
   <li>
-    <span class="writeup-date">[{{ post.date | date: "%Y-%m-%d" }}]</span>
-    <a href="{{ post.url }}">{{ post.title }}</a>
-    {% if post.categories %}
-      <span class="writeup-category">{{ post.categories | join: ", " }}</span>
-    {% endif %}
+    <strong><a href="{{ post.url }}">{{ post.title }}</a></strong>
+    <br>
+    <small>{{ post.date | date: "%B %d, %Y" }} • {% if post.categories %}{{ post.categories | join: ", " }}{% endif %}</small>
   </li>
+  {% if forloop.last %}</ul>{% endif %}
 {% endfor %}
-</ul>
 
-[View all writeups →](writeups.md)
-
----
-
-## $ ls -la /skills
-
-- **Languages:** Bash, Python, JavaScript, SQL
-- **Tools:** Burp Suite, Wireshark, Nmap, Metasploit
-- **Concepts:** Web vulns (OWASP Top 10), authentication flows, cryptography, networking
-- **Platforms:** TryHackMe, HackTheBox, CTF competitions
+[View all writeups →](/writeups/)
 
 ---
 
-## $ cat README.md
+## About This Blog
 
-This blog documents my security learning journey. Each writeup contains:
-- Challenge description and reconnaissance
-- Step-by-step exploitation
-- Key lessons and takeaways
-- References and resources
+This is a technical blog documenting my security learning journey through:
+- CTF competitions
+- Bug bounty programs  
+- Hands-on labs (TryHackMe, HackTheBox)
+- Security research
 
-**All writeups are educational material based on public CTF challenges and lab environments.**
-
----
-
-## $ navigate --to
-
-| Command | Destination |
-|---------|-------------|
-| [`about`](about.md) | Background & learning goals |
-| [`writeups`](writeups.md) | All security writeups |
-| [`github`](https://github.com/PhucQuan) | Source code & projects |
-| [`twitter`](https://twitter.com/phucquan) | Security updates |
+**All content is educational material** based on public challenges and authorized systems.
 
 ---
 
-<div class="terminal-footer">
-  <span class="blink">▌</span> Last updated: {{ site.time | date: "%Y-%m-%d %H:%M" }}
-</div>
-
-## 📂 Repository
-Exploit scripts & PoC được lưu tại:
-assets/exploit/
-
-yaml
-Sao chép mã
-
----
-
-## ⚠️ Disclaimer
-Tất cả nội dung chỉ phục vụ **mục đích học tập**.  
-Các mục tiêu được test là **CTF, lab, hoặc môi trường có sự cho phép**.
-
----
-
-## 🔗 Links
-- GitHub: https://github.com/PhucQuan
+*Last updated: {{ site.time | date: "%B %d, %Y" }}"*
