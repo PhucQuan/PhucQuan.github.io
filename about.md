@@ -19,10 +19,16 @@ I'm a security student with a focus on offensive security through competitive ha
 ## Skills
 
 **Programming Languages:**
-- Python (scripts, exploitation)
-- Bash (automation, reconnaissance)
-- JavaScript (web vulnerabilities)
-- SQL (database security)
+- **Python** — Advanced (scripts, exploitation, automation)
+- **Bash/Shell** — Advanced (scripting, reconnaissance)
+- **JavaScript** — Advanced (web vulnerabilities, client-side)
+- **HTML/CSS** — Expert (web structure and styling)
+- **SQL** — Advanced (database security, injection)
+- **Java** — Intermediate (general programming)
+- **C++** — Intermediate (systems programming)
+- **PHP** — Beginner (server-side vulnerabilities)
+- **Ruby** — Beginner
+- **Go** — Beginner
 
 **Tools & Platforms:**
 - Burp Suite, Wireshark, Nmap, Metasploit
