@@ -1,25 +1,37 @@
-# Site
+# Site Settings
 title: PhucQuan Security Writeups
 description: Security research, CTF writeups, pentest notes, and learning logs
 author:
   name: Phuc Quan
+  bio: "Security Student | CTF Player | Pentester"
   email: contact@phucquan.dev
+  avatar: "/assets/images/avatar.jpg"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/PhucQuan"
+    - label: "Twitter"
+      icon: "fab fa-fw fa-twitter"
+      url: "https://twitter.com/phucquan"
+
 url: https://phucquan.github.io
 baseurl: ""
 repository: PhucQuan/PhucQuan.github.io
 
-# Theme (Minimal Mistakes)
+# Theme
 remote_theme: mmistakes/minimal-mistakes@4.26.2
-minimal_mistakes_skin: "default"
+minimal_mistakes_skin: "dark"
 
 # Build settings
 markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
+  syntax_highlighter: rouge
 highlighter: rouge
-permalink: /:year/:month/:day/:slug/
+permalink: /:year/:month/:day/:title/
 
+# Plugins
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
@@ -31,40 +43,15 @@ plugins:
 paginate: 10
 paginate_path: "/page:num/"
 
-# Navigation
-navbar_links:
-  - Home: "/"
-  - About: "/about/"
-  - Writeups: "/writeups/"
-  - GitHub: "https://github.com/PhucQuan"
+# Output
+timezone: Asia/Ho_Chi_Minh
+locale: "en-US"
 
-# Post defaults
-defaults:
-  # All posts
-  - scope:
-      path: "_posts"
-      type: posts
-    values:
-      layout: single
-      classes: wide
-      author_profile: false
-      read_time: true
-      comments: false
-      share: true
-      related: true
-      permalink: /:year/:month/:day/:slug/
-
-# Footer
-footer:
-  links:
-    - label: "GitHub"
-      icon: "fab fa-github"
-      url: "https://github.com/PhucQuan"
-    - label: "Twitter"
-      icon: "fab fa-twitter"
-      url: "https://twitter.com/phucquan"
-
-# Exclude from processing
+# Reading Files
+include:
+  - .htaccess
+  - _pages
+  
 exclude:
   - "*.gemspec"
   - Gemfile
@@ -73,3 +60,63 @@ exclude:
   - SETUP.md
   - COMPLETE.md
   - QUICK-REFERENCE.md
+  - vendor
+
+# Conversion
+excerpt_separator: "<!-- more -->"
+
+# Main Navigation
+masthead_title: "PhucQuan Security"
+logo: "/assets/images/logo.png"
+
+# Enable breadcrumbs
+breadcrumbs: true
+
+# Comments
+comments:
+  provider: false
+
+# SEO
+social:
+  type: Person
+  name: Phuc Quan
+  links:
+    - "https://github.com/PhucQuan"
+    - "https://twitter.com/phucquan"
+
+# Analytics
+analytics:
+  provider: false
+
+# Defaults
+defaults:
+  # _posts
+  - scope:
+      path: "_posts"
+      type: posts
+    values:
+      layout: single
+      classes: wide
+      author_profile: true
+      read_time: true
+      comments: false
+      share: true
+      related: true
+      show_date: true
+      sidebar:
+        nav: "writeups"
+  # _pages
+  - scope:
+      path: "_pages"
+      type: pages
+    values:
+      layout: single
+      author_profile: false
+
+# Category & Tag Pages
+category_archive:
+  type: liquid
+  path: /categories/
+tag_archive:
+  type: liquid
+  path: /tags/

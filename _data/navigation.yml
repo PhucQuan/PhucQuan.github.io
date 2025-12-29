@@ -1,0 +1,39 @@
+# Main Navigation Links
+main:
+  - title: "Home"
+    url: /
+  - title: "Writeups"
+    url: /writeups/
+  - title: "Categories"
+    url: /categories/
+  - title: "Tags"
+    url: /tags/
+  - title: "About"
+    url: /about/
+  - title: "GitHub"
+    url: https://github.com/PhucQuan
+    
+# Sidebar Navigation for Writeups
+writeups:
+  - title: "Categories"
+    children:
+      - title: "Web Exploitation"
+        url: /categories/#web
+      - title: "Cryptography"
+        url: /categories/#crypto
+      - title: "Miscellaneous"
+        url: /categories/#misc
+      - title: "Pentesting"
+        url: /categories/#pentest
+      - title: "Cloud Security"
+        url: /categories/#cloud
+      - title: "Reverse Engineering"
+        url: /categories/#reverse
+  - title: "Resources"
+    children:
+      - title: "CTF Platforms"
+        url: /resources/#ctf
+      - title: "Tools"
+        url: /resources/#tools
+      - title: "Learning Path"
+        url: /about/#learning-path
