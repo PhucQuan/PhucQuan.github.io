@@ -3,18 +3,19 @@ layout: home
 title: Home
 author_profile: true
 header:
+  overlay_image: "/assets/images/sakamoto-days-yoichi-nagumo-4k-wallpaper-uhdpaper.com-235@5@a.jpg"
+  overlay_filter: "0.6"
   overlay_color: "#0a0e27"
-  overlay_filter: "0.5"
 classes: wide
 ---
 
 <div style="text-align: center; padding: 3rem 0 2rem 0;">
-  <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem; background: linear-gradient(135deg, #00d9ff, #00ff88); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-    Security Writeups & Research
+  <h1 style="font-size: 3rem; font-weight: 800; margin-bottom: 1rem; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">
+    Hack Notes & Learning Log
   </h1>
-  <p style="font-size: 1.2rem; color: #9aa0a6; max-width: 800px; margin: 0 auto;">
-    Welcome to my personal documentation of security research, CTF challenges, and pentesting exercises. 
-    Dive into detailed writeups covering web exploitation, cryptography, cloud security, and more.
+  <p style="font-size: 1.2rem; color: #c9d1d9; max-width: 800px; margin: 0 auto; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+    My personal journey through CTF challenges, security research, and pentesting experiments. 
+    Detailed write-ups on web exploitation, cryptography, cloud security, and beyond.
   </p>
 </div>
 
@@ -24,7 +25,7 @@ classes: wide
 
 <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin: 2rem 0;">
   <div style="background: #1a1f3a; padding: 1.5rem; border-radius: 12px; border: 1px solid #2d3548; transition: all 0.3s ease;">
-    <h3 style="color: #00d9ff; margin-bottom: 0.5rem;">
+    <h3 style="color: #58a6ff; margin-bottom: 0.5rem;">
       <i class="fas fa-flag"></i> CTF Challenges
     </h3>
     <p style="color: #9aa0a6; font-size: 0.95rem;">
@@ -33,7 +34,7 @@ classes: wide
   </div>
   
   <div style="background: #1a1f3a; padding: 1.5rem; border-radius: 12px; border: 1px solid #2d3548;">
-    <h3 style="color: #00ff88; margin-bottom: 0.5rem;">
+    <h3 style="color: #7ee787; margin-bottom: 0.5rem;">
       <i class="fas fa-shield-alt"></i> Pentesting
     </h3>
     <p style="color: #9aa0a6; font-size: 0.95rem;">
@@ -42,7 +43,7 @@ classes: wide
   </div>
   
   <div style="background: #1a1f3a; padding: 1.5rem; border-radius: 12px; border: 1px solid #2d3548;">
-    <h3 style="color: #ff0080; margin-bottom: 0.5rem;">
+    <h3 style="color: #f85149; margin-bottom: 0.5rem;">
       <i class="fas fa-cloud"></i> Cloud Security
     </h3>
     <p style="color: #9aa0a6; font-size: 0.95rem;">
@@ -51,7 +52,7 @@ classes: wide
   </div>
   
   <div style="background: #1a1f3a; padding: 1.5rem; border-radius: 12px; border: 1px solid #2d3548;">
-    <h3 style="color: #ffaa00; margin-bottom: 0.5rem;">
+    <h3 style="color: #ffa657; margin-bottom: 0.5rem;">
       <i class="fas fa-key"></i> Cryptography
     </h3>
     <p style="color: #9aa0a6; font-size: 0.95rem;">
@@ -80,7 +81,7 @@ classes: wide
         <i class="far fa-calendar"></i> {{ post.date | date: "%B %d, %Y" }}
         {% if post.categories %}
           {% for category in post.categories %}
-            <span style="background: linear-gradient(135deg, #00d9ff, #00ff88); color: #0a0e27; padding: 0.2rem 0.6rem; border-radius: 12px; margin-left: 0.5rem; font-weight: 600; font-size: 0.8rem;">
+            <span style="background: #58a6ff; color: #0a0e27; padding: 0.2rem 0.6rem; border-radius: 12px; margin-left: 0.5rem; font-weight: 600; font-size: 0.8rem;">
               {{ category }}
             </span>
           {% endfor %}
@@ -98,14 +99,14 @@ classes: wide
 </div>
 
 <div style="text-align: center; margin: 2rem 0;">
-  <a href="/writeups/" class="btn btn--primary" style="background: linear-gradient(135deg, #00d9ff, #00ff88); color: #0a0e27; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block;">
+  <a href="/writeups/" class="btn btn--primary" style="background: #58a6ff; color: #ffffff; padding: 0.75rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-block; transition: all 0.3s ease;">
     View All Writeups →
   </a>
 </div>
 {% else %}
 <div style="text-align: center; padding: 3rem; background: #1a1f3a; border-radius: 12px; border: 1px solid #2d3548;">
   <p style="color: #9aa0a6; font-size: 1.1rem;">
-    <i class="fas fa-file-alt" style="font-size: 3rem; display: block; margin-bottom: 1rem; color: #00d9ff;"></i>
+    <i class="fas fa-file-alt" style="font-size: 3rem; display: block; margin-bottom: 1rem; color: #58a6ff;"></i>
     No writeups yet. New content coming soon!
   </p>
 </div>
@@ -115,7 +116,7 @@ classes: wide
 
 ## 🎓 About This Blog
 
-<div style="background: #1a1f3a; padding: 2rem; border-radius: 12px; border-left: 4px solid #00d9ff;">
+<div style="background: #1a1f3a; padding: 2rem; border-radius: 12px; border-left: 4px solid #58a6ff;">
   <p style="color: #e8eaed; margin: 0;">
     This is a technical blog documenting my security learning journey through:
   </p>
@@ -141,11 +142,11 @@ classes: wide
 <style>
 .writeup-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 217, 255, 0.2);
-  border-color: #00d9ff !important;
+  box-shadow: 0 8px 20px rgba(88, 166, 255, 0.2);
+  border-color: #58a6ff !important;
 }
 
 .writeup-card a:hover {
-  color: #00d9ff !important;
+  color: #58a6ff !important;
 }
 </style>
