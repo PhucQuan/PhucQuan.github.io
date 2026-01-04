@@ -5,7 +5,7 @@ author:
   name: Phuc Quan
   email: contact@phucquan.dev
   location: "Vietnam"
-  avatar: "/assets/images/bio-photo.jpg" # Update this later if needed
+  avatar: "assets/images/anhdaidien.jpg" 
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
@@ -39,6 +39,7 @@ defaults:
       comments: true
       share: true
       related: true
+      classes: wide
   # _pages
   - scope:
       path: ""

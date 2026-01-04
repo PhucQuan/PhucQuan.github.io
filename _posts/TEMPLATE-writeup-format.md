@@ -1,5 +1,5 @@
 ---
-layout: post
+layout: single
 title: "[TEMPLATE] CTF Challenge Writeup"
 categories: ctf
 tags: [web, sqli, auth]

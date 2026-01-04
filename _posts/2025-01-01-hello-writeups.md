@@ -1,5 +1,5 @@
-```md
 ---
+layout: single
 title: "Hello World – My Security Writeups"
 categories: [Meta]
 tags: [intro]

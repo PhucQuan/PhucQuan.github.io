@@ -18,15 +18,16 @@ I'm a security student with a focus on offensive security through competitive ha
 
 ## Skills
 
-**Programming Languages:**
+**Programming Languages & Frameworks:**
+- **Software Engineering** — Full-stack development with **React, Node.js, Java Spring Boot**
 - **Python** — Advanced (scripts, exploitation, automation)
 - **Bash/Shell** — Advanced (scripting, reconnaissance)
-- **JavaScript** — Advanced (web vulnerabilities, client-side)
-- **HTML/CSS** — Expert (web structure and styling)
-- **SQL** — Advanced (database security, injection)
-- **Java** — Intermediate (general programming)
-- **C++** — Intermediate (systems programming)
-- **PHP** — Beginner (server-side vulnerabilities)
+- **JavaScript** — Advanced (Web vulnerabilities, React development)
+- **HTML/CSS** — Expert (Web structure and styling)
+- **SQL** — Advanced (Database security, injection)
+- **Java** — Intermediate (Spring Boot development)
+- **C++** — Intermediate (Systems programming)
+- **PHP** — Beginner (Server-side vulnerabilities)
 - **Ruby** — Beginner
 - **Go** — Beginner
 

