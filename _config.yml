@@ -1,25 +1,53 @@
-# Site
+# Site info
 title: PhucQuan Security Writeups
 description: Security research, CTF writeups, pentest notes, and learning logs
 author:
   name: Phuc Quan
   email: contact@phucquan.dev
+  location: "Vietnam"
+  avatar: "/assets/images/bio-photo.jpg" # Update this later if needed
+  links:
+    - label: "GitHub"
+      icon: "fab fa-fw fa-github"
+      url: "https://github.com/PhucQuan"
+
 url: https://phucquan.github.io
 baseurl: ""
 repository: PhucQuan/PhucQuan.github.io
 
-# Theme (Minimal Mistakes)
+# Theme Settings
 remote_theme: mmistakes/minimal-mistakes@4.26.2
-minimal_mistakes_skin: "default"
+minimal_mistakes_skin: "dark" # Changed to dark as it suits security/CTF better
 
 # Build settings
 markdown: kramdown
-kramdown:
-  input: GFM
-  hard_wrap: false
 highlighter: rouge
-permalink: /:year/:month/:day/:slug/
+lsi: false
+excerpt_separator: "\n\n"
+incremental: false
 
+# Defaults
+defaults:
+  # _posts
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: true
+      share: true
+      related: true
+  # _pages
+  - scope:
+      path: ""
+      type: pages
+    values:
+      layout: single
+      author_profile: true
+
+# Plugins
 plugins:
   - jekyll-paginate
   - jekyll-sitemap
@@ -28,49 +56,13 @@ plugins:
   - jekyll-include-cache
   - jekyll-seo-tag
 
-# Pagination
-paginate: 10
-paginate_path: "/page:num/"
-
-# Navigation
-navbar_links:
-  - Home: "/"
-  - About: "/about/"
-  - Writeups: "/writeups/"
-  - GitHub: "https://github.com/PhucQuan"
-
-# Post defaults
-defaults:
-  # All posts
-  - scope:
-      path: "_posts"
-      type: posts
-    values:
-      layout: single
-      classes: wide
-      author_profile: false
-      read_time: true
-      comments: false
-      share: true
-      related: true
-      permalink: /:year/:month/:day/:slug/
-
-# Footer
-footer:
-  links:
-    - label: "GitHub"
-      icon: "fab fa-github"
-      url: "https://github.com/PhucQuan"
-    - label: "Twitter"
-      icon: "fab fa-twitter"
-      url: "https://twitter.com/phucquan"
-
-# Exclude from processing
+# Files to exclude from processing
 exclude:
   - "*.gemspec"
   - Gemfile
   - Gemfile.lock
-  - README.md
-  - SETUP.md
-  - COMPLETE.md
-  - QUICK-REFERENCE.md
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
