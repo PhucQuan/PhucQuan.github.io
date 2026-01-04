@@ -1,0 +1,6 @@
+{
+    "pasteImage.path": "${projectRoot}/assets/images/writeups/${currentFileNameWithoutExt}",
+    "pasteImage.basePath": "${projectRoot}",
+    "pasteImage.forceUnixStyleSeparator": true,
+    "pasteImage.prefix": "/"
+}

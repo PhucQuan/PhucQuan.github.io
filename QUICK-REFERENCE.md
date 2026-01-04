@@ -34,6 +34,17 @@ date: 2025-01-20
 - Lessons Learned
 - References
 
+### 🖼️ Adding Images
+
+**1. Store Images:**
+Create a folder for your post: `assets/images/writeups/<post-name>/`
+Example: `assets/images/writeups/2025-htb-machine/root-flag.png`
+
+**2. Use Markdown:**
+```markdown
+![Description](/assets/images/writeups/2025-htb-machine/root-flag.png)
+```
+
 ### 📤 Deploy Changes
 ```bash
 git add .
