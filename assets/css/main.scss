@@ -1,0 +1,73 @@
+--- # Main CSS file for Minimal Mistakes theme --- @import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
+@import "minimal-mistakes"; // main partials
+
+/* 
+   CUSTOM BLOG LAYOUT ADJUSTMENTS 
+   Goal: Make the content wider and centered, similar to Hashnode or Medium.
+*/
+
+#main {
+    @include breakpoint($large) {
+        max-width: 1100px;
+        /* Wider overall container */
+        margin-left: auto;
+        margin-right: auto;
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+}
+
+.archive,
+.page,
+.post {
+    @include breakpoint($large) {
+        width: 100% !important;
+        /* Take full width of the #main container */
+        float: none !important;
+        margin-right: 0 !important;
+    }
+}
+
+.page__content {
+    @include breakpoint($large) {
+        width: 100% !important;
+        /* Content takes up the whole space since no sidebar */
+        padding-right: 0 !important;
+    }
+}
+
+/* Adjusting font size for better readability on wider screens */
+.page__content p,
+.page__content li {
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+/* Make titles stand out more */
+.page__title {
+    margin-bottom: 0.5em !important;
+    text-align: center;
+    /* Center the title like the screenshot */
+}
+
+/* Center the read time and other meta info */
+.page__meta {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+/* Image styling - ensure images are large and clear */
+.page__content img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+
+/* Code blocks look better when slightly wider */
+.highlight {
+    border-radius: 4px;
+}

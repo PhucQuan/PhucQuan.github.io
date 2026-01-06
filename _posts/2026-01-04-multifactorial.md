@@ -1,8 +1,10 @@
 ---
 layout: single
-title: "Multifactorial - Advent of CTF 2025"
-categories: ctf
-tags: [web, mfa, idor, webauthn, totp]
+title: "[Advent of CTF] Multifactorial - Writeup"
+author_profile: false
+classes: wide
+categories: [advent-of-ctf, web]
+tags: [totp, brute-force, idor, webauthn]
 date: 2026-01-04
 permalink: /writeups/advent-of-ctf/multifactorial/
 ---

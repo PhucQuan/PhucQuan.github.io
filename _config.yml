@@ -3,13 +3,16 @@ title: PhucQuan Security Writeups
 description: Security research, CTF writeups, pentest notes, and learning logs
 author:
   name: Phuc Quan
-  email: contact@phucquan.dev
+  email: quan610ll@gmail.com
   location: "Vietnam"
   avatar: "assets/images/anhdaidien.jpg" 
   links:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/PhucQuan"
+    - label: "Portfolio"
+      icon: "fas fa-fw fa-file-alt"
+      url: "https://portfolio-cybersecurity.onrender.com/"
 
 url: https://phucquan.github.io
 baseurl: ""

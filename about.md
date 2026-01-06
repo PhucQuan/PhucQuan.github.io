@@ -77,7 +77,8 @@ Each writeup includes:
 ## Contact & Links
 
 - **GitHub:** [PhucQuan](https://github.com/PhucQuan)
-- **Email:** contact@phucquan.dev
+- **Portfolio:** [My Portfolio](https://portfolio-cybersecurity.onrender.com/)
+- **Email:** quan610ll@gmail.com
 - **Twitter:** [@phucquan](https://twitter.com/phucquan)
 
 ---
