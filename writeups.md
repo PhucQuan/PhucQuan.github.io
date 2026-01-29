@@ -13,7 +13,7 @@ Nơi mình lưu lại quá trình "vọc vạch", từ những bài luyện tậ
 ### Phân loại theo Chuyên môn
 <div class="category-chips">
 {% assign existing_categories = site.posts | map: 'categories' | join: ',' | split: ',' | uniq %}
-{% assign planned_categories = "Web,Pentest,Crypto,Cloud,Reverse,BugBounty,Malware" | split: "," %}
+{% assign planned_categories = "Web,Crypto,Pwn,Reverse Engineering,Pentest,Cloud,BugBounty,Malware" | split: "," %}
 {% for cat in planned_categories %}
 {% assign slug = cat | slugify %}
 {% assign has_posts = false %}
@@ -26,7 +26,7 @@ Nơi mình lưu lại quá trình "vọc vạch", từ những bài luyện tậ
 
 ---
 
-{% assign all_cats = "Web,Pentest,Crypto,Cloud,Reverse,BugBounty,Malware,Meta,Advent-of-ctf" | split: "," %}
+{% assign all_cats = "Web,Crypto,Pwn,Reverse Engineering,Pentest,Cloud,BugBounty,Malware,Meta,Advent-of-ctf" | split: "," %}
 {% for cat_name in all_cats %}
 {% assign slug = cat_name | slugify %}
 {% assign category_posts = "" | split: "" %}

@@ -24,6 +24,9 @@ minimal_mistakes_skin: "dark" # Changed to dark as it suits security/CTF better
 
 # Build settings
 markdown: kramdown
+kramdown:
+  math_engine: mathjax     # Use mathjax engine
+  input: GFM               # GitHub Flavored Markdown
 highlighter: rouge
 lsi: false
 excerpt_separator: "\n\n"
