@@ -52,6 +52,12 @@ Chúng ta sẽ đi qua từng thư mục share để thu thập mảnh ghép.
     ```
 *   **Kết luận:** Share này được tác giả "tặng" miễn phí dưới dạng Plaintext (văn bản rõ). Không cần giải mã gì thêm.
 
+    ```
+    (1, 10831306643861854320740851816119110421285317295994688333433473513382630388524010939254331579615763452414450632743307733826135176446176567229369583730665018)
+    ```
+
+    Đây là một mảnh ghép của bí mật (Share). Số **1** ở đầu là chỉ số ($x$), số lớn phía sau là giá trị ($y$). Chúng ta cần thu thập đủ 5 cặp $(x, y)$ như thế này.
+
 ### Share 2: Layered Encoding (Bóc tách lớp mã hóa)
 
 *   **File:** `share2/chall.py`, `share2/output.txt`
@@ -116,6 +122,14 @@ def solve_share2():
     return recursive_solve(hex_data, 9)
 ```
 
+**Kết quả (Output):**
+
+```
+(2, 2421663185798181823399928093766613650682372765774587699901200707113600894852880035481763255021389467421308639021556237253009737714128217792567033901234514)
+```
+
+Tương tự Share 1, đây là mảnh ghép thứ 2 với chỉ số $x=2$ và giá trị $y$ tương ứng. Việc giải ra đúng định dạng này chứng tỏ ta đã bóc tách chính xác cả 10 lớp mã hóa.
+
 ### Share 3: RSA - Fermat Factorization
 
 *   **File:** `share3/chall.py`, `share3/output.txt`
@@ -163,6 +177,14 @@ def solve_share3():
     return m.to_bytes((m.bit_length() + 7) // 8, 'big')
 ```
 
+**Kết quả (Output):**
+
+```
+(3, 5072048050549476426112005154771571490711602610454049877969009100822778328263778678204704997878878271953754517507261112012632034425357107926037275536721838)
+```
+
+Sau khi phá vỡ RSA, ta nhận được văn bản rõ là mảnh ghép thứ 3 ($x=3$). Điều này xác nhận lỗ hổng chọn số nguyên tố yếu của tác giả.
+
 ### Share 4: AES-CTR Nonce Reuse
 
 *   **File:** `share4/chall.py`, `cipher1.bin` (lời bài hát), `cipher_share.bin` (share)
@@ -205,6 +227,14 @@ def solve_share4():
     return share_bytes
 ```
 
+**Kết quả (Output):**
+
+```
+(4, 6574762259445009478648640997283522620898346013362677093578438142602996753317583582919187704852261308918024258232145913441153459941003979020672555533759238)
+```
+
+Ta dùng dòng khóa (keystream) lấy được từ bài hát để giải mã dữ liệu rác ban đầu thành một mảnh ghép có nghĩa ($x=4$).
+
 ### Share 5: Steganography (Giấu tin)
 
 *   **File:** `share5/chall.py`
@@ -240,6 +270,14 @@ def solve_share5():
     return "".join(chars)
 ```
 
+**Kết quả (Output):**
+
+```
+(5, 6418171064351497551879298210964525807769985605045351821946195490032660897221088800361306534785263874676551547565494769908787299694666472095699698457928293)
+```
+
+Những khoảng trắng vô hình trong file code thực chất chứa dữ liệu nhị phân của mảnh ghép thứ 5 ($x=5$).
+
 ---
 
 ## 3. Tổng hợp và Lấy Flag
@@ -267,6 +305,14 @@ def lagrange_interpolate(shares, p):
 ```
 
 Kết quả trả về là một số nguyên rất lớn (`secret`).
+
+**Kết quả (Secret Integer):**
+
+```
+5771403042521853398936654355818270687145979665108214293786337372659075420977112864017015925415782184533076064271752468402961112416363874076137087107418858
+```
+
+Đây chính là số bí mật Secret mà ta cần tìm, được khôi phục toán học từ 5 mảnh ghép. Nó là một số nguyên rất lớn (khoảng 512 bit).
 
 ### Bước 2: Tìm Key và "Cú lừa" cuối cùng
 
