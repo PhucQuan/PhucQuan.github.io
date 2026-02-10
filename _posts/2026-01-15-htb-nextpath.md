@@ -1,7 +1,7 @@
 ---
 layout: single
 title: "HTB Challenge - NextPath Writeup"
-categories: ctf
+categories: [Hack The Box]
 tags: [web, nodejs, path-traversal, procfs, truncation]
 date: 2026-01-15
 permalink: /writeups/htb-nextpath/

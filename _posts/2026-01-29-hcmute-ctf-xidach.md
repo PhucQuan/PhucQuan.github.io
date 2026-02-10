@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] HCMUTE CTF 2026 - XiDach (Reverse Engineering)"
 date: 2026-01-29
 classes: wide
-categories: [ctf, reverse-engineering]
+categories: [HCMUTE CTF 2026, reverse-engineering]
 tags: [hcmute, reverse, python, pyinstaller, decomplie]
 permalink: /writeups/hcmute-ctf-xidach/
 ---

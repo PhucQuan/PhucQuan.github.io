@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] UofTCTF 2026 - NoQuotes & The SUID Escape"
 date: 2026-01-29
 classes: wide
-categories: [ctf, web]
+categories: [UofTCTF 2026, web]
 tags: [sqli, ssti, suid, privesc, f-string]
 permalink: /writeups/uoftctf-noquotes/
 ---

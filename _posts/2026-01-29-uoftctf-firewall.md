@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] UofTCTF 2026 - The eBPF Firewall Escape"
 date: 2026-01-29
 classes: wide
-categories: [ctf, network]
+categories: [UofTCTF 2026, network]
 tags: [firewall, ebpf, tcp-segmentation, http-range]
 permalink: /writeups/uoftctf-firewall/
 ---

@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] HCMUTE CTF 2026 - Gau (Socket Automation)"
 date: 2026-01-29
 classes: wide
-categories: [ctf, pwn]
+categories: [HCMUTE CTF 2026, pwn]
 tags: [hcmute, pwn, socket, python, pwntools]
 permalink: /writeups/hcmute-ctf-gau/
 ---

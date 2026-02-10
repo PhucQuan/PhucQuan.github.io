@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] HCMUTE CTF 2026 - Qualification Round"
 date: 2026-01-29
 classes: wide
-categories: [ctf, web]
+categories: [HCMUTE CTF 2026, web]
 tags: [hcmute, web, javascript, client-side]
 permalink: /writeups/hcmute-ctf-overtrust/
 ---

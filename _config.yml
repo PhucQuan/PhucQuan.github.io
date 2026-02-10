@@ -46,6 +46,9 @@ defaults:
       share: true
       related: true
       classes: wide
+      sidebar:
+        nav: "writeups"
+        title: "Navigation"
   # _pages
   - scope:
       path: ""
@@ -73,3 +76,8 @@ exclude:
   - vendor/cache/
   - vendor/gems/
   - vendor/ruby/
+
+# Include _pages directory
+include:
+  - _pages
+

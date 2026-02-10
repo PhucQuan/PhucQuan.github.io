@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] HCMUTE CTF 2026 - Greeting (SSTI)"
 date: 2026-01-29
 classes: wide
-categories: [ctf, web]
+categories: [HCMUTE CTF 2026, web]
 tags: [hcmute, ssti, jinja2, rce, python]
 permalink: /writeups/hcmute-ctf-greeting/
 ---

@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] Silent Snow CTF 2025 - WordPress Privilege Escalation"
 author_profile: false
 classes: wide
-categories: [ctf, web]
+categories: [Hack The Box, web]
 tags: [wordpress, authentication, bypass, privilege-escalation]
 date: 2026-01-06
 permalink: /writeups/silent-snow-ctf/

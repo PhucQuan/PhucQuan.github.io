@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] UTECTF 2026 - What is a secret (Crypto)"
 date: 2026-01-29
 classes: wide
-categories: [ctf, crypto]
+categories: [HCMUTE CTF 2026, crypto]
 tags: [utectf, rsa, diffie-hellman, aes, multi-prime, gcd-attack]
 permalink: /writeups/utectf-what-is-a-secret/
 mathjax: true

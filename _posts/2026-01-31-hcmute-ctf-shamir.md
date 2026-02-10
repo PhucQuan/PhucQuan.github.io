@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] HCMUTE CTF 2026 - Shamir's Secret Sharing (Crypto)"
 date: 2026-01-31
 classes: wide
-categories: [ctf, crypto]
+categories: [HCMUTE CTF 2026, crypto]
 tags: [hcmute, shamir, secret-sharing, rsa, aes, crypto, steganography]
 permalink: /writeups/hcmute-ctf-shamir-secret-sharing/
 mathjax: true

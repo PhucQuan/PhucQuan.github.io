@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] HCMUTE CTF 2026 - ezpwn (Format String & Buffer Overflow)"
 date: 2026-01-29
 classes: wide
-categories: [ctf, pwn]
+categories: [HCMUTE CTF 2026, pwn]
 tags: [hcmute, pwn, format string, buffer overflow, rop]
 permalink: /writeups/hcmute-ctf-ezpwn/
 ---

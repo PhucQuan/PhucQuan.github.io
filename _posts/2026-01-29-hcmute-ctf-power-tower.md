@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] HCMUTE CTF 2026 - Power Tower (Crypto)"
 date: 2026-01-29
 classes: wide
-categories: [ctf, crypto]
+categories: [HCMUTE CTF 2026, crypto]
 tags: [hcmute, rsa, modular-arithmetic, euler, python]
 permalink: /writeups/hcmute-ctf-power-tower/
 mathjax: true

@@ -2,6 +2,8 @@
 main:
   - title: "Home"
     url: /
+  - title: "Tournaments"
+    url: /tournaments/
   - title: "Writeups"
     url: /writeups/
   - title: "Categories"
@@ -37,3 +39,15 @@ writeups:
         url: /resources/#tools
       - title: "Learning Path"
         url: /about/#learning-path
+  - title: "Tournaments"
+    children:
+      - title: "LACTF 2026"
+        url: /categories/#lactf-2026
+      - title: "NullCon 2025"
+        url: /categories/#nullcon-2025
+      - title: "HCMUTE CTF 2026"
+        url: /categories/#hcmute-ctf-2026
+      - title: "UofTCTF 2026"
+        url: /categories/#uoftctf-2026
+      - title: "Hack The Box"
+        url: /categories/#hack-the-box
