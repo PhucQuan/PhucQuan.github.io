@@ -2,7 +2,8 @@
 layout: single
 title: "Tournaments"
 permalink: /tournaments/
-author_profile: true
+author_profile: false
+classes: wide
 ---
 
 <style>

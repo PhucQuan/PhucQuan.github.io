@@ -18,7 +18,7 @@ Chào bạn, đây là bản Writeup chi tiết cho bài **LA CTF Invoice Genera
 *   **Cost ($):** Giá tiền.
 *   **Date Purchased:** Ngày mua.
 
-![Invoice Form](/assets/images/lactf/invoice-generator/form.png)
+![Invoice Form](/assets/images/lactf/invoice-generator/flag.png)
 
 Khi nhấn nút **Generate Invoice PDF**, trình duyệt sẽ gửi một yêu cầu POST chứa dữ liệu JSON tới đường dẫn `/generate-invoice`. Server sau đó trả về một file PDF chứa các thông tin chúng ta vừa nhập.
 
@@ -79,7 +79,7 @@ Nếu thẻ iframe không hiển thị được, chúng ta dùng script để é
 3.  Nhấn **Generate Invoice PDF**.
 4.  Mở file PDF được tải về. Bạn sẽ thấy một khung hình chứa nội dung Flag.
 
-![Generated Invoice with Flag](/assets/images/lactf/invoice-generator/flag.png)
+![Generated Invoice with Flag](/assets/images/lactf/invoice-generator/form.png)
 
 > Flag mẫu: `lactf{plz_s4n1t1z3_y0ur_purch4s3_l1st}`
 

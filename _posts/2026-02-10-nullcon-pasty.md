@@ -17,9 +17,6 @@ Chào bạn, hôm nay mình sẽ chia sẻ writeup cho một thử thách khá t
 
 ![Challenge Pasty](/assets/images/nullcon/pasty/challenge.png)
 
-
-![Web Interface](/assets/images/nullcon/pasty/interface.png)
-
 Challenge này cung cấp một dịch vụ **Pastebin** bảo mật (hoặc ít nhất là họ nghĩ vậy). Thay vì dùng các thư viện chuẩn, họ tự viết thuật toán ký (signature) để bảo vệ quyền truy cập vào các paste.
 
 Mục tiêu của chúng ta là chứng minh "homebrewed crypto" (crypto tự chế) không an toàn và truy cập vào paste chứa **Flag**.

@@ -1,0 +1,216 @@
+/* Custom CSS for PhucQuan Blog */
+
+/* Thu nhỏ title trong masthead */
+.masthead__inner-wrap {
+  padding: 0.3em 0.5em;
+}
+
+.site-title {
+  font-size: 0.85rem !important;
+  padding: 0.3em 0;
+  margin-right: 1em !important;
+}
+
+@media (min-width: 80em) {
+  .site-title {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Tối ưu navigation menu */
+.greedy-nav {
+  font-size: 0.85rem;
+}
+
+.greedy-nav a {
+  padding: 0.4rem 0.6rem;
+}
+
+.greedy-nav .visible-links {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+/* Thu nhỏ hamburger button nếu cần */
+.greedy-nav__toggle {
+  padding: 0.5rem;
+}
+
+/* Căn giữa nội dung bài viết */
+.page__content {
+  max-width: 900px;
+  margin: 0 auto !important;
+  padding: 0 20px;
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
+/* Căn giữa page wrapper */
+.page {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  float: none !important;
+}
+
+.page__inner-wrap {
+  max-width: 1200px;
+  margin: 0 auto !important;
+  padding: 0 20px;
+}
+
+@media (min-width: 64em) {
+  .page {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+    float: none !important;
+  }
+  
+  .page__inner-wrap {
+    max-width: 1200px;
+    margin: 0 auto !important;
+  }
+}
+
+/* Tối ưu tiêu đề */
+.page__title {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+/* Tối ưu meta info */
+.page__meta {
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+/* Tối ưu heading trong bài viết */
+.page__content h1,
+.page__content h2,
+.page__content h3,
+.page__content h4 {
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+/* Tối ưu đoạn văn */
+.page__content p {
+  margin-bottom: 1.3em;
+  text-align: justify;
+}
+
+/* Tối ưu list */
+.page__content ul,
+.page__content ol {
+  margin-bottom: 1.3em;
+  padding-left: 2em;
+}
+
+/* Tối ưu code blocks */
+.page__content pre {
+  font-size: 0.9em;
+  margin: 1.5em 0;
+  border-radius: 4px;
+}
+
+.page__content code {
+  font-size: 0.9em;
+}
+
+/* Tối ưu hình ảnh trong bài viết */
+.page__content img {
+  max-width: 100%;
+  height: auto;
+  margin: 2em auto;
+  display: block;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Tối ưu blockquote */
+.page__content blockquote {
+  margin: 1.5em 0;
+  padding: 1em 1.5em;
+  border-left: 4px solid #0066cc;
+  background-color: #f8f9fa;
+}
+
+/* Sidebar cho pages */
+.sidebar {
+  width: 200px !important;
+}
+
+@media (min-width: 80em) {
+  .sidebar {
+    width: 250px !important;
+  }
+}
+
+/* Thu nhỏ avatar trong sidebar */
+.author__avatar img {
+  max-width: 100px !important;
+  border-radius: 50%;
+}
+
+/* Thu nhỏ font size trong sidebar navigation */
+.sidebar .nav__title {
+  font-size: 0.9rem !important;
+}
+
+.sidebar .nav__list {
+  font-size: 0.85rem !important;
+}
+
+/* Tối ưu table */
+.page__content table {
+  margin: 1.5em auto;
+  width: 100%;
+  max-width: 800px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .page__content {
+    padding: 0 15px;
+  }
+  
+  .page__content p {
+    text-align: left;
+  }
+}
+
+/* Đảm bảo content không bị lệch */
+.layout--single .page__inner-wrap {
+  max-width: 1200px;
+  margin: 0 auto !important;
+}
+
+/* Loại bỏ float cho page content */
+.page__content {
+  float: none !important;
+  width: 100% !important;
+}
+
+/* Cải thiện spacing cho list items */
+.page__content li {
+  margin-bottom: 0.5em;
+}
+
+/* Cải thiện code inline */
+.page__content p code,
+.page__content li code {
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+/* Đảm bảo hình ảnh luôn căn giữa */
+.page__content p img,
+.page__content img {
+  display: block !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}

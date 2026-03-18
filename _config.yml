@@ -1,5 +1,5 @@
 # Site info
-title: PhucQuan Security Writeups
+title: IvanTran
 description: Security research, CTF writeups, pentest notes, and learning logs
 author:
   name: Phuc Quan
@@ -20,7 +20,7 @@ repository: PhucQuan/PhucQuan.github.io
 
 # Theme Settings
 remote_theme: mmistakes/minimal-mistakes@4.26.2
-minimal_mistakes_skin: "dark" # Changed to dark as it suits security/CTF better
+minimal_mistakes_skin: "default" # Changed to light theme for better readability
 
 # Build settings
 markdown: kramdown
@@ -40,15 +40,12 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
+      author_profile: false
       read_time: true
       comments: true
       share: true
       related: true
       classes: wide
-      sidebar:
-        nav: "writeups"
-        title: "Navigation"
   # _pages
   - scope:
       path: ""
