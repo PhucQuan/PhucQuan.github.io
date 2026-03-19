@@ -6,17 +6,16 @@ classes: wide
 categories: [Penetration Testing]
 tags: [xxe, xml, web-security, ssrf, blind-xxe, portswigger, owasp]
 ---
-# XXE injection
 
-I.Định nghĩa về lỗ hổng XXE
+## I. Định nghĩa về lỗ hổng XXE
 
 Trước khi vào sâu lỗ hổng thì đầu tiên mình muốn các bạn hiểu về khái niệm XML
 
-Vậy XML có nghĩa là gì ?
+Vậy XML có nghĩa là gì?
 
 Giống như HTML là hypertext markup language là hiển thị dữ liệu lên trình duyệt thì XML là XML là viết tắt của "extensible markup language" (ngôn ngữ đánh dấu mở rộng) dùng để lưu trữ và truyền tải dữ liệu , trong khi HTML là các thẻ cố định thì XML có thể tự định nghĩa thẻ . 
 
-Vậy các thực thể XML là gì ? 
+Vậy các thực thể XML là gì?
 
 **XML entities** hoạt động giống như những "phím tắt" hoặc bí danh để thay thế các ký tự đặc biệt, giúp tài liệu XML không bị lỗi cấu trúc.
 
@@ -45,7 +44,7 @@ Bạn tự định nghĩa một cái tên để thay thế cho một đoạn vă
 - **Cách khai báo:** `<!ENTITY tieu_chuan SYSTEM "https://example.com">`
 - **Rủi ro bảo mật (XXE):** Nếu một kẻ tấn công gửi một đoạn mã XML có thực thể bên ngoài trỏ đến tệp hệ thống nhạy cảm (ví dụ: `file:///etc/passwd`), và phần mềm của bạn không chặn tính năng này, nó sẽ vô tình đọc và gửi nội dung tệp đó cho kẻ tấn công.
 
-Vậy DTD là gì : 
+Vậy DTD là gì:
 
 **DTD (Document Type Definition)** là 1 khai báo xác định cấu trúc của một tài liệu XML, các loại giá trị mà nó có thể chứa và các mục khác. Nếu tài liệu XML là một "bài văn", thì DTD chính là "dàn ý bắt buộc" mà bạn phải tuân theo.
 
@@ -65,25 +64,27 @@ DTD được khai báo trong `DOCTYPE`phần tử tùy chọn ở đầu tài l
 - **Thống nhất dữ liệu:** Đảm bảo mọi người (hoặc các phần mềm khác nhau) đều trình bày dữ liệu theo cùng một cấu trúc chuẩn.
 - **Kiểm tra lỗi:** Trình thông dịch XML sẽ đối chiếu file XML của bạn với DTD. Nếu bạn viết sai thẻ hoặc thiếu thông tin bắt buộc, nó sẽ báo lỗi ngay lập tức.
 
-II.Tấn công XXE
+## II. Tấn công XXE
 
-Lỗ hổng chèn các External enitiy XML hay còn gọi là XXE là 1 lỗ hổng mà cho phép kẻ tấn công can thiệp vào quá trình xử lý dữ liệu XML của ứng dụng .Nó cho phép kẻ tấn công xem các tệp hệ thống của máy chủ  ứng dụng hoặc bất kỳ hệ thống bên ngoài nào mà ứng dụng có thể truy cập 
+Lỗ hổng chèn các External enitiy XML hay còn gọi là XXE là 1 lỗ hổng mà cho phép kẻ tấn công can thiệp vào quá trình xử lý dữ liệu XML của ứng dụng. Nó cho phép kẻ tấn công xem các tệp hệ thống của máy chủ ứng dụng hoặc bất kỳ hệ thống bên ngoài nào mà ứng dụng có thể truy cập.
 
-Trong một số trường hợp thì các attacker có thể lợi dụng XXE để RCE hoặc thực hiện các cuộc tấn công SSRF để có thể truy cập các hệ thống nội bộ
+Trong một số trường hợp thì các attacker có thể lợi dụng XXE để RCE hoặc thực hiện các cuộc tấn công SSRF để có thể truy cập các hệ thống nội bộ.
 
-II. Tại sao lỗ hổng này lại xảy ra?
+### Tại sao lỗ hổng này lại xảy ra?
 
 Bởi vì ứng dụng sử dụng định dạng XML để truyền dữ liệu từ client cho server , các webapp hầu như dùng thư viện chuẩn hoặc các API để xử lý dữ liệu XML trên máy chủ , lỗ hổng XXE phát sinh vì đặc tả XML chứa nhiều tính năng nguy hiểm và các trình phân tích cú pháp chuẩn hỗ trợ tính năng này ngay cả khi chúng thường ko được ứng dụng xử dụng 
 
 Các external enities là 1 loại thực tế XML tùy chỉnh mà các giá trị được định nghĩa của chúng được tải từ bên ngoài DTD nơi chúng được khai báo 
 
-III.Các loại tấn công XXE 
+## III. Các loại tấn công XXE
 
-1. Khai thác lỗ hổng XXE để truy xuất tập tin , trong đó các thực thể bên ngoài được định nghĩa chứa nội dung của tập tin và được phản hồi trả về trogn ứng dụng
+### 1. Khai thác lỗ hổng XXE để truy xuất tập tin
+
+Trong đó các thực thể bên ngoài được định nghĩa chứa nội dung của tập tin và được phản hồi trả về trong ứng dụng.
 
 ![/assets/images/xxe/image.png](/assets/images/xxe/image.png)
 
-Bài lab đầu tiên: Phòng lab này có tính năng CheckStock và có phân tích dữ liệu đầu vào XML , và để giải quyết được bài thì ta phải chèn 1 thực thể bên ngoài XML để truy xuất nội dung của /etc/passwd/
+**Bài lab đầu tiên:** Phòng lab này có tính năng CheckStock và có phân tích dữ liệu đầu vào XML, và để giải quyết được bài thì ta phải chèn 1 thực thể bên ngoài XML để truy xuất nội dung của /etc/passwd/
 
 Đầu tiên bật Burpsuite lên , click checkstock và intercept yêu cầu đó lại để có thể chỉnh sửa nội dung , 
 Mục tiêu của mình là địa nghĩa 1 DTD xác định thực thể bên ngoài chữa đường dẫn tới tệp
@@ -104,7 +105,7 @@ và đây là kết quả trả về khi server báo lỗi là invalid product i
 
 ![/assets/images/xxe/image.png](/assets/images/xxe/image 2.png)
 
-2. Khai thác lỗ hổng XXE dựa trên các cuộc tấn công SSRF 
+### 2. Khai thác lỗ hổng XXE dựa trên các cuộc tấn công SSRF 
 
 Ngoài việc đánh cắp dữ liệu nhạy cảm thì XXE còn có thể khai thác bằng SSRF , các attacker sẽ có thể thực hiện các yêu cầu http request tới phía máy chủ ứng dụng truy cập vào bất kì url nào.
 
@@ -131,7 +132,7 @@ Và sau khi mình dò hết thì đã tìm được endpojnt của metadata ec2,
 
 ![/assets/images/xxe/image.png](/assets/images/xxe/image 6.png)
 
-3. Lỗ hổng XXE mù ( blind XXE)
+### 3. Lỗ hổng XXE mù (Blind XXE)
     
     Cũng tương tự như blind sql , thì lỗ hổng xxe mù ko trả về bất kì thực thể bên ngoài nào được định nghĩa bên trong phản hồi của nó . Có nghĩa là  lỗ hổng phát sinh khi ứng dụng được khai thác bằng lỗ hổng XXE nhưng lại ko trả về giá trị của bất kì external entity nào được định nghĩa bên trong phản hồi của nó ,từ đó cũng rất khó cho chúng ta có thể truy xuất các tệp phía máy chủ 
     
@@ -192,7 +193,7 @@ Các lỗ hổng này thường cần các kỹ thuật tiên tiến hơn , có 
     nên khi tôi dùng webhook thì đã bị tường lửa block lại , nên sương sương thì cách làm nó sẽ là như vậy
     
 
-IV. Tìm các attack surface khác cho phép tiêm mã XXE 
+## IV. Tìm các attack surface khác cho phép tiêm mã XXE 
 
 Thông thường các lỗ hổng XXE thường khá rõ ràng trong nhiều trường hợp bởi vì đa số http request của ứng dụng chứa dữ liệu ở định dạng XML , nhưng trong các trường hợp ,bề mặt tấn công sẽ ít rõ ràng hơn và nếu bạn tìm kiếm đúng chỗ ,bạn sẽ thấy XXE trong các yêu cầu ko chứa bất kì XML nào 
 
@@ -276,7 +277,7 @@ Dưới đây là các bước chi tiết và giải thích cấu trúc mã:
 
 Mở to hình ảnh trong tab mới để có thể dễ thấy được kết quả , lấy kết quả đó submit thì sẽ được
 
-II. Cách tìm và kiểm tra các lỗ hổng XXE 
+## V. Cách tìm và kiểm tra các lỗ hổng XXE 
 
 Đa số các lỗ hổng XXE có thể được phát triển nhanh chóng và đáng tin cậy bằng cách sử dụng công cụ quét lỗ hổng web bằng BS
 
@@ -284,7 +285,7 @@ II. Cách tìm và kiểm tra các lỗ hổng XXE
 - Kiểm tra blind XXE là gì bằng cách định nghĩa một thực thể bên ngoài dựa trên URL đến một hệ thống mà bạn kiểm soát, và giám sát các tương tác với hệ thống.
 - Kiểm tra khả năng chèn dữ liệu không phải XML do người dùng cung cấp vào tài liệu XML phía máy chủ bằng cách sử dụng [tấn công XInclude](https://portswigger.net/web-security/xxe#xinclude-attacks) để cố gắng truy xuất một tệp hệ điều hành quen thuộc
 
-V. Cách phòng ngừa tấn công XXE 
+## VI. Cách phòng ngừa tấn công XXE 
 
 Hầu hết các lỗ hổng XXE đều phát sinh do thư viện phân tích cú pháp XML của ứng dụng hỗ trợ các tính năng XML tiềm ẩn nguy hiểm mà ứng dụng không cần hoặc không có ý định sử dụng. Cách dễ nhất và hiệu quả nhất để ngăn chặn các cuộc tấn công XXE là vô hiệu hóa các tính năng đó. 
 
