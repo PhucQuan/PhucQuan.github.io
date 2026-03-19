@@ -12,7 +12,7 @@ I.Định nghĩa về lỗ hổng XXE
 
 Trước khi vào sâu lỗ hổng thì đầu tiên mình muốn các bạn hiểu về khái niệm XML
 
-Vậy XML có nghĩa là gì 
+Vậy XML có nghĩa là gì ?
 
 Giống như HTML là hypertext markup language là hiển thị dữ liệu lên trình duyệt thì XML là XML là viết tắt của "extensible markup language" (ngôn ngữ đánh dấu mở rộng) dùng để lưu trữ và truyền tải dữ liệu , trong khi HTML là các thẻ cố định thì XML có thể tự định nghĩa thẻ . 
 
@@ -22,7 +22,7 @@ Vậy các thực thể XML là gì ?
 
 **1. Predefined Entities (Thực thể định nghĩa sẵn)**
 
-Đây là những thực thể mặc định mà XML cung cấp để thay thế cho 5 ký tự đặc biệt có thể làm hỏng cấu trúc thẻ: **PortSwigger**
+Đây là những thực thể mặc định mà XML cung cấp để thay thế cho 5 ký tự đặc biệt có thể làm hỏng cấu trúc thẻ:
 
 - `&lt;` đại diện cho `<` (Less than)
 - `&gt;` đại diện cho `>` (Greater than)
@@ -36,8 +36,6 @@ Bạn tự định nghĩa một cái tên để thay thế cho một đoạn vă
 
 - **Cách khai báo (trong DTD):** `<!ENTITY copyright "Bản quyền thuộc về Công ty ABC">`
 - **Cách dùng:** Khi bạn viết `&copyright;` trong nội dung, trình thông dịch sẽ tự động đổi nó thành "Bản quyền thuộc về Công ty ABc
-    
-    
     
 
 **3. External Entities (Thực thể bên ngoài)**
@@ -62,16 +60,16 @@ DTD được khai báo trong `DOCTYPE`phần tử tùy chọn ở đầu tài l
     
     
 
-**2. Tại sao cần DTD?**
+**Tại sao cần DTD?**
 
 - **Thống nhất dữ liệu:** Đảm bảo mọi người (hoặc các phần mềm khác nhau) đều trình bày dữ liệu theo cùng một cấu trúc chuẩn.
 - **Kiểm tra lỗi:** Trình thông dịch XML sẽ đối chiếu file XML của bạn với DTD. Nếu bạn viết sai thẻ hoặc thiếu thông tin bắt buộc, nó sẽ báo lỗi ngay lập tức.
 
-II.XXE
+II.Tấn công XXE
 
-Lỗ hổng chèn các  external enitiy XML hay còn gọi là XXE là 1 lỗ hổng mà cho phép kẻ tấn công can thiệp vào quá trình xử lý dữ liệu XML của ứng dụng .Nó cho phép kẻ tấn công xem các tệp hệ thống của máy chủ  ứng dụng hoặc bất kỳ hệ thống bên ngoài nào mà ứng dụng có thể truy cập 
+Lỗ hổng chèn các External enitiy XML hay còn gọi là XXE là 1 lỗ hổng mà cho phép kẻ tấn công can thiệp vào quá trình xử lý dữ liệu XML của ứng dụng .Nó cho phép kẻ tấn công xem các tệp hệ thống của máy chủ  ứng dụng hoặc bất kỳ hệ thống bên ngoài nào mà ứng dụng có thể truy cập 
 
-Trong một số trường hợp thì các attacker có thể lợi dụng XXE để RCE hoặc thực hiện các cuộc tấn công SSRF
+Trong một số trường hợp thì các attacker có thể lợi dụng XXE để RCE hoặc thực hiện các cuộc tấn công SSRF để có thể truy cập các hệ thống nội bộ
 
 II. Tại sao lỗ hổng này lại xảy ra?
 
@@ -85,9 +83,9 @@ III.Các loại tấn công XXE
 
 ![/assets/images/xxe/image.png](/assets/images/xxe/image.png)
 
-bài lab số 1 :Phòng lab này có tính năng checkstore và có phân tích dữ liệu đầu vào XML , và để giải quyết được bài thì ta phải chèn 1 thực thể bên ngoài XML để truy xuất nội dung của /etc/passwd
+Bài lab đầu tiên: Phòng lab này có tính năng CheckStock và có phân tích dữ liệu đầu vào XML , và để giải quyết được bài thì ta phải chèn 1 thực thể bên ngoài XML để truy xuất nội dung của /etc/passwd/
 
-Đầu tiên bật Burpsuite  lên , click checkstock và intercept yêu cầu đó lại để có thể chỉnh sửa nội dung , 
+Đầu tiên bật Burpsuite lên , click checkstock và intercept yêu cầu đó lại để có thể chỉnh sửa nội dung , 
 Mục tiêu của mình là địa nghĩa 1 DTD xác định thực thể bên ngoài chữa đường dẫn tới tệp
 
 Chỉnh sửa giá trị trong XML được trả về trong phản hồi của ứng dụng để sử dụng thực thể bên ngoài được định nghĩa 
@@ -106,7 +104,7 @@ và đây là kết quả trả về khi server báo lỗi là invalid product i
 
 ![/assets/images/xxe/image.png](/assets/images/xxe/image 2.png)
 
-1. Khai thác lỗ hổng XXE dựa trên các cuộc tấn công SSRF 
+2. Khai thác lỗ hổng XXE dựa trên các cuộc tấn công SSRF 
 
 Ngoài việc đánh cắp dữ liệu nhạy cảm thì XXE còn có thể khai thác bằng SSRF , các attacker sẽ có thể thực hiện các yêu cầu http request tới phía máy chủ ứng dụng truy cập vào bất kì url nào.
 
@@ -133,7 +131,7 @@ Và sau khi mình dò hết thì đã tìm được endpojnt của metadata ec2,
 
 ![/assets/images/xxe/image.png](/assets/images/xxe/image 6.png)
 
-1. Lỗ hổng XXE mù ( blind XXE)
+3. Lỗ hổng XXE mù ( blind XXE)
     
     Cũng tương tự như blind sql , thì lỗ hổng xxe mù ko trả về bất kì thực thể bên ngoài nào được định nghĩa bên trong phản hồi của nó . Có nghĩa là  lỗ hổng phát sinh khi ứng dụng được khai thác bằng lỗ hổng XXE nhưng lại ko trả về giá trị của bất kì external entity nào được định nghĩa bên trong phản hồi của nó ,từ đó cũng rất khó cho chúng ta có thể truy xuất các tệp phía máy chủ 
     
@@ -193,13 +191,12 @@ Các lỗ hổng này thường cần các kỹ thuật tiên tiến hơn , có 
     
     nên khi tôi dùng webhook thì đã bị tường lửa block lại , nên sương sương thì cách làm nó sẽ là như vậy
     
-- Gây ra lỗi phân tích cú pháp XML theo cách thông báo lỗi  chứa dữ liệu nhạy cảm
 
-1. Tìm các attack surface khác cho phép tiêm mã XXE 
+IV. Tìm các attack surface khác cho phép tiêm mã XXE 
 
 Thông thường các lỗ hổng XXE thường khá rõ ràng trong nhiều trường hợp bởi vì đa số http request của ứng dụng chứa dữ liệu ở định dạng XML , nhưng trong các trường hợp ,bề mặt tấn công sẽ ít rõ ràng hơn và nếu bạn tìm kiếm đúng chỗ ,bạn sẽ thấy XXE trong các yêu cầu ko chứa bất kì XML nào 
 
-1. Xinclude attack
+a. Xinclude attack
 
 Trước hết t cần phải hiểu rằng giao thức SOAP là gì ?
 
@@ -287,11 +284,11 @@ II. Cách tìm và kiểm tra các lỗ hổng XXE
 - Kiểm tra blind XXE là gì bằng cách định nghĩa một thực thể bên ngoài dựa trên URL đến một hệ thống mà bạn kiểm soát, và giám sát các tương tác với hệ thống.
 - Kiểm tra khả năng chèn dữ liệu không phải XML do người dùng cung cấp vào tài liệu XML phía máy chủ bằng cách sử dụng [tấn công XInclude](https://portswigger.net/web-security/xxe#xinclude-attacks) để cố gắng truy xuất một tệp hệ điều hành quen thuộc
 
-III. Cách phòng ngừa tấn công XXE 
+V. Cách phòng ngừa tấn công XXE 
 
 Hầu hết các lỗ hổng XXE đều phát sinh do thư viện phân tích cú pháp XML của ứng dụng hỗ trợ các tính năng XML tiềm ẩn nguy hiểm mà ứng dụng không cần hoặc không có ý định sử dụng. Cách dễ nhất và hiệu quả nhất để ngăn chặn các cuộc tấn công XXE là vô hiệu hóa các tính năng đó. 
 
-1. Có nghĩa là vô hiệu hóa DTD 
+-Có nghĩa là vô hiệu hóa DTD 
 
 **Ví dụ trong Java:** Bạn có thể sử dụng phương thức `setFeature` của `DocumentBuilderFactory` để tắt DTD
 
@@ -300,7 +297,7 @@ factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true)
 
 ```
 
-1. Tắt thực thể bên ngoài : Nếu tường hợp ứng dụng xử dụng DTD ,hãy cấu hienhf bộ phân tích XML  để không xử lí các thực thể bên ngoài và các thực thể tham số
-2. Kiểm tra và làm sạch dữ liệu đầu vào
+- Tắt thực thể bên ngoài : Nếu tường hợp ứng dụng xử dụng DTD ,hãy cấu hienhf bộ phân tích XML  để không xử lí các thực thể bên ngoài và các thực thể tham số
+- Luôn kiểm tra và làm sạch dữ liệu đầu vào
 
 
