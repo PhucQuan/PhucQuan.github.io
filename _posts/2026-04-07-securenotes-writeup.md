@@ -19,6 +19,8 @@ header:
 
 ## Nhìn vào challenge
 
+![SecureNotes Interface](/assets/images/securenotes/challenge-view.jpg)
+
 SecureNotes là một note-taking app viết bằng Kotlin/Ktor. Người dùng có thể đăng ký, đăng nhập, tạo và xóa ghi chú — bình thường. Nhưng có thêm một tính năng Export Notes, và flag nằm trong ghi chú của user `owner`:
 
 ```kotlin
