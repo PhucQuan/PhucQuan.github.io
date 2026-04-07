@@ -104,4 +104,22 @@ classes: wide
     </div>
   </a>
 
+  <!-- KashiCTF 2026 -->
+  <a href="/categories/#kashictf-2026" class="tournament-card">
+    <img src="/assets/images/tournaments/kashictf.png" alt="KashiCTF 2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/1a1a2e/ffd700?text=KashiCTF+2026';">
+    <div class="tournament-content">
+      <h3 class="tournament-title">KashiCTF 2026</h3>
+      <div class="tournament-meta">3 Writeups</div>
+    </div>
+  </a>
+
+  <!-- RITSEC CTF 2026 -->
+  <a href="/categories/#ritsec-ctf-2026" class="tournament-card">
+    <img src="/assets/images/tournaments/ritsec.jpg" alt="RITSEC CTF 2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/1a1a2e/ff6b35?text=RITSEC+CTF+2026';">
+    <div class="tournament-content">
+      <h3 class="tournament-title">RITSEC CTF 2026</h3>
+      <div class="tournament-meta">1 Writeup</div>
+    </div>
+  </a>
+
 </div>

