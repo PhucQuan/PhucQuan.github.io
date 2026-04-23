@@ -1,8 +1,8 @@
 ---
 layout: category
-title: Security Research
+title: Security-Research
 permalink: /security-research/
-taxonomy: Security Research
+taxonomy: Security-Research
 author_profile: true
 ---
 

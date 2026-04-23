@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[KashiCTF 2026] Evidence Lab - ExifTool RCE qua CVE-2021-22204"
+title: "[KashiCTF-2026] Evidence Lab - ExifTool RCE qua CVE-2021-22204"
 date: 2026-04-07
 classes: wide
-categories: [CTF, KashiCTF 2026, web]
+categories: [CTF, KashiCTF-2026, web]
 tags: [web, forensics, kashictf, cve-2021-22204, exiftool, rce]
 header:
   teaser: /assets/images/tournaments/kashictf.png
@@ -11,7 +11,7 @@ header:
 
 ## Challenge Info
 
-**Event:** KashiCTF 2026  
+**Event:** KashiCTF-2026  
 **Category:** Web / Forensics  
 **CVE:** CVE-2021-22204  
 **Difficulty:** Medium

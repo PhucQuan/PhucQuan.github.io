@@ -1,14 +1,14 @@
 ---
 layout: single
-title: "[Writeup] HCMUTE CTF 2026 - Greeting (SSTI)"
+title: "[Writeup] HCMUTE-CTF-2026 - Greeting (SSTI)"
 date: 2026-01-29
 classes: wide
-categories: [HCMUTE CTF 2026, web]
+categories: [HCMUTE-CTF-2026, web]
 tags: [hcmute, ssti, jinja2, rce, python]
 permalink: /writeups/hcmute-ctf-greeting/
 ---
 
-Tiếp tục với series HCMUTE CTF 2026, bài này có tên là **Greeting**.
+Tiếp tục với series HCMUTE-CTF-2026, bài này có tên là **Greeting**.
 
 ## 1. Nhận diện mục tiêu
 

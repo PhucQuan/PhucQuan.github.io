@@ -1,8 +1,8 @@
-﻿---
+---
 layout: single
 title: "Phân tích lỗ hổng về GraphQL"
 date: 2026-04-16
-categories: [Penetration Testing]
+categories: [Penetration-Testing]
 tags: [graphql, api, idor, introspection, brute-force, portswigger, owasp]
 ---
 
@@ -338,7 +338,7 @@ Tuy nhiên, introspection cũng làm lộ toàn bộ cấu trúc API.
 
 Nãy giờ nói lí thuyết cũng khá nhiều chắc các bạn cũng đã nắm rõ sơ bộ về cấu trúc của GraphQL rồi thì trong phần này chúng ta sẽ đi tới phần tấn công GraphQL cũng như thực hành vài bài về nó nhé.
 
-![image.png](/assets/images/graphql/image 1.png)
+![image.png](/assets/images/graphql/image-1.png)
 
 Hình ảnh minh họa ( [https://portswigger.net/web-security/graphql#finding-graphql-endpoints](https://portswigger.net/web-security/graphql#finding-graphql-endpoints))
 
@@ -447,7 +447,7 @@ Tương tự như các truy vấn thông thường, bạn có thể chỉ địn
 
 Ngoài ra Burp cũng có thể tạo các truy vấn nội suy cho bạn. Để biết thêm thông tin, hãy xem [Truy cập lược đồ API GraphQL bằng cách sử dụng nội suy](https://portswigger.net/burp/documentation/desktop/testing-workflow/working-with-graphql#accessing-graphql-api-schemas-using-introspection) .
 
-![image.png](/assets/images/graphql/image 2.png)
+![image.png](/assets/images/graphql/image-2.png)
 
 Query vào `__schema` để lấy thông tin:
 
@@ -516,7 +516,7 @@ Một số tool có thể tận dụng cơ chế này để rebuild schema.
 
 Thì bài đầu tiên thì yêu cầu chúng ta phải tìm ra 1 secret password để có thể solve the lab.
 
-![image.png](/assets/images/graphql/image 3.png)
+![image.png](/assets/images/graphql/image-3.png)
 
 ## Lab: Accessing private GraphQL posts – Walkthrough
 
@@ -526,7 +526,7 @@ Ngay lập tức có thể thấy các bài viết không được render sẵn 
 
 Khi xem response của request này, có một chi tiết khá đáng chú ý: mỗi bài blog đều có một `id` và các id này tăng tuần tự. Tuy nhiên danh sách trả về lại bị thiếu `id = 3`. Điều này thường không phải ngẫu nhiên — nhiều khả năng đây là một bài viết bị ẩn.
 
-![image.png](/assets/images/graphql/image 4.png)
+![image.png](/assets/images/graphql/image-4.png)
 
 ### Recon – hiểu schema
 
@@ -538,11 +538,11 @@ Khi đọc qua schema, mình phát hiện trong type `BlogPost` có một field 
 
 Bạn có thể ném vào trang này để có thể hiểu rõ hơn về response
 
-![image.png](/assets/images/graphql/image 5.png)
+![image.png](/assets/images/graphql/image-5.png)
 
 Đây gần như là “mùi bug” rõ ràng bởi vì có khả năng dữ liệu nhạy cảm tồn tại nhưng không được kiểm soát đúng cách.
 
-![image.png](/assets/images/graphql/image 6.png)
+![image.png](/assets/images/graphql/image-6.png)
 
 ### 
 
@@ -563,11 +563,11 @@ Khi gửi request, server trả về đầy đủ thông tin của bài viết `
 
 ### 
 
-![image.png](/assets/images/graphql/image 7.png)
+![image.png](/assets/images/graphql/image-7.png)
 
 Lúc này chỉ cần copy giá trị của `postPassword` từ response và submit vào lab là xong.
 
-![image.png](/assets/images/graphql/image 8.png)
+![image.png](/assets/images/graphql/image-8.png)
 
 ## Lab: Accidental exposure of private GraphQL fields – Walkthrough
 
@@ -577,7 +577,7 @@ Chuyển sang tab HTTP history trong Burp Suite, mình thấy request login khô
 
 Đểm quan trọng t có thấy thấy là nếu login dùng GraphQL, khả năng cao user data cũng có thể bị truy vấn qua các query khác.
 
-![image.png](/assets/images/graphql/image 9.png)
+![image.png](/assets/images/graphql/image-9.png)
 
 ### Recon – enumerate schema
 
@@ -587,7 +587,7 @@ Sau khi gửi request, Burp cho phép lưu toàn bộ query vào site map. Khi x
 
 Query này cho phép lấy thông tin user dựa trên `id`, và quan trọng hơn là nó trả về cả **username và password**.
 
-![image.png](/assets/images/graphql/image 10.png)
+![image.png](/assets/images/graphql/image-10.png)
 
 Đây là một design flaw rõ ràng:
 
@@ -598,11 +598,11 @@ Mình gửi query `getUser` sang Repeater và thử với giá trị mặc đị
 
 Để thuận tiện cho việc generate ra querry thì bạn có thể sử dụng extension InQL trong BAppstore của Burpsuite
 
-![image.png](/assets/images/graphql/image 11.png)
+![image.png](/assets/images/graphql/image-11.png)
 
 Tiếp theo, đơn giản là thử các giá trị ID khác. Vì đây là lab, ID thường là số nhỏ và tuần tự. Khi thử `id = 1`, server trả về:
 
-![image.png](/assets/images/graphql/image 12.png)
+![image.png](/assets/images/graphql/image-12.png)
 
 - username: administrator
 - password: (password thật)
@@ -613,7 +613,7 @@ Sau khi login thành công với quyền admin, truy cập vào Admin panel và 
 
 Lab: Finding a hidden GraphQL endpoint – Walkthrough
 
-![image.png](/assets/images/graphql/image 13.png)
+![image.png](/assets/images/graphql/image-13.png)
 
 Khi vào lab, nếu chỉ click qua các chức năng trên web thì gần như không thấy dấu hiệu nào của GraphQL. Điều này gợi ý ngay từ đầu: endpoint có thể bị ẩn, không được gọi trực tiếp từ frontend.
 
@@ -621,7 +621,7 @@ Lúc này mình không đi theo hướng “click UI” nữa mà chuyển sang 
 
 Khi gửi request GET tới `/api`, server trả về lỗi kiểu `"Query not present"`. Đây là một dấu hiệu rất đặc trưng của GraphQL — tức là endpoint tồn tại, nhưng mình chưa gửi query.
 
-![image.png](/assets/images/graphql/image 14.png)
+![image.png](/assets/images/graphql/image-14.png)
 
 Thử thêm một universal query đơn giản vào URL:
 
@@ -631,7 +631,7 @@ Thử thêm một universal query đơn giản vào URL:
 
 Response trả về:
 
-![image.png](/assets/images/graphql/image 15.png)
+![image.png](/assets/images/graphql/image-15.png)
 
 Đến đây có thể khẳng định `/api` chính là GraphQL endpoint, chỉ là nó không được expose ra UI.
 
@@ -639,7 +639,7 @@ Response trả về:
 
 Bước tiếp theo là enumerate schema bằng introspection. Tuy nhiên khi gửi introspection query bình thường, server từ chối — rõ ràng có cơ chế chặn.
 
-![image.png](/assets/images/graphql/image 16.png)
+![image.png](/assets/images/graphql/image-16.png)
 
 Nhưng điểm yếu ở đây là cách chặn không cẩn thận. Nhiều hệ thống chỉ dùng regex để block pattern kiểu `__schema{`.
 
@@ -649,7 +649,7 @@ Mình sửa introspection query bằng cách thêm newline sau `__schema`, rồi
 
 Sau khi gửi lại request, lần này server trả về full schema.
 
-![image.png](/assets/images/graphql/image 17.png)
+![image.png](/assets/images/graphql/image-17.png)
 
  Điều này giúp mình xác nhận rằng :
 
@@ -672,11 +672,11 @@ Mình gửi `getUser` vào Repeater và thử với các ID khác nhau.
 
 Ban đầu `id = 0` không trả về gì. Tiếp tục tăng dần, đến `id = 3` thì thấy trả về user `carlos`.
 
-![image.png](/assets/images/graphql/image 18.png)
+![image.png](/assets/images/graphql/image-18.png)
 
 Như vậy: ID của carlos là 3
 
-![image.png](/assets/images/graphql/image 19.png)
+![image.png](/assets/images/graphql/image-19.png)
 
 ### 
 
@@ -684,7 +684,7 @@ Quay lại schema, mình thấy mutation `deleteOrganizationUser` nhận input l
 
 Chỉ cần craft một mutation đơn giản, truyền `id = 3`.
 
-![image.png](/assets/images/graphql/image 20.png)
+![image.png](/assets/images/graphql/image-20.png)
 
 Sau khi gửi, user `carlos` bị xóa và lab hoàn thành.
 
@@ -696,7 +696,7 @@ Lab này yêu cầu brute force tài khoản `carlos`, nhưng API có **rate lim
 
 Khi truy cập chức năng đăng nhập, có thể thấy request login được gửi dưới dạng **GraphQL mutation**. 
 
-![image.png](/assets/images/graphql/image 21.png)
+![image.png](/assets/images/graphql/image-21.png)
 
 Khi thử login sai nhiều lần trong Burp Repeater, server bắt đầu trả về lỗi rate limit. Điều này chứng tỏ API đang giới hạn số lượng request theo thời gian.
 
@@ -713,7 +713,7 @@ Sau khi gửi request login vào Repeater, bạn cần chỉnh sửa lại paylo
 
 Đầu tiên, bỏ phần `variables` và `operationName`, vì ta sẽ viết query thủ công.
 
-![image.png](/assets/images/graphql/image 22.png)
+![image.png](/assets/images/graphql/image-22.png)
 
 Sau đó, tạo một mutation chứa nhiều alias, mỗi alias là một lần thử password khác nhau cho user `carlos`.
 
@@ -740,7 +740,7 @@ mutation {
 
 Bạn có thể generate danh sách này từ wordlist password của lab (bạn có thể nhờ gpt viết dùm cho nhanh hehe =))
 
-![image.png](/assets/images/graphql/image 23.png)
+![image.png](/assets/images/graphql/image-23.png)
 
 Khi gửi request:
 
@@ -755,9 +755,9 @@ Chỉ cần tìm:
 
 → đó là password đúng.
 
-![image.png](/assets/images/graphql/image 24.png)
+![image.png](/assets/images/graphql/image-24.png)
 
-# Preventing GraphQL attacks
+# Preventing graphql-attacks
 
 Khi deploy GraphQL API lên production, nếu cấu hình không cẩn thận thì rất dễ dính các lỗi như lộ schema, brute force, hoặc CSRF. Dưới đây là những điểm quan trọng cần lưu ý.
 

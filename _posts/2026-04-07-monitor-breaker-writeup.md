@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[RITSEC CTF 2026] Monitor Breaker - Command Injection qua Client-Side Filter"
+title: "[RITSEC-CTF-2026] Monitor Breaker - Command Injection qua Client-Side Filter"
 date: 2026-04-07
 classes: wide
-categories: [CTF, RITSEC CTF 2026, web]
+categories: [CTF, RITSEC-CTF-2026, web]
 tags: [web, command-injection, ritsec, client-side-bypass]
 header:
   teaser: /assets/images/tournaments/ritsec.jpg
@@ -11,7 +11,7 @@ header:
 
 ## Challenge Info
 
-**Event:** RITSEC CTF 2026  
+**Event:** RITSEC-CTF-2026  
 **Category:** Web  
 **Points:** 415  
 **Vulnerability:** Command Injection

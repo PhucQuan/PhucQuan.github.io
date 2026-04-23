@@ -17,6 +17,7 @@ author:
 url: https://phucquan.github.io
 baseurl: ""
 repository: PhucQuan/PhucQuan.github.io
+permalink: /:categories/:year/:month/:day/:title/
 
 # Theme Settings
 remote_theme: mmistakes/minimal-mistakes@4.26.2

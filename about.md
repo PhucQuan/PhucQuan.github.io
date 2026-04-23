@@ -6,12 +6,12 @@ permalink: /about/
 
 ## Background
 
-I'm a security student with a focus on offensive security through competitive hacking and hands-on labs. This blog documents my learning journey in security research, CTF challenges, and penetration testing.
+I'm a security student with a focus on offensive security through competitive hacking and hands-on labs. This blog documents my learning journey in security-research, CTF challenges, and penetration-testing.
 
 ## Current Focus
 
 - **Competitive Hacking** — CTF competitions (web, crypto, misc)
-- **Penetration Testing** — Web application assessments
+- **penetration-testing** — Web application assessments
 - **Cloud Security** — AWS and cloud infrastructure security
 - **Cryptography** — Algorithm analysis and implementation flaws
 - **Reverse Engineering** — Binary analysis basics

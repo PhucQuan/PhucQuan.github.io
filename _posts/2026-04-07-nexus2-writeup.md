@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[KashiCTF 2026] Nexus 2 - SSTI Jinja2, bypass filter bằng hex encoding"
+title: "[KashiCTF-2026] Nexus 2 - SSTI Jinja2, bypass filter bằng hex encoding"
 date: 2026-04-07
 classes: wide
-categories: [CTF, KashiCTF 2026, web]
+categories: [CTF, KashiCTF-2026, web]
 tags: [web, ssti, python, flask, kashictf, rce, jinja2]
 header:
   teaser: /assets/images/tournaments/kashictf.png
@@ -11,7 +11,7 @@ header:
 
 ## Challenge Info
 
-**Event:** KashiCTF 2026  
+**Event:** KashiCTF-2026  
 **Category:** Web  
 **Points:** 500  
 **Solves:** 3 (Hard)  

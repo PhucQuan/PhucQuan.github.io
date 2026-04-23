@@ -217,7 +217,7 @@ This is actually valuable! Document what didn't work—it helps readers and futu
 - 🔗 [Similar CTF challenge writeup](<link>)
 - 📖 [Technical documentation](<link>)
 - 🛠️ [Tool documentation](<tool_link>)
-- 📝 [Security research paper](<link>)
+- 📝 [Security-Research paper](<link>)
 
 **Further Reading:**
 - Topic: [What to learn next]

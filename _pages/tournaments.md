@@ -32,7 +32,7 @@ classes: wide
   text-decoration: none;
 }
 
-.tournament-image {
+.tournament-image-{
   width: 100%;
   height: 200px;
   object-fit: cover;
@@ -68,56 +68,56 @@ classes: wide
     </div>
   </a>
 
-  <!-- NullCon 2025 -->
+  <!-- NullCon-2025 -->
   <a href="/categories/#nullcon-2025" class="tournament-card">
-    <img src="/assets/images/nullcon/logo.png" alt="NullCon 2025" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/fff?text=NullCon+2025';">
+    <img src="/assets/images/nullcon/logo.png" alt="NullCon-2025" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/fff?text=NullCon+2025';">
     <div class="tournament-content">
-      <h3 class="tournament-title">NullCon 2025</h3>
+      <h3 class="tournament-title">NullCon-2025</h3>
       <div class="tournament-meta">1 Writeup</div>
     </div>
   </a>
 
-  <!-- HCMUTE CTF 2026 -->
+  <!-- HCMUTE-CTF-2026 -->
   <a href="/categories/#hcmute-ctf-2026" class="tournament-card">
-    <img src="/assets/images/hcmute/logo.png" alt="HCMUTE CTF 2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/fff?text=HCMUTE+CTF+2026';">
+    <img src="/assets/images/hcmute/logo.png" alt="HCMUTE-CTF-2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/fff?text=HCMUTE+CTF+2026';">
     <div class="tournament-content">
-      <h3 class="tournament-title">HCMUTE CTF 2026</h3>
+      <h3 class="tournament-title">HCMUTE-CTF-2026</h3>
       <div class="tournament-meta">10 Writeups</div>
     </div>
   </a>
 
-  <!-- UofTCTF 2026 -->
+  <!-- UofTCTF-2026 -->
   <a href="/categories/#uoftctf-2026" class="tournament-card">
-    <img src="/assets/images/uoftctf/logo.png" alt="UofTCTF 2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/fff?text=UofTCTF+2026';">
+    <img src="/assets/images/uoftctf/logo.png" alt="UofTCTF-2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/fff?text=UofTCTF+2026';">
     <div class="tournament-content">
-      <h3 class="tournament-title">UofTCTF 2026</h3>
+      <h3 class="tournament-title">UofTCTF-2026</h3>
       <div class="tournament-meta">2 Writeups</div>
     </div>
   </a>
 
-  <!-- Hack The Box -->
+  <!-- Hack-The-Box -->
   <a href="/categories/#hack-the-box" class="tournament-card">
-    <img src="/assets/images/htb/logo.png" alt="Hack The Box" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/fff?text=Hack+The+Box';">
+    <img src="/assets/images/htb/logo.png" alt="Hack-The-Box" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/333/fff?text=Hack+The+Box';">
     <div class="tournament-content">
-      <h3 class="tournament-title">Hack The Box</h3>
+      <h3 class="tournament-title">Hack-The-Box</h3>
       <div class="tournament-meta">2 Writeups</div>
     </div>
   </a>
 
-  <!-- KashiCTF 2026 -->
+  <!-- KashiCTF-2026 -->
   <a href="/categories/#kashictf-2026" class="tournament-card">
-    <img src="/assets/images/tournaments/kashictf.png" alt="KashiCTF 2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/1a1a2e/ffd700?text=KashiCTF+2026';">
+    <img src="/assets/images/tournaments/kashictf.png" alt="KashiCTF-2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/1a1a2e/ffd700?text=KashiCTF+2026';">
     <div class="tournament-content">
-      <h3 class="tournament-title">KashiCTF 2026</h3>
+      <h3 class="tournament-title">KashiCTF-2026</h3>
       <div class="tournament-meta">3 Writeups</div>
     </div>
   </a>
 
-  <!-- RITSEC CTF 2026 -->
+  <!-- RITSEC-CTF-2026 -->
   <a href="/categories/#ritsec-ctf-2026" class="tournament-card">
-    <img src="/assets/images/tournaments/ritsec.jpg" alt="RITSEC CTF 2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/1a1a2e/ff6b35?text=RITSEC+CTF+2026';">
+    <img src="/assets/images/tournaments/ritsec.jpg" alt="RITSEC-CTF-2026" class="tournament-image" onerror="this.onerror=null; this.src='https://placehold.co/600x400/1a1a2e/ff6b35?text=RITSEC+CTF+2026';">
     <div class="tournament-content">
-      <h3 class="tournament-title">RITSEC CTF 2026</h3>
+      <h3 class="tournament-title">RITSEC-CTF-2026</h3>
       <div class="tournament-meta">1 Writeup</div>
     </div>
   </a>

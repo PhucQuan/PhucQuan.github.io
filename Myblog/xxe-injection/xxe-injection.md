@@ -1,4 +1,4 @@
-# XXE injection
+# xxe-injection
 
 I.Định nghĩa về lỗ hổng XXE
 
@@ -88,7 +88,7 @@ Mục tiêu của mình là địa nghĩa 1 DTD xác định thực thể bên n
 
 Chỉnh sửa giá trị trong XML được trả về trong phản hồi của ứng dụng để sử dụng thực thể bên ngoài được định nghĩa 
 
-![image.png](image%201.png)
+![image.png](image-1.png)
 
 Chúng ta thấy server trả về số lượng sản phẩm tồn kho , giờ đây mình sẽ thử định nghĩa 1 doctype 
 
@@ -100,7 +100,7 @@ Và đồng thời thay product id bằng tham chiếu đến thực thể bên 
 
 và đây là kết quả trả về khi server báo lỗi là invalid product id nhưng kết quả của etc passwd thì trả về sau phản hồi đó
 
-![image.png](image%202.png)
+![image.png](image-2.png)
 
 1. Khai thác lỗ hổng XXE dựa trên các cuộc tấn công SSRF 
 
@@ -108,7 +108,7 @@ Ngoài việc đánh cắp dữ liệu nhạy cảm thì XXE còn có thể khai
 
 Để khai thác lỗ hổng XXE nhằm thực hiện vào SSRF , thì cũng tương tự như cách trên nhưng trong system chúng ta sẽ thực hiện trỏ tới 1 url trong nội bộ của ứng dụng 
 
-![image.png](image%203.png)
+![image.png](image-3.png)
 
 Đây là bài lab thực hành số 2 : 
 Đề bài yêu cầu chúng ta khai thác lỗi XXE bằng SSRF nhằm lấy được secret key từ metadata của EC2 
@@ -119,15 +119,15 @@ Tương tự như bài trên thì chúng ta cũng sẽ định nghĩa 1 cái DTD
 
 và sau đó thay product id bằng tham chiếu với external entities là &xxe;
 
-![image.png](image%204.png)
+![image.png](image-4.png)
 
 Chúng ta đã thấy trong respone trả vè là invalid product id , và theo sau đó là latest ,1 phản hồi của endpoint metadata ,vì vậy mình sẽ cập nhật trong dtd bằng cách thêm latest để khám phá api để có xem được kết quả mong muốn 
 
-![image.png](image%205.png)
+![image.png](image-5.png)
 
 Và sau khi mình dò hết thì đã tìm được endpojnt của metadata ec2, và sau đó nó đã trả về secret key nhưu đề bài yêu cầu 
 
-![image.png](image%206.png)
+![image.png](image-6.png)
 
 1. Lỗ hổng XXE mù ( blind XXE)
     
@@ -148,7 +148,7 @@ Các lỗ hổng này thường cần các kỹ thuật tiên tiến hơn , có 
     
     Sau đó , bạn có thể sử dụng thực thể đã tự định nghĩa vàtrong 1 giá trị trong XMl , cuộc tấn công này sẽ khiến máy chủ thực hiện http đến url được chỉ định , kẻ tấn công có thể theo dõi quá trình của dns lookup và các http request .
     
-    ![image.png](image%207.png)
+    ![image.png](image-7.png)
     
     Chúng ta có thể đến tới 1 bài lab ví dụ về cách tấn công XXE out of bands network , bởi vì bản burp suite của mình chỉ là bản thường nên mình sẽ xin phép demo lại các bước làm thay vì dùng burpsuite collaborator thì tôi sử dụng webhook.
     
@@ -217,13 +217,13 @@ Trong trường hợp này, bạn không thể thực hiện một cuộc tấn 
 <xi:include parse="text" href="file:///etc/passwd"/></foo>
 ```
 
-![image.png](image%208.png)
+![image.png](image-8.png)
 
 Thử lấy ví dụ cho bài thực hành này , bài thực hành yêu cầu chúng t hãy chèn Xinlucde để truy xuất nội dung của etc/passwd
 
 Thì khi t intercept request post checkstock lên burpsuite thì chúng t ko còn thấy XML như các bài lab trước nữa ,nhưng vì chúng t đã biết chúng t có thể xử dụng XInlcude để có thể đọc file như yêu cầu đề bài nên bài nãy chúng t sẽ thay tham số product ID bằng 
 
-![image.png](image%209.png)
+![image.png](image-9.png)
 
 ```jsx
 <foo xmlns:xi="http://www.w3.org/2001/XInclude"><xi:include parse="text" href="file:///etc/passwd"/></foo>
@@ -241,7 +241,7 @@ Dưới đây là giải thích từng phần của payload:
 
 **Tóm lại:** Bạn đang lừa server "mượn" thư viện XInclude để đọc trộm file hệ thống và hiển thị nó ra màn hình cho bạn.
 
-![image.png](image%2010.png)
+![image.png](image-10.png)
 
 b. Tấn công XXE thông qua file upload
 
@@ -253,7 +253,7 @@ Tiếp theo là 1 bài demo về cách tấn công
 
 Dưới đây là các bước chi tiết và giải thích cấu trúc mã:
 
-![image.png](image%2011.png)
+![image.png](image-11.png)
 
 ### 1. Cách tạo tệp tin
 
@@ -271,7 +271,7 @@ Dưới đây là các bước chi tiết và giải thích cấu trúc mã:
 - **Thu thập kết quả:** Quay lại trang danh sách bình luận. Bạn sẽ thấy ảnh đại diện của mình không phải là một hình vẽ bình thường, mà là một dòng chữ nhỏ. Đó chính là **hostname** của máy chủ mục tiêu.
 - 
 
-![image.png](image%2012.png)
+![image.png](image-12.png)
 
 Mở to hình ảnh trong tab mới để có thể dễ thấy được kết quả , lấy kết quả đó submit thì sẽ được
 

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /_site/
+Disallow: /vendor/
+Disallow: /Gemfile
+Disallow: /Gemfile.lock
+
+Sitemap: https://phucquan.github.io/sitemap.xml

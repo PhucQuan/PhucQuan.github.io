@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[Writeup] UofTCTF 2026 - The eBPF Firewall Escape"
+title: "[Writeup] UofTCTF-2026 - The eBPF Firewall Escape"
 date: 2026-01-29
 classes: wide
-categories: [UofTCTF 2026, network]
+categories: [UofTCTF-2026, network]
 tags: [firewall, ebpf, tcp-segmentation, http-range]
 permalink: /writeups/uoftctf-firewall/
 ---
@@ -16,7 +16,7 @@ permalink: /writeups/uoftctf-firewall/
 - **Dấu hiệu:** Truy cập `/flag.html` bị treo kết nối (Connection Timeout) hoặc bị ngắt đột ngột (Connection Reset).
 - **Dữ liệu cung cấp:** Mã nguồn C của chương trình eBPF đang chạy trên máy chủ.
 
-Mình tham gia giải UofTCTF 2026 và gặp bài Firewall này khá thú vị, nên viết writeup chia sẻ lại quá trình "vượt ngục" firewall eBPF này nhé.
+Mình tham gia giải UofTCTF-2026 và gặp bài Firewall này khá thú vị, nên viết writeup chia sẻ lại quá trình "vượt ngục" firewall eBPF này nhé.
 
 ---
 

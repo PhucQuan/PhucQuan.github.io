@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[Writeup] HCMUTE CTF 2026 - Qualification Round"
+title: "[Writeup] HCMUTE-CTF-2026 - Qualification Round"
 date: 2026-01-29
 classes: wide
-categories: [HCMUTE CTF 2026, web]
+categories: [HCMUTE-CTF-2026, web]
 tags: [hcmute, web, javascript, client-side]
 permalink: /writeups/hcmute-ctf-overtrust/
 ---
@@ -109,7 +109,7 @@ Hẹn gặp mọi người ở các phần writeup tiếp theo của giải này
 
 ---
 
-### Series Writeup HCMUTE CTF 2026:
+### Series Writeup HCMUTE-CTF-2026:
 
 1.  **[Web] Overtrust** (Bài này)
 2.  **[Web/SSTI] [Greeting](/writeups/hcmute-ctf-greeting/)**

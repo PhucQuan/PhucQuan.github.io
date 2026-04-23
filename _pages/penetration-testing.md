@@ -1,18 +1,18 @@
 ---
 layout: single
-title: Penetration Testing
+title: Penetration-Testing
 permalink: /penetration-testing/
 author_profile: false
 classes: wide
 ---
 
-Kiến thức về Penetration Testing, các lỗ hổng bảo mật web phổ biến trong OWASP Top 10 và kỹ thuật khai thác.
+Kiến thức về Penetration-Testing, các lỗ hổng bảo mật web phổ biến trong OWASP Top 10 và kỹ thuật khai thác.
 
 ---
 
 {% assign category_posts = "" | split: "" %}
 {% for post in site.posts %}
-{% if post.categories contains "Penetration Testing" %}
+{% if post.categories contains "Penetration-Testing" %}
 {% assign category_posts = category_posts | push: post %}
 {% endif %}
 {% endfor %}

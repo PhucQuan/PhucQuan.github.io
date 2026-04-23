@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[KashiCTF 2026] SecureNotes - IDOR + JWT Cache Bypass"
+title: "[KashiCTF-2026] SecureNotes - IDOR + JWT Cache Bypass"
 date: 2026-04-07
 classes: wide
-categories: [CTF, KashiCTF 2026, web]
+categories: [CTF, KashiCTF-2026, web]
 tags: [web, kashictf, idor, jwt, token-cache]
 header:
   teaser: /assets/images/tournaments/kashictf.png
@@ -11,7 +11,7 @@ header:
 
 ## Challenge Info
 
-**Event:** KashiCTF 2026  
+**Event:** KashiCTF-2026  
 **Category:** Web  
 **Stack:** Kotlin / Ktor
 

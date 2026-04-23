@@ -1,14 +1,14 @@
 ---
 layout: single
-title: "[Writeup] UofTCTF 2026 - NoQuotes & The SUID Escape"
+title: "[Writeup] UofTCTF-2026 - NoQuotes & The SUID Escape"
 date: 2026-01-29
 classes: wide
-categories: [UofTCTF 2026, web]
+categories: [UofTCTF-2026, web]
 tags: [sqli, ssti, suid, privesc, f-string]
 permalink: /writeups/uoftctf-noquotes/
 ---
 
-Đây là bài thứ 2 mình muốn chia sẻ trong chuỗi writeup UofTCTF 2026. Bài này kết hợp cả SQL Injection và SSTI khá hay.
+Đây là bài thứ 2 mình muốn chia sẻ trong chuỗi writeup UofTCTF-2026. Bài này kết hợp cả SQL Injection và SSTI khá hay.
 
 ## 1. Phân tích mã nguồn (Source Code Analysis)
 

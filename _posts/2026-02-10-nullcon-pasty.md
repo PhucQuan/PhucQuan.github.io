@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[Writeup] NullCon 2025 - Pasty (Crypto/Web)"
+title: "[Writeup] NullCon-2025 - Pasty (Crypto/Web)"
 date: 2026-02-10
 classes: wide
-categories: [NullCon 2025, crypto, web]
+categories: [NullCon-2025, crypto, web]
 tags: [nullcon, custom-crypto, signature-forgery, bit-flipping, sha256]
 ---
 

@@ -1,15 +1,15 @@
 ---
 layout: single
-title: "[Writeup] HCMUTE CTF 2026 - Shamir's Secret Sharing (Crypto)"
+title: "[Writeup] HCMUTE-CTF-2026 - Shamir's Secret Sharing (Crypto)"
 date: 2026-01-31
 classes: wide
-categories: [HCMUTE CTF 2026, crypto]
+categories: [HCMUTE-CTF-2026, crypto]
 tags: [hcmute, shamir, secret-sharing, rsa, aes, crypto, steganography]
 permalink: /writeups/hcmute-ctf-shamir-secret-sharing/
 mathjax: true
 ---
 
-Hôm nay mình sẽ đi sâu phân tích một thử thách thú vị từ **HCMUTE CTF 2026**: **Shamir's Secret Sharing**. Bài viết này sẽ không chỉ đưa ra đáp án mà còn phân tích từng dòng code, từng file đề bài để hiểu rõ cơ chế hoạt động, từ đó tìm ra lỗ hổng và cách giải quyết vấn đề.
+Hôm nay mình sẽ đi sâu phân tích một thử thách thú vị từ **HCMUTE-CTF-2026**: **Shamir's Secret Sharing**. Bài viết này sẽ không chỉ đưa ra đáp án mà còn phân tích từng dòng code, từng file đề bài để hiểu rõ cơ chế hoạt động, từ đó tìm ra lỗ hổng và cách giải quyết vấn đề.
 
 Mục tiêu là để bất kỳ ai, dù mới bắt đầu tìm hiểu về Crypto, cũng có thể hiểu được tư duy giải đề. Nào, chúng ta cùng bắt đầu!
 

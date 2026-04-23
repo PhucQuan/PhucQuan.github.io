@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[Writeup] HCMUTE CTF 2026 - Mirror Split Secrets (Crypto)"
+title: "[Writeup] HCMUTE-CTF-2026 - Mirror Split Secrets (Crypto)"
 date: 2026-01-29
 classes: wide
-categories: [HCMUTE CTF 2026, crypto]
+categories: [HCMUTE-CTF-2026, crypto]
 tags: [hcmute, rsa, lattice, lll, coppersmith, acd]
 permalink: /writeups/hcmute-ctf-mirror-split/
 mathjax: true

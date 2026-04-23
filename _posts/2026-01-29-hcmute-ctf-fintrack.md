@@ -1,9 +1,9 @@
 ---
 layout: single
-title: "[Writeup] HCMUTE CTF 2026 - FinTrack (Blind SQLi)"
+title: "[Writeup] HCMUTE-CTF-2026 - FinTrack (Blind SQLi)"
 date: 2026-01-29
 classes: wide
-categories: [HCMUTE CTF 2026, web]
+categories: [HCMUTE-CTF-2026, web]
 tags: [hcmute, sqli, blind-sqli, python, automation]
 permalink: /writeups/hcmute-ctf-fintrack/
 ---

@@ -3,7 +3,7 @@ layout: single
 title: "[Writeup] LA CTF 2026 - Narnes and Bobles (Web)"
 date: 2026-02-10
 classes: wide
-categories: [LACTF 2026, web]
+categories: [LACTF-2026, web]
 tags: [lactf, web, logic-error, mass-assignment, sqlite, nodejs]
 ---
 
