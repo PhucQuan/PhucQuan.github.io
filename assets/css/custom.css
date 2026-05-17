@@ -1,5 +1,9 @@
 /* Custom CSS for PhucQuan Blog */
 
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
 /* Thu nhỏ title trong masthead */
 .masthead__inner-wrap {
   padding: 0.3em 0.5em;
@@ -91,7 +95,7 @@
 .page__content h2,
 .page__content h3,
 .page__content h4 {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   margin-top: 2em;
   margin-bottom: 0.8em;
   font-weight: 700;

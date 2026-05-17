@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#0b0b0d"/>
+  
+  <!-- Outer Circle -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="#ff2a9d" stroke-width="24"/>
+  
+  <!-- Text -->
+  <text x="50%" y="54%" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="220" fill="#ff2a9d" text-anchor="middle" dominant-baseline="middle" letter-spacing="-5">PQ</text>
+</svg>
