@@ -71,7 +71,7 @@ body {
     margin: 0 auto !important;
     float: none !important;
   }
-  
+
   .page__inner-wrap {
     max-width: 1200px;
     margin: 0 auto !important;
@@ -141,7 +141,8 @@ body {
   line-height: 1.6;
   margin: 2em 0;
   border-radius: 8px;
-  background: #1a1b26 !important; /* Tokyo Night Dark */
+  background: #1a1b26 !important;
+  /* Tokyo Night Dark */
   padding: 45px 1.5em 1.5em !important;
   position: relative;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
@@ -190,7 +191,7 @@ body {
   margin: 2em auto;
   display: block;
   border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 /* Tối ưu blockquote */
@@ -239,7 +240,7 @@ body {
   .page__content {
     padding: 0 15px;
   }
-  
+
   .page__content p {
     text-align: left;
   }
@@ -293,7 +294,7 @@ body {
   padding: 1.5em;
   background: #fff;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -303,7 +304,7 @@ body {
 
 .archive__item:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
   border-color: #3498db;
 }
 
@@ -451,7 +452,7 @@ body {
   .entries-list {
     padding-left: 15px;
   }
-  
+
   .entry-item::before {
     left: -21px;
   }

@@ -8,3 +8,6 @@
   <!-- Text -->
   <text x="50%" y="54%" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" font-weight="900" font-size="220" fill="#a855f7" text-anchor="middle" dominant-baseline="middle" letter-spacing="-5">PQ</text>
 </svg>
+  <!-- Chữ PQ tím neon (màu tím sáng/pastel giống ảnh gốc của bạn) -->
+  <text x="50%" y="53%" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="240" fill="#d8b4fe" text-anchor="middle" dominant-baseline="middle" letter-spacing="-5">PQ</text>
+</svg>
