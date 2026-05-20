@@ -86,5 +86,5 @@ Write-Host "git push"
 git push
 
 Write-Host "All done! Your blog is updated." -ForegroundColor Green
-Write-Host "Press any key to exit..."
-$Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
+# Write-Host "Press any key to exit..."
+# $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown") | Out-Null
