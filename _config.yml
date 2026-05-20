@@ -46,8 +46,7 @@ defaults:
       comments: true
       share: true
       related: true
-      toc: true
-      toc_sticky: true
+      classes: wide
   # _pages
   - scope:
       path: ""
