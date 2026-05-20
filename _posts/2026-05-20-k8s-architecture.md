@@ -1,7 +1,7 @@
 ---
 title: "K8S Architecture - From Fundamentals to Security Perspective"
 date: 2026-05-20 00:00:00 +0700
-categories: ["Security Research"]
+categories: ["Security-Research"]
 tags: ["Kubernetes", "Security"]
 header:
   teaser: /assets/images/k8s-logo.png
