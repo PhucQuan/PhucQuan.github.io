@@ -1,12 +1,12 @@
----
-title: "Tu?n 2 - Th?c hành và nghiên c?u các ki thu?t t?n công Kubernetes"
-date: 2026-05-24 00:00:00 +0700
-categories: ["Security Research"]
-tags: ["Kubernetes", "Security"]
----
+---
+title: "Tu?n 2 - Th?c hï¿½nh vï¿½ nghiï¿½n c?u cï¿½c ki thu?t t?n cï¿½ng Kubernetes"
+date: 2026-05-24 00:00:00 +0700
+categories: ["Security Research"]
+tags: ["Kubernetes", "Security"]
+---
+
 
-
-# Bu?i 1 : H?c trên KubernetesGoat
+# Bu?i 1 : H?c trï¿½n KubernetesGoat
 
 ## D?ng cluster b?ng Kind
 
@@ -18,7 +18,7 @@ kind version
 ```
 
 
-Cài kubectl
+Cï¿½i kubectl
 ```
 sudo apt install -y kubernetes-client
 kubectl version --client
@@ -52,18 +52,18 @@ bash access-kubernetes-goat.sh
 ![](/assets/images/posts/Pasted%20image%2020260520151812.png)
 
 
-## Bài 1 : Gaining enviroment information
+## Bï¿½i 1 : Gaining enviroment information
 
-Bài d?u tiên là enum d? tìm ra các cred c?a h? th?ng
+Bï¿½i d?u tiï¿½n lï¿½ enum d? tï¿½m ra cï¿½c cred c?a h? th?ng
 
- H?u h?t các phiên b?n di?n toán khi ch?y ?ng d?ng d?u luu tr? thông tin nh?y c?m nhu secrets, api_keys, v.v. trong các bi?n môi tru?ng. Tuong t?, trong Kubernetes, h?u h?t m?i ngu?i luu tr? thông tin nh?y c?m nhu Kubernetes Secrets và các giá tr? Config trong các bi?n môi tru?ng và n?u k? t?n công có th? tìm th?y các l? h?ng ?ng d?ng nhu RCE (th?c thi mã t? xa) ho?c chèn l?nh thì bí m?t dó s? b? l?.
+ï¿½H?u h?t cï¿½c phiï¿½n b?n di?n toï¿½n khi ch?y ?ng d?ng d?u luu tr? thï¿½ng tin nh?y c?m nhu secrets, api_keys, v.v. trong cï¿½c bi?n mï¿½i tru?ng. Tuong t?, trong Kubernetes, h?u h?t m?i ngu?i luu tr? thï¿½ng tin nh?y c?m nhu Kubernetes Secrets vï¿½ cï¿½c giï¿½ tr? Config trong cï¿½c bi?n mï¿½i tru?ng vï¿½ n?u k? t?n cï¿½ng cï¿½ th? tï¿½m th?y cï¿½c l? h?ng ?ng d?ng nhu RCE (th?c thi mï¿½ t? xa) ho?c chï¿½n l?nh thï¿½ bï¿½ m?t dï¿½ s? b? l?.
 
 
 ![](/assets/images/posts/Pasted%20image%2020260520152145.png)
 
 
 
-Tru?c tiên thì t enum b?ng các l?nh co b?n
+Tru?c tiï¿½n thï¿½ t enum b?ng cï¿½c l?nh co b?n
 
 ![](/assets/images/posts/Pasted%20image%2020260520152345.png)
 
@@ -138,31 +138,31 @@ _=/usr/bin/env
 ```
 
 
-- Mình dang là root **trong container**, chua có nghia là root c?a node.
-- Pod hi?n t?i: system-monitor-deployment-866f697c75-67qj4.
-- Kubernetes API server: 10.96.0.1:443 ho?c DNS kubernetes.default.svc.
-- Có nhi?u service n?i b?: build-code, internal-proxy, poor-registry, health-check.
-- Có m?t secret l? ngay trong env:
+- Mï¿½nh dang lï¿½rootï¿½**trong container**, chua cï¿½ nghia lï¿½ root c?a node.
+- Pod hi?n t?i:ï¿½system-monitor-deployment-866f697c75-67qj4.
+- Kubernetes API server:ï¿½10.96.0.1:443ï¿½ho?c DNSï¿½kubernetes.default.svc.
+- Cï¿½ nhi?u service n?i b?:ï¿½build-code,ï¿½internal-proxy,ï¿½poor-registry,ï¿½health-check.
+- Cï¿½ m?t secret l? ngay trong env:
     
     `K8S_GOAT_VAULT_KEY=k8s-goat-cd2da27224591da2b48ef83826a8a6c3`
 
 ![](/assets/images/posts/Pasted%20image%2020260520152824.png)
 
-Ðây có v? là flag c?a bài
-- Có thu m?c dáng nghi:
+ï¿½ï¿½y cï¿½ v? lï¿½ flag c?a bï¿½i
+- Cï¿½ thu m?c dï¿½ng nghi:
     
     `/host-system`
 ![](/assets/images/posts/Pasted%20image%2020260520153006.png)
 
 
-Pod này có service account token du?c mount có namespace là default 
+Pod nï¿½y cï¿½ service account token du?c mount cï¿½ namespace lï¿½ default 
 
--> T? trong container này , ta có th? dùng identity c?a SA du?c g?n cho pod này. 
+-> T? trong container nï¿½y , ta cï¿½ th? dï¿½ng identity c?a SA du?c g?n cho pod nï¿½y. 
 
 
-Chúng ta có th? khám phá container b?ng cách ch?y các l?nh khác nhau d? có th? enum d? có th? hi?u hon v? h? th?ng 
+Chï¿½ng ta cï¿½ th? khï¿½m phï¿½ container b?ng cï¿½ch ch?y cï¿½c l?nh khï¿½c nhau d? cï¿½ th? enum d? cï¿½ th? hi?u hon v? h? th?ng 
 
-Chúng ta có th? get the container runtime b?ng cách ch?y nh?ng l?nh sau
+Chï¿½ng ta cï¿½ th? get the container runtime b?ng cï¿½ch ch?y nh?ng l?nh sau
 
 ```
 cat /proc/self/cgroup
@@ -185,22 +185,22 @@ mount
 ```
 
 
- Access the environment variables, including Kubernetes secrets mounted and service names, ports, etc
+ï¿½Access the environment variables, including Kubernetes secrets mounted and service names, ports, etc
 
 ```
 printenv
 ```
 
 
-Chúng ta qua bài ti?p theo là 
+Chï¿½ng ta qua bï¿½i ti?p theo lï¿½ 
 
 ### K8s namespace bypass
 
 ![](/assets/images/posts/Pasted%20image%2020260520160125.png)
 
-Ðây là m?t quan ni?m sai l?m l?n trong th? gi?i Kubernetes. H?u h?t m?i ngu?i cho r?ng khi có các namespace khác nhau trong Kubernetes và các tài nguyên du?c tri?n khai và qu?n lý, chúng s? an toàn và không th? truy c?p l?n nhau
+ï¿½ï¿½y lï¿½ m?t quan ni?m sai l?m l?n trong th? gi?i Kubernetes. H?u h?t m?i ngu?i cho r?ng khi cï¿½ cï¿½c namespace khï¿½c nhau trong Kubernetes vï¿½ cï¿½c tï¿½i nguyï¿½n du?c tri?n khai vï¿½ qu?n lï¿½, chï¿½ng s? an toï¿½n vï¿½ khï¿½ng th? truy c?p l?n nhau
 
-Theo m?c d?nh K8S s? d?ng lu?c d? m?ng ph?ng , có nghia là các pod/service trong 1 cluster có th? nói chuy?n v?i nhau. Mà namespace ? trong cluster không có s? h?n ch? b?o m?t m?ng theo m?t d?nh. Anyone ? trong namespace d?u có th? nói chuy?n v?i namespacce khác . Trong tru?ng h?p sau dây thì chúng ta có th? bypass namespace d? có th? truy c?p tài nguyen c?a namespace khác
+Theo m?c d?nh K8S s? d?ng lu?c d? m?ng ph?ng , cï¿½ nghia lï¿½ cï¿½c pod/service trong 1 cluster cï¿½ th? nï¿½i chuy?n v?i nhau. Mï¿½ namespace ? trong cluster khï¿½ng cï¿½ s? h?n ch? b?o m?t m?ng theo m?t d?nh. Anyone ? trong namespace d?u cï¿½ th? nï¿½i chuy?n v?i namespacce khï¿½c . Trong tru?ng h?p sau dï¿½y thï¿½ chï¿½ng ta cï¿½ th? bypass namespace d? cï¿½ th? truy c?p tï¿½i nguyen c?a namespace khï¿½c
 
 
 ![](/assets/images/posts/Pasted%20image%2020260520164929.png)
@@ -210,13 +210,13 @@ Theo m?c d?nh K8S s? d?ng lu?c d? m?ng ph?ng , có nghia là các pod/service trong
 ![](/assets/images/posts/Pasted%20image%2020260520165306.png)
 
 
-truy c?p vào bài lab 
+truy c?p vï¿½o bï¿½i lab 
 
 ![](/assets/images/posts/Pasted%20image%2020260520165313.png)
 
-Ð?u tiên chúng ta c?n ph?i hi?u v? thông tin d?a ch? IP c?a cluster d? có th? ti?n hành recon quét các dãy m?ng c?a cluster
+ï¿½?u tiï¿½n chï¿½ng ta c?n ph?i hi?u v? thï¿½ng tin d?a ch? IP c?a cluster d? cï¿½ th? ti?n hï¿½nh recon quï¿½t cï¿½c dï¿½y m?ng c?a cluster
 
-M?t s? l?nh co b?n d? có th? xem là : ip route , ifconfig , printenv,...
+M?t s? l?nh co b?n d? cï¿½ th? xem lï¿½ : ip route , ifconfig , printenv,...
 
 ![](/assets/images/posts/Pasted%20image%2020260520165627.png)
 
@@ -232,29 +232,29 @@ DNS search: default.svc.cluster.local svc.cluster.local cluster.local
 ![](/assets/images/posts/Pasted%20image%2020260520171048.png)
 
 
-RBAC dã ch?n ko cho t d?c service r?i
+RBAC dï¿½ ch?n ko cho t d?c service r?i
 
- Vì bài g?i ý “Kubernetes-Goat loves cache”, ta nghi có cache service. Cache thu?ng là Redis ho?c Memcached. Redis dùng port 6379.
+ Vï¿½ bï¿½i g?i ï¿½ ï¿½Kubernetes-Goat loves cacheï¿½, ta nghi cï¿½ cache service. Cache thu?ng lï¿½ Redis ho?c Memcached. Redis dï¿½ng portï¿½6379.
 
-zmap m?c d?nh **blacklist private ranges**, trong dó có 10.0.0.0/8, nên nó t? ch?n không cho scan. Vì v?y b?n b? do?n dó và scan redis port d? tìm du?c dãy m?ng c?a redis
+zmapï¿½m?c d?nhï¿½**blacklist private ranges**, trong dï¿½ cï¿½10.0.0.0/8, nï¿½n nï¿½ t? ch?n khï¿½ng cho scan. Vï¿½ v?y b?n b? do?n dï¿½ vï¿½ scan redis port d? tï¿½m du?c dï¿½y m?ng c?a redis
 ![](/assets/images/posts/Pasted%20image%2020260520175958.png)
 
 ![](/assets/images/posts/Pasted%20image%2020260520180054.png)
 
 
 
-5. Ngoài scan IP, Kubernetes còn h? tr? DNS service theo d?ng:
+5. Ngoï¿½i scan IP, Kubernetes cï¿½n h? tr? DNS service theo d?ng:
 
 `<service-name>.<namespace>.svc.cluster.local`
 
-nên ta phân gi?i du?c tên mi?n ch?ng t? r?ng  t? pod namespace default, b?n có th? resolve du?c service ? namespace secure-middleware. Gi? test port Redis:
+nï¿½n ta phï¿½n gi?i du?c tï¿½n mi?n ch?ng t? r?ng ï¿½t? pod namespaceï¿½default, b?n cï¿½ th? resolve du?c service ? namespaceï¿½secure-middleware. Gi? test port Redis:
 
 ![](/assets/images/posts/Pasted%20image%2020260520175226.png)
 
-- Namespace default và secure-middleware khác nhau.
-- Nhung pod hacker-container v?n truy c?p du?c Redis service namespace khác.
-- Lý do: Kubernetes m?c d?nh flat network, namespace không t? t?o network isolation.
-- Cách phòng th?: dùng **NetworkPolicy**, auth cho Redis/cache, không tin “internal only”.
+- Namespaceï¿½defaultï¿½vï¿½secure-middlewareï¿½khï¿½c nhau.
+- Nhung podï¿½hacker-containerï¿½v?n truy c?p du?c Redis service namespace khï¿½c.
+- Lï¿½ do: Kubernetes m?c d?nh flat network, namespace khï¿½ng t? t?o network isolation.
+- Cï¿½ch phï¿½ng th?: dï¿½ngï¿½**NetworkPolicy**, auth cho Redis/cache, khï¿½ng tin ï¿½internal onlyï¿½.
 
 
 
@@ -262,19 +262,19 @@ nên ta phân gi?i du?c tên mi?n ch?ng t? r?ng  t? pod namespace default, b?n có t
 
 ![](/assets/images/posts/Pasted%20image%2020260520182649.png)
 
-Trong th?c t?, chúng ta thu?ng th?y các nhà phát tri?n và nhóm DevOps c?p quy?n d?a trên tu  duy m?c d?nh cho t?t c? vì nghi r?ng nó s? ti?n l?i , t?c là c?p quy?n  nhi?u hon m?c c?n thi?t. Ði?u này d?n d?n vi?c k? t?n công có du?c nhi?u quy?n ki?m soát và d?c quy?n vu?t ngoài ph?m v? mà h? d? d?nh.
+Trong th?c t?, chï¿½ng ta thu?ng th?y cï¿½c nhï¿½ phï¿½t tri?n vï¿½ nhï¿½m DevOps c?p quy?n d?a trï¿½n tu  duy m?c d?nh cho t?t c? vï¿½ nghi r?ng nï¿½ s? ti?n l?i , t?c lï¿½ c?p quy?n  nhi?u hon m?c c?n thi?t. ï¿½i?u nï¿½y d?n d?n vi?c k? t?n cï¿½ng cï¿½ du?c nhi?u quy?n ki?m soï¿½t vï¿½ d?c quy?n vu?t ngoï¿½i ph?m v? mï¿½ h? d? d?nh.
 
-M?c tiêu bài này là 
-Dùng service account trong pod d? g?i Kubernetes API
-L?i d?ng RBAC quá r?ng
-Ð?c secret k8svaultapikey
+M?c tiï¿½u bï¿½i nï¿½y lï¿½ 
+Dï¿½ng service account trong pod d? g?i Kubernetes API
+L?i d?ng RBAC quï¿½ r?ng
+ï¿½?c secret k8svaultapikey
 L?y k8s_goat_flag
 
-Tru?c khi vào bài thì tui mu?n nói so v? khái ni?m v? ServiceAccount cung nhu RBAC 
+Tru?c khi vï¿½o bï¿½i thï¿½ tui mu?n nï¿½i so v? khï¿½i ni?m v? ServiceAccount cung nhu RBAC 
 
 
 
-**1. Xác d?nh service account token**
+**1. Xï¿½c d?nh service account token**
 
 ![](/assets/images/posts/Pasted%20image%2020260520183200.png)
 
@@ -304,28 +304,28 @@ List secret trong namespace hi?n t?i:
 
 ![](/assets/images/posts/Pasted%20image%2020260520183930.png)
 
-Decode ra thì l?y du?c flag
+Decode ra thï¿½ l?y du?c flag
 
 ![](/assets/images/posts/Pasted%20image%2020260520183947.png)
 
-1. **Pod có Kubernetes identity riêng**  
-    Pod thu?ng du?c g?n m?t **ServiceAccount**. Token c?a ServiceAccount n?m trong:
+1. **Pod cï¿½ Kubernetes identity riï¿½ng**  
+    Pod thu?ng du?c g?n m?tï¿½**ServiceAccount**. Token c?a ServiceAccount n?m trong:
 
 `/var/run/secrets/kubernetes.io/serviceaccount/`
 
-2. **Có shell trong pod là có th? g?i Kubernetes API**  
-    N?u attacker có RCE/shell trong container, h? có th? l?y token dó r?i g?i API server:
+2. **Cï¿½ shell trong pod lï¿½ cï¿½ th? g?i Kubernetes API**  
+    N?u attacker cï¿½ RCE/shell trong container, h? cï¿½ th? l?y token dï¿½ r?i g?i API server:
 
 `https://${KUBERNETES_SERVICE_HOST}`
 
-3. **RBAC quy?t d?nh pod du?c làm gì trong cluster**  
-    Token không t? nguy hi?m n?u RBAC ch?t. Nhung n?u ServiceAccount du?c c?p quy?n quá r?ng, attacker có th? list/get tài nguyên nh?y c?m.
+3. **RBAC quy?t d?nh pod du?c lï¿½m gï¿½ trong cluster**  
+    Token khï¿½ng t? nguy hi?m n?u RBAC ch?t. Nhung n?u ServiceAccount du?c c?p quy?n quï¿½ r?ng, attacker cï¿½ th? list/get tï¿½i nguyï¿½n nh?y c?m.
     
-4. **Secret trong Kubernetes ch? an toàn n?u quy?n d?c du?c ki?m soát t?t**  
-    Trong bài này, ServiceAccount dáng l? ch? c?n quy?n v?i webhookapikey, nhung l?i d?c du?c c? vaultapikey.
+4. **Secret trong Kubernetes ch? an toï¿½n n?u quy?n d?c du?c ki?m soï¿½t t?t**  
+    Trong bï¿½i nï¿½y, ServiceAccount dï¿½ng l? ch? c?n quy?n v?iï¿½webhookapikey, nhung l?i d?c du?c c?ï¿½vaultapikey.
     
 5. **Least privilege r?t quan tr?ng**  
-    Ðây là l?i th?c t? hay g?p: DevOps c?p quy?n “cho ti?n”, ví d? get/list secrets, r?i m?t pod b? compromise có th? bi?n thành credential theft trong cluster.
+    ï¿½ï¿½y lï¿½ l?i th?c t? hay g?p: DevOps c?p quy?n ï¿½cho ti?nï¿½, vï¿½ d?ï¿½get/list secrets, r?i m?t pod b? compromise cï¿½ th? bi?n thï¿½nh credential theft trong cluster.
 
 
 
@@ -336,45 +336,45 @@ Decode ra thì l?y du?c flag
 
 ![](/assets/images/posts/Pasted%20image%2020260523150204.png)
 
-Ð?n v?i bài d?u tiên thì t s? làm 1 chall v? Recon , thì nhu b?n nào dã t?ng làm các bài lab v? leo thang thì vi?c d?u tiên d? có th? leo thang du?c thì chúng ta c?n ph?i recon ho?c enum d? có thêm 1 vài attack surfaces , nó giúp ích cho chúng ta trong các bu?c nâng cao d?c quy?n ti?p theo . 
+ï¿½?n v?i bï¿½i d?u tiï¿½n thï¿½ t s? lï¿½m 1 chall v? Recon , thï¿½ nhu b?n nï¿½o dï¿½ t?ng lï¿½m cï¿½c bï¿½i lab v? leo thang thï¿½ vi?c d?u tiï¿½n d? cï¿½ th? leo thang du?c thï¿½ chï¿½ng ta c?n ph?i recon ho?c enum d? cï¿½ thï¿½m 1 vï¿½i attack surfaces , nï¿½ giï¿½p ï¿½ch cho chï¿½ng ta trong cï¿½c bu?c nï¿½ng cao d?c quy?n ti?p theo . 
 
-Trong bài lab này , khi mà t dã compomise vào 1 Pod trong K8s , và bu?c ti?p theo là mu?n khám phá thêm các internal service d? có  th? m? r?ng ph?m vi leo thang.
+Trong bï¿½i lab nï¿½y , khi mï¿½ t dï¿½ compomise vï¿½o 1 Pod trong K8s , vï¿½ bu?c ti?p theo lï¿½ mu?n khï¿½m phï¿½ thï¿½m cï¿½c internal service d? cï¿½  th? m? r?ng ph?m vi leo thang.
 
-Thông thu?ng K8s , các service thu?ng liên l?c v?i nhau qua DNS n?i b?. 
+Thï¿½ng thu?ng K8s , cï¿½c service thu?ng liï¿½n l?c v?i nhau qua DNS n?i b?. 
 
-Hai lo?i thành ph?n chính c?a Kubernetes mà b?n s? quan tâm nh?t khi mu?n t?n công các ?ng d?ng khác có th? truy c?p du?c trên m?ng trong c?m là [pod](https://kubernetes.io/docs/concepts/workloads/pods/) và [service](https://kubernetes.io/docs/concepts/services-networking/service/) .
+Hai lo?i thï¿½nh ph?n chï¿½nh c?a Kubernetes mï¿½ b?n s? quan tï¿½m nh?t khi mu?n t?n cï¿½ng cï¿½c ?ng d?ng khï¿½c cï¿½ th? truy c?p du?c trï¿½n m?ng trong c?m lï¿½[pod](https://kubernetes.io/docs/concepts/workloads/pods/)ï¿½vï¿½[service](https://kubernetes.io/docs/concepts/services-networking/service/)ï¿½.
 
-Pod là các nhóm g?m m?t ho?c nhi?u container dang ch?y, và dây là noi các ?ng d?ng m?ng n?i b? mà b?n mu?n t?n công s? ho?t d?ng. M?i Pod có d?a ch? IP internal cluster du?c liên k?t v?i chúng, và có m?t ho?c nhi?u c?ng m?ng du?c công khai mà b?n có th? s? d?ng d? giao ti?p v?i các ?ng d?ng m?ng.
+Pod lï¿½ cï¿½c nhï¿½m g?m m?t ho?c nhi?u container dang ch?y, vï¿½ dï¿½y lï¿½ noi cï¿½c ?ng d?ng m?ng n?i b? mï¿½ b?n mu?n t?n cï¿½ng s? ho?t d?ng. M?i Pod cï¿½ d?a ch? IP internal cluster du?c liï¿½n k?t v?i chï¿½ng, vï¿½ cï¿½ m?t ho?c nhi?u c?ng m?ng du?c cï¿½ng khai mï¿½ b?n cï¿½ th? s? d?ng d? giao ti?p v?i cï¿½c ?ng d?ng m?ng.
 
-Các service là nh?ng cách th?c thân thi?n d? hi?n th? các ?ng d?ng dang ch?y trên m?t ho?c nhi?u pod. Chúng cung có d?a ch? IP c?a cluster và m?t ho?c nhi?u c?ng du?c hi?n th?, cung nhu nhi?u b?n ghi DNS liên k?t du?c c?u hình trong trình phân gi?i DNS c?a c?m. Vi?c truy c?p ?ng d?ng b?ng d?ch v? so v?i truy c?p tr?c ti?p vào pod thu?ng tuong t? nhau, tuy nhiên các service  có thêm các tính nang khám phá có th? h?u ích cho chúng ta.
+Cï¿½c service lï¿½ nh?ng cï¿½ch th?c thï¿½n thi?n d? hi?n th? cï¿½c ?ng d?ng dang ch?y trï¿½n m?t ho?c nhi?u pod. Chï¿½ng cung cï¿½ d?a ch? IP c?a cluster vï¿½ m?t ho?c nhi?u c?ng du?c hi?n th?, cung nhu nhi?u b?n ghi DNS liï¿½n k?t du?c c?u hï¿½nh trong trï¿½nh phï¿½n gi?i DNS c?a c?m. Vi?c truy c?p ?ng d?ng b?ng d?ch v? so v?i truy c?p tr?c ti?p vï¿½o pod thu?ng tuong t? nhau, tuy nhiï¿½n cï¿½c service  cï¿½ thï¿½m cï¿½c tï¿½nh nang khï¿½m phï¿½ cï¿½ th? h?u ï¿½ch cho chï¿½ng ta.
 
-Ð?a ch? IP du?c s? d?ng cho các pod thu?ng n?m trong m?t d?i m?ng riêng bi?t, khác v?i d?a ch? IP c?a các d?ch v?.
+ï¿½?a ch? IP du?c s? d?ng cho cï¿½c pod thu?ng n?m trong m?t d?i m?ng riï¿½ng bi?t, khï¿½c v?i d?a ch? IP c?a cï¿½c d?ch v?.
 
-Gi? chúng ta dã xác d?nh du?c nh?ng gì mình c?n tìm, hãy cùng xem xét m?t s? phuong pháp có th? s? d?ng d? xác d?nh các thành ph?n này.
+Gi? chï¿½ng ta dï¿½ xï¿½c d?nh du?c nh?ng gï¿½ mï¿½nh c?n tï¿½m, hï¿½y cï¿½ng xem xï¿½t m?t s? phuong phï¿½p cï¿½ th? s? d?ng d? xï¿½c d?nh cï¿½c thï¿½nh ph?n nï¿½y.
 
 
-Ð?u tiên chúng ta s? ki?m tra các bi?n môi tru?ng , chúng thu?ng ch?a d?a  ch?  ip ,port c?a các  service khác trong cluster  . 
+ï¿½?u tiï¿½n chï¿½ng ta s? ki?m tra cï¿½c bi?n mï¿½i tru?ng , chï¿½ng thu?ng ch?a d?a  ch?  ip ,port c?a cï¿½c  service khï¿½c trong cluster  . 
 
 
 ![](/assets/images/posts/Pasted%20image%2020260523152812.png)
 
 
-Ngoài ra b?n có th? l?y d?a ch? IP c?a c?m là các t?p `/etc/hosts`(cung c?p d?a ch? IP c?c b? c?a pod, mà b?n cung có th? l?y t? các l?nh `ip`ho?c `ifconfig`) và `/etc/resolv.conf`(cung c?p d?a ch? máy ch? DNS c?a c?m và các mi?n tìm ki?m DNS, t? dó suy ra namespace c?a pod).
+Ngoï¿½i ra b?n cï¿½ th? l?y d?a ch? IP c?a c?m lï¿½ cï¿½c t?pï¿½`/etc/hosts`(cung c?p d?a ch? IP c?c b? c?a pod, mï¿½ b?n cung cï¿½ th? l?y t? cï¿½c l?nhï¿½`ip`ho?cï¿½`ifconfig`) vï¿½`/etc/resolv.conf`(cung c?p d?a ch? mï¿½y ch? DNS c?a c?m vï¿½ cï¿½c mi?n tï¿½m ki?m DNS, t? dï¿½ suy ra namespace c?a pod).
 
-Ngoài ra b?n cung có th? l?y các SA token c?a pod ho?c ra tìm các namespace c?a pod dang ch?y . https://thegreycorner.com/2023/12/13/kubernetes-internal-service-discovery.html#kubernetes-dns-to-the-partial-rescue
+Ngoï¿½i ra b?n cung cï¿½ th? l?y cï¿½c SA token c?a pod ho?c ra tï¿½m cï¿½c namespace c?a pod dang ch?y . https://thegreycorner.com/2023/12/13/kubernetes-internal-service-discovery.html#kubernetes-dns-to-the-partial-rescue
 
 
-Ti?p t?c v?i bài này thì chúng ta có th? s? d?ng 1 cái tool dnscan https://gist.github.com/nirohfeld/c596898673ead369cb8992d97a1c764e d? có th? quét 
+Ti?p t?c v?i bï¿½i nï¿½y thï¿½ chï¿½ng ta cï¿½ th? s? d?ng 1 cï¿½i tool dnscan https://gist.github.com/nirohfeld/c596898673ead369cb8992d97a1c764e d? cï¿½ th? quï¿½t 
 
 ![](/assets/images/posts/Pasted%20image%2020260523153737.png)
 
-Khi chúng ta ki?m tra b?ng env thì có th? th?y r?ng  IP c?a API server c?a K8s là 10.100.0.1 port là 443 
+Khi chï¿½ng ta ki?m tra b?ng env thï¿½ cï¿½ th? th?y r?ng  IP c?a API server c?a K8s lï¿½ 10.100.0.1 port lï¿½ 443 
 
 ![](/assets/images/posts/Pasted%20image%2020260523154220.png)
 
 k?t qu? **Hostname:** `getflag-service.k8s-lan-party.svc.cluster.local.`
 
-Cái tên **"getflag-service"** chính là noi ch?a Flag ho?c mã d? vu?t qua th? thách này.
+Cï¿½i tï¿½n **"getflag-service"** chï¿½nh lï¿½ noi ch?a Flag ho?c mï¿½ d? vu?t qua th? thï¿½ch nï¿½y.
 
 ![](/assets/images/posts/Pasted%20image%2020260523154415.png)
 
@@ -384,14 +384,14 @@ Cái tên **"getflag-service"** chính là noi ch?a Flag ho?c mã d? vu?t qua th? thá
 ![](/assets/images/posts/Pasted%20image%2020260523154614.png)
 
 
-T?i ph?n ti?p theo là ph?n finding neighbour 
+T?i ph?n ti?p theo lï¿½ ph?n finding neighbour 
 
- Thì theo nhu mình tìm hi?u sidecar container là m?t container ch?y "kèm" theo container chính trong cùng m?t Pod.
-- **M?c dích:** Nó không th?c hi?n logic chính c?a ?ng d?ng mà cung c?p các d?ch v? h? tr? nhu: ghi log, giám sát, ho?c **b?o m?t**
+ Thï¿½ theo nhu mï¿½nh tï¿½m hi?u sidecar container lï¿½ m?t container ch?y "kï¿½m" theo container chï¿½nh trong cï¿½ng m?t Pod.
+- **M?c dï¿½ch:** Nï¿½ khï¿½ng th?c hi?n logic chï¿½nh c?a ?ng d?ng mï¿½ cung c?p cï¿½c d?ch v? h? tr? nhu: ghi log, giï¿½m sï¿½t, ho?c **b?o m?t**
 
-Vì các container n?m trong cùng m?t **Kubernetes Pod** s? dùng chung m?t **network namespace**, chúng s? chia s? hoàn toàn giao di?n m?ng (network interfaces), loopback adapter (localhost) và d?a ch? IP v?i nhau.
+Vï¿½ cï¿½c container n?m trong cï¿½ng m?t **Kubernetes Pod** s? dï¿½ng chung m?t **network namespace**, chï¿½ng s? chia s? hoï¿½n toï¿½n giao di?n m?ng (network interfaces), loopback adapter (localhost) vï¿½ d?a ch? IP v?i nhau.
 
-N?u có m?t container khác dang ch?y ng?m ngay bên c?nh b?n trong Pod này, m?i d? li?u m?ng mà nó g?i ho?c nh?n v?i các d?ch v? n?i b? d?u có th? xem t? chính container c?a b?n.
+N?u cï¿½ m?t container khï¿½c dang ch?y ng?m ngay bï¿½n c?nh b?n trong Pod nï¿½y, m?i d? li?u m?ng mï¿½ nï¿½ g?i ho?c nh?n v?i cï¿½c d?ch v? n?i b? d?u cï¿½ th? xem t? chï¿½nh container c?a b?n.
 
 
 ```
@@ -400,24 +400,24 @@ tcpdump -A
 
 ![](/assets/images/posts/Pasted%20image%2020260523155633.png)
 
-Và dây là flag
+Vï¿½ dï¿½y lï¿½ flag
 
-Hãy d?m b?o r?ng giao ti?p gi?a các Pod luôn du?c mã hóa. Cách don gi?n nh?t d? b?t d?u mã hóa giao ti?p gi?a các Pod là s? d?ng [service mesh](https://www.techtarget.com/searchitoperations/definition/service-mesh) .
+Hï¿½y d?m b?o r?ng giao ti?p gi?a cï¿½c Pod luï¿½n du?c mï¿½ hï¿½a. Cï¿½ch don gi?n nh?t d? b?t d?u mï¿½ hï¿½a giao ti?p gi?a cï¿½c Pod lï¿½ s? d?ngï¿½[service mesh](https://www.techtarget.com/searchitoperations/definition/service-mesh)ï¿½.
 
 
 ![](/assets/images/posts/Pasted%20image%2020260523155755.png)
 
 
-giao th?c này ra d?i t? th?i k? mà ki?m soát truy c?p (access control) ch? d?a vào m?ng ,nghia l à mình ko c?n xác th?c b?ng thông tin  dang nh?p . Tui tham kh?o trên m?ng thì nghi ngay t?i NFS , ho?c AWS EFS
+giao th?c nï¿½y ra d?i t? th?i k? mï¿½ ki?m soï¿½t truy c?p (access control) ch? d?a vï¿½o m?ng ,nghia l ï¿½ mï¿½nh ko c?n xï¿½c th?c b?ng thï¿½ng tin  dang nh?p . Tui tham kh?o trï¿½n m?ng thï¿½ nghi ngay t?i NFS , ho?c AWS EFS
 
 ![](/assets/images/posts/Pasted%20image%2020260523160134.png)
 
 
 ![](/assets/images/posts/Pasted%20image%2020260523160237.png)
 
-Dùng công c? NFS Client d? "bypass" quy?n
+Dï¿½ng cï¿½ng c? NFS Client d? "bypass" quy?n
 
-Trong môi tru?ng này có s?n công c? `nfs-ls` và `nfs-cat` (thu?c b? `libnfs`). Giao th?c NFSv4 cho phép chúng ta truy?n tham s? `uid=0` (Root) và `gid=0` tr?c ti?p qua chu?i k?t n?i d? ép server nh?n di?n mình là Root
+Trong mï¿½i tru?ng nï¿½y cï¿½ s?n cï¿½ng c? `nfs-ls` vï¿½ `nfs-cat` (thu?c b? `libnfs`). Giao th?c NFSv4 cho phï¿½p chï¿½ng ta truy?n tham s? `uid=0` (Root) vï¿½ `gid=0` tr?c ti?p qua chu?i k?t n?i d? ï¿½p server nh?n di?n mï¿½nh lï¿½ Root
 
 ![](/assets/images/posts/Pasted%20image%2020260523160608.png)
 
@@ -451,7 +451,7 @@ spec:
 
 https://pulsesecurity.co.nz/advisories/istio-egress-bypass?source=post_page-----c773190e9246---------------------------------------
 
-Phuong pháp b? qua này cho phép b?t k? ngu?i dùng nào có userID 1337 d?u có th? bypass b? l?c proxy c?a Istio, t? dó kích ho?t chính sách ?y quy?n. May m?n thay, l?n này chúng ta là ngu?i dùng root trong h? th?ng, nghia là chúng ta có th? t?o m?t ngu?i dùng khác và d?t userID là 1337.
+Phuong phï¿½p b? qua nï¿½y cho phï¿½p b?t k? ngu?i dï¿½ng nï¿½o cï¿½ userID 1337 d?u cï¿½ th? bypass b? l?c proxy c?a Istio, t? dï¿½ kï¿½ch ho?t chï¿½nh sï¿½ch ?y quy?n. May m?n thay, l?n nï¿½y chï¿½ng ta lï¿½ ngu?i dï¿½ng root trong h? th?ng, nghia lï¿½ chï¿½ng ta cï¿½ th? t?o m?t ngu?i dï¿½ng khï¿½c vï¿½ d?t userID lï¿½ 1337.
 
 
 ![](/assets/images/posts/Pasted%20image%2020260523161337.png)
@@ -461,13 +461,13 @@ Phuong pháp b? qua này cho phép b?t k? ngu?i dùng nào có userID 1337 d?u có th? 
 ![](/assets/images/posts/Pasted%20image%2020260523161517.png)
 
 
-Ð?u tiên ch?y dns scan 
+ï¿½?u tiï¿½n ch?y dns scan 
 
 ![](/assets/images/posts/Pasted%20image%2020260523161701.png)
 
-Kyverno là công c? qu?n lý chính sách (Policy Engine) dành riêng cho Kubernetes, giúp b?n xác th?c, ch?nh s?a và kh?i t?o tài nguyên b?ng ngôn ng? **YAML** quen thu?c. Thay vì h?c ngôn ng? ph?c t?p, Kyverno cho phép d?i ngu DevOps t? d?ng hóa vi?c b?o m?t và chu?n hóa c?u hình cluster m?t cách don gi?n, hi?u qu? và c?c k? g?n nh?.
+Kyverno lï¿½ cï¿½ng c? qu?n lï¿½ chï¿½nh sï¿½ch (Policy Engine) dï¿½nh riï¿½ng cho Kubernetes, giï¿½p b?n xï¿½c th?c, ch?nh s?a vï¿½ kh?i t?o tï¿½i nguyï¿½n b?ng ngï¿½n ng? **YAML** quen thu?c. Thay vï¿½ h?c ngï¿½n ng? ph?c t?p, Kyverno cho phï¿½p d?i ngu DevOps t? d?ng hï¿½a vi?c b?o m?t vï¿½ chu?n hï¿½a c?u hï¿½nh cluster m?t cï¿½ch don gi?n, hi?u qu? vï¿½ c?c k? g?n nh?.
 
-D?a trên chall chính sách này dang th?c hi?n tính nang **Mutation**: t? d?ng chèn giá tr? bí m?t (secret) vào bi?n môi tru?ng `FLAG` cho b?t k? Pod nào du?c t?o trong namespac
+D?a trï¿½n chall chï¿½nh sï¿½ch nï¿½y dang th?c hi?n tï¿½nh nang **Mutation**: t? d?ng chï¿½n giï¿½ tr? bï¿½ m?t (secret) vï¿½o bi?n mï¿½i tru?ng `FLAG` cho b?t k? Pod nï¿½o du?c t?o trong namespac
 
 ```
 apiVersion: kyverno.io/v1
@@ -493,7 +493,7 @@ spec:
 ```
 
 
-Vì tôi mình bi?t v? admission controllers and mutating webhooks, nên mình ngay l?p t?c hi?u du?c k? v?ng. Du?i dây là so d? mô t? cách th?c ho?t d?ng.
+Vï¿½ tï¿½i mï¿½nh bi?t v? admission controllers and mutating webhooks, nï¿½n mï¿½nh ngay l?p t?c hi?u du?c k? v?ng. Du?i dï¿½y lï¿½ so d? mï¿½ t? cï¿½ch th?c ho?t d?ng.
 
 ![](/assets/images/posts/Pasted%20image%2020260523162159.png)
 
@@ -569,7 +569,7 @@ EOF
 
  Bu?c 2: G?i request d?n Kyverno Webhook
 
-Bây gi? c?u trúc dã chu?n hóa, b?n ch?y l?nh `curl` này d? ép Kyverno tr? flag
+Bï¿½y gi? c?u trï¿½c dï¿½ chu?n hï¿½a, b?n ch?y l?nh `curl` nï¿½y d? ï¿½p Kyverno tr? flag
 
 ```
 curl -X POST -H "Content-Type: application/json" --data @pod.json https://kyverno-svc.kyverno/mutate -k
@@ -582,24 +582,24 @@ curl -X POST -H "Content-Type: application/json" --data @pod.json https://kyvern
 ![](/assets/images/posts/Pasted%20image%2020260523162740.png)
 
 
-Trong c?m Kubernetes này, qu?n tr? viên dùng **Kyverno** d? t? d?ng hóa m?t vi?c:
+Trong c?m Kubernetes nï¿½y, qu?n tr? viï¿½n dï¿½ng **Kyverno** d? t? d?ng hï¿½a m?t vi?c:
 
-- H? cài m?t chính sách (Policy) quy d?nh: _"B?t k? ai t?o m?t Pod (vùng ch?a ?ng d?ng) n?m trong namespace tên là `sensitive-ns`, Kyverno s? t? d?ng chèn thêm m?t bi?n môi tru?ng ch?a Flag bí m?t vào Pod dó"_.
+- H? cï¿½i m?t chï¿½nh sï¿½ch (Policy) quy d?nh: _"B?t k? ai t?o m?t Pod (vï¿½ng ch?a ?ng d?ng) n?m trong namespace tï¿½n lï¿½ `sensitive-ns`, Kyverno s? t? d?ng chï¿½n thï¿½m m?t bi?n mï¿½i tru?ng ch?a Flag bï¿½ m?t vï¿½o Pod dï¿½"_.
     
 
-Thông thu?ng, ngu?i dùng mu?n l?y Flag thì ph?i có quy?n dùng l?nh `kubectl` d? t?o m?t Pod th?t trong namespace `sensitive-ns`, sau dó vào Pod dó d? d?c bi?n môi tru?ng. Nhung ? dây, b?n **không có quy?n** t?o Pod th?t.
+Thï¿½ng thu?ng, ngu?i dï¿½ng mu?n l?y Flag thï¿½ ph?i cï¿½ quy?n dï¿½ng l?nh `kubectl` d? t?o m?t Pod th?t trong namespace `sensitive-ns`, sau dï¿½ vï¿½o Pod dï¿½ d? d?c bi?n mï¿½i tru?ng. Nhung ? dï¿½y, b?n **khï¿½ng cï¿½ quy?n** t?o Pod th?t.
 
 
-Kyverno ho?t d?ng d?a trên co ch? **Mutating Webhook** (m?t d?ch v? m?ng ch?y ng?m). Khi có yêu c?u t?o Pod, Kubernetes API Server s? g?i m?t gói tin d? li?u c?u hình (d?ng JSON) d?n Webhook này c?a Kyverno d? nó ch?nh s?a.
+Kyverno ho?t d?ng d?a trï¿½n co ch? **Mutating Webhook** (m?t d?ch v? m?ng ch?y ng?m). Khi cï¿½ yï¿½u c?u t?o Pod, Kubernetes API Server s? g?i m?t gï¿½i tin d? li?u c?u hï¿½nh (d?ng JSON) d?n Webhook nï¿½y c?a Kyverno d? nï¿½ ch?nh s?a.
 
-Cái sai nghiêm tr?ng c?a ngu?i qu?n tr? ? dây là: **H? m?  d?ch v? Webhook này (`https://kyverno-svc.kyverno/mutate`) cho t?t c? các Pod n?i b? truy c?p** mà không h? c?u hình tu?ng l?a m?ng (Network Policy) hay xác th?c mTLS d? ch?n l?i.
+Cï¿½i sai nghiï¿½m tr?ng c?a ngu?i qu?n tr? ? dï¿½y lï¿½: **H? m?  d?ch v? Webhook nï¿½y (`https://kyverno-svc.kyverno/mutate`) cho t?t c? cï¿½c Pod n?i b? truy c?p** mï¿½ khï¿½ng h? c?u hï¿½nh tu?ng l?a m?ng (Network Policy) hay xï¿½c th?c mTLS d? ch?n l?i.
 
 
-1. **G?i c?u hình nháp:** B?n dùng l?nh `curl` d? g?i m?t file JSON c?u hình nháp (`pod.json`) gi? v? nhu dang mu?n t?o m?t Pod trong namespace `sensitive-ns` th?ng t?i c?ng d?ch v? c?a Kyverno.
+1. **G?i c?u hï¿½nh nhï¿½p:** B?n dï¿½ng l?nh `curl` d? g?i m?t file JSON c?u hï¿½nh nhï¿½p (`pod.json`) gi? v? nhu dang mu?n t?o m?t Pod trong namespace `sensitive-ns` th?ng t?i c?ng d?ch v? c?a Kyverno.
     
-2. **Kyverno b? l?a:** Kyverno nh?n du?c gói tin, không h? ki?m tra xem ai g?i, c? th?y có yêu c?u t?o Pod ? `sensitive-ns` là nó t? d?ng làm theo l?p trình: **Chèn ngay do?n mã ch?a Flag vào c?u hình** r?i g?i tr? ngu?c l?i cho b?n.
+2. **Kyverno b? l?a:** Kyverno nh?n du?c gï¿½i tin, khï¿½ng h? ki?m tra xem ai g?i, c? th?y cï¿½ yï¿½u c?u t?o Pod ? `sensitive-ns` lï¿½ nï¿½ t? d?ng lï¿½m theo l?p trï¿½nh: **Chï¿½n ngay do?n mï¿½ ch?a Flag vï¿½o c?u hï¿½nh** r?i g?i tr? ngu?c l?i cho b?n.
     
-3. **L?y Flag:** Ðo?n mã ch?a Flag tr? v? du?c mã hóa du?i d?ng Base64 d? b?o toàn c?u trúc d? li?u, b?n ch? c?n mang chu?i dó di gi?i mã (`base64 -d`) là nhìn th?y Flag l? ra rõ m?m m?t.
+3. **L?y Flag:** ï¿½o?n mï¿½ ch?a Flag tr? v? du?c mï¿½ hï¿½a du?i d?ng Base64 d? b?o toï¿½n c?u trï¿½c d? li?u, b?n ch? c?n mang chu?i dï¿½ di gi?i mï¿½ (`base64 -d`) lï¿½ nhï¿½n th?y Flag l? ra rï¿½ m?m m?t.
 
 
 

