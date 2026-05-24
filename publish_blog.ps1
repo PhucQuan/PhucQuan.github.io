@@ -12,7 +12,8 @@ if (!(Test-Path -Path $destDir)) {
 $markdownFiles = Get-ChildItem -Path "$PSScriptRoot\_posts", "$PSScriptRoot\Myblog" -Filter "*.md" -Recurse -ErrorAction SilentlyContinue
 
 foreach ($file in $markdownFiles) {
-    $content = Get-Content $file.FullName -Raw
+    # Use .NET to read as UTF-8
+    $content = [System.IO.File]::ReadAllText($file.FullName, [System.Text.Encoding]::UTF8)
     $originalContent = $content
     
     # --- 1. Find and process standard Markdown links pointing to Attachments ---
@@ -65,7 +66,9 @@ foreach ($file in $markdownFiles) {
 
     # Save file if changes were made
     if ($content -cne $originalContent) {
-        Set-Content -Path $file.FullName -Value $content -NoNewline
+        # Use .NET to write UTF-8 without BOM
+        $utf8NoBom = New-Object System.Text.UTF8Encoding $False
+        [System.IO.File]::WriteAllText($file.FullName, $content, $utf8NoBom)
         Write-Host "Updated links in $($file.Name)" -ForegroundColor Green
     }
 }
