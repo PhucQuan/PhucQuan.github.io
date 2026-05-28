@@ -1,7 +1,7 @@
 ---
 title: "Lab THM HTB về Kubernetes"
 date: 2026-05-24 00:00:00 +0700
-categories: ["Security Research"]
+categories: ["Security-Research"]
 tags: ["Kubernetes", "Security", "HTB", "THM"]
 ---
 

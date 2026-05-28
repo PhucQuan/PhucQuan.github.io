@@ -1,7 +1,7 @@
 ---
 title: "Thực hành và nghiên cứu các kĩ thuật tấn công Kubernetes"
 date: 2026-05-24 00:00:00 +0700
-categories: ["Security Research"]
+categories: ["Security-Research"]
 tags: ["Kubernetes", "Security"]
 ---
 

@@ -1,7 +1,7 @@
 ---
-title: "Tuần 2 - Hacking Kubernetes (Part 1)"
+title: "Hacking Kubernetes (Part 1)"
 date: 2026-05-26 00:00:00 +0700
-categories: ["Security Research"]
+categories: ["Security-Research"]
 tags: ["Kubernetes", "Security"]
 ---
 
