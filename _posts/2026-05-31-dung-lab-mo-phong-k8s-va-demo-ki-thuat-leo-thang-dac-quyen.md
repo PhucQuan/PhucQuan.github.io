@@ -6,15 +6,15 @@ tags: ["Kubernetes", "Security", "Lab", "Privilege Escalation"]
 ---
 
 
-**Tên Lab**  
-KubeOps Breach: From Internal Console to Cluster Takeover
+**Tên Lab**  
+KubeOps Breach: From Internal Console to Cluster Takeover
 
-**Bối Cảnh**  
-Công ty giả lập VDTCloudOps vận hành một Kubernetes cluster nội bộ cho các workload production, CI/CD và platform automation. Gần đây đội SOC phát hiện một số request bất thường đến dịch vụ KubeOpsConsole, một portal nội bộ dùng cho kiểm tra trạng thái dịch vụ và hỗ trợ vận hành.
+**Bối Cảnh**  
+Công ty giả lập VDTCloudOps vận hành một Kubernetes cluster nội bộ cho các workload production, CI/CD và platform automation. Gần đây đội SOC phát hiện một số request bất thường đến dịch vụ KubeOpsConsole, một portal nội bộ dùng cho kiểm tra trạng thái dịch vụ và hỗ trợ vận hành.
 
-KubeOps Console được expose qua NodePort để đội vận hành truy cập nhanh trong môi trường lab. Ứng dụng này chỉ được thiết kế cho kiểm tra kết nối nội bộ, nhưng trong quá trình vận hành, một số tính năng debug legacy vẫn còn tồn tại.
+KubeOps Console được expose qua NodePort để đội vận hành truy cập nhanh trong môi trường lab. Ứng dụng này chỉ được thiết kế cho kiểm tra kết nối nội bộ, nhưng trong quá trình vận hành, một số tính năng debug legacy vẫn còn tồn tại.
 
-Nhiệm vụ của bạn là đóng vai trò security engineer thực hiện controlled assessment trên lab này: bắt đầu từ một foothold trong workload thấp quyền, đánh giá các sai cấu hình Kubernetes, ghi nhận từng mức impact, và đề xuất detection/hardening tương ứng.
+Nhiệm vụ của bạn là đóng vai trò security engineer thực hiện controlled assessment trên lab này: bắt đầu từ một foothold trong workload thấp quyền, đánh giá các sai cấu hình Kubernetes, ghi nhận từng mức impact, và đề xuất detection/hardening tương ứng.
 
 
 **Mục Tiêu Tổng Quát**  
@@ -36,7 +36,7 @@ Bước đầu tiên của mọi lab khi có thông tin về Ip của target là
 ![](/assets/images/posts/Pasted%20image%2020260526221240.png)
 
 1. **NodePort Discovery**  
-    Đây chính là 30679.
+    Đây chính là 30679.
 
 `nmap -p 30000-32767 192.168.221.131 curl http://192.168.221.131:30679/`
 
@@ -140,7 +140,7 @@ Có API service nội bộ nên có thể curl thử để xem quyền
 Không token → system:anonymous → forbidden
 
 
-**Mặc định pod thường đọc được ServiceAccount token của chính nó** nếu automountServiceAccountToken được bật nên mình thử liệt kê nó thì thấy cả ca.crt , namespace, và token , đồng thời mình cũng kiểm tra bằng các lệnh như ls /host để chứng mình rằng mình chưa có quyền host. Nhiệm vụ của mình bây giờ là phải thoát khỏi Pod này và chiếm được được toàn bộ cluster
+**Mặc định pod thường đọc được ServiceAccount token của chính nó** nếu automountServiceAccountToken được bật nên mình thử liệt kê nó thì thấy cả ca.crt , namespace, và token , đồng thời mình cũng kiểm tra bằng các lệnh như ls /host để chứng mình rằng mình chưa có quyền host. Nhiệm vụ của mình bây giờ là phải thoát khỏi Pod này và chiếm được được toàn bộ cluster
 
 
 ![](/assets/images/posts/Pasted%20image%2020260526222708.png)
@@ -211,7 +211,7 @@ Nên thử dùng SA token đó và thử test xem mình có quyền gì trong na
 ![](/assets/images/posts/Pasted%20image%2020260530120313.png)
 
 
-Nghĩa là prod:kubeops-sa **không có quyền xem toàn cluster**, nhưng lại có quyền debug workload trong namespace dev bằng quyền exec pods ở resource là Ci-runner. Giờ pivot sang dev bằng cách dùng token của kubeops hiện có và lấy token của dev ci runner (Bạn có thể xem bằng cách get pods -n dev)
+Nghĩa là prod:kubeops-sa **không có quyền xem toàn cluster**, nhưng lại có quyền debug workload trong namespace dev bằng quyền exec pods ở resource là Ci-runner. Giờ pivot sang dev bằng cách dùng token của kubeops hiện có và lấy token của dev ci runner (Bạn có thể xem bằng cách get pods -n dev)
 
 
 ![](/assets/images/posts/Pasted%20image%2020260530120513.png)
@@ -296,7 +296,7 @@ Flag 2
 ![](/assets/images/posts/Pasted%20image%2020260527161614.png)
 
 
-###  Flag 3 - Khai thác quyền Impersonation
+###  Flag 3 - Khai thác quyền Impersonation
 
 
 Tới đây thì có 1 gợi ý cho 1 cái secret kia là "Legacy CI cache. Old deployment jobs hand off to the platform operator webhook during break-glass maintenance"
@@ -376,7 +376,7 @@ Test service DNS:
 
 `getent hosts operator-webhook.platform.svc.cluster.local`
 
-Nếu resolve được, có lý do probe namespace platform.
+Nếu resolve được, có lý do probe namespace platform.
 
 ![](/assets/images/posts/Pasted%20image%2020260530123622.png)
 
@@ -390,7 +390,7 @@ Sau khi lấy được deployer-token, attacker kiểm tra quyền theo namespac
 Token dev:deployer-sa không phải admin, nhưng có quyền impersonate serviceaccount platform-operator.
 Điều này cho phép attacker gửi request lên API Server dưới danh nghĩa platform-operator.
 
- **Kiểm tra platform-operator có quyền gì trong platform**
+ **Kiểm tra platform-operator có quyền gì trong platform**
 
 ```
 /tmp/kubectl auth can-i --list -n platform \
@@ -469,10 +469,10 @@ Thì để ý rằng ở đoạn này
 Hướng của mình là sẽ sử dụng sidecar injection để duy trì persistence để lỡ pods có bị tắt hay xóa thì  vẫn còn reverse shell
 
 Các thông tin đã có :
-- container array nằm ở /spec/template/spec/containers
-- có volume tên shared-state
-- mount path là /shared
-- nếu thêm sidecar mount cùng volume /shared, nó có thể ghi file để container khác đọc được ( Kĩ thuật sidecar injection )
+- container array nằm ở /spec/template/spec/containers
+- có volume tên shared-state
+- mount path là /shared
+- nếu thêm sidecar mount cùng volume /shared, nó có thể ghi file để container khác đọc được ( Kĩ thuật sidecar injection )
 
 
 ```
@@ -543,12 +543,12 @@ Chui vào Pod để đọc file  flag 4
 
 ![](/assets/images/posts/Pasted%20image%2020260530131013.png)
 
-flag4.txt là **mình cố tình cho sidecar ghi vào** để chứng minh sidecar đã chạy thành công. Trong thực tế attacker không ghi “flag”, mà sidecar sẽ làm các việc như:
+flag4.txt là **mình cố tình cho sidecar ghi vào** để chứng minh sidecar đã chạy thành công. Trong thực tế attacker không ghi “flag”, mà sidecar sẽ làm các việc như:
 đọc service account token, beacon về C2 proxy traffic nội bộ, đọc shared volume, hook/log request, duy trì persistence trong workload`
 
 Nếu pod api-worker bị restart, ReplicaSet/Deployment sẽ tạo lại pod mới vẫn có sidecar độc.
 
-Ban đầu attacker chỉ có reverse shell tạm thời trong kubeops-console. Shell này dễ mất nếu container restart hoặc pod bị xóa. Sau khi có quyền patch deployment, attacker chèn một sidecar vào api-worker. Vì sidecar nằm trong PodTemplate của Deployment, Kubernetes sẽ tự tạo lại nó sau mỗi lần pod bị xóa. Đây là kỹ thuật persistence ở tầng workload, kín hơn việc tạo một pod lạ.
+Ban đầu attacker chỉ có reverse shell tạm thời trong kubeops-console. Shell này dễ mất nếu container restart hoặc pod bị xóa. Sau khi có quyền patch deployment, attacker chèn một sidecar vào api-worker. Vì sidecar nằm trong PodTemplate của Deployment, Kubernetes sẽ tự tạo lại nó sau mỗi lần pod bị xóa. Đây là kỹ thuật persistence ở tầng workload, kín hơn việc tạo một pod lạ.
 
 
 
@@ -600,9 +600,9 @@ Cụ thể rằng
 
 Trong demo này tôi dùng hướng 1 vì ổn định và đủ chứng minh node-level credential theft.
 
-containerd.sock là **hướng escape/impact bổ sung**. Trong thực tế, nếu có tool như ctr/crictl trong container, attacker có thể nói chuyện với container runtime để list container, inspect mount, hoặc chạy workload mới trên host runtime. Nhưng để demo ổn định, mình đang dùng hostPath token theft là chính.
+containerd.sock là **hướng escape/impact bổ sung**. Trong thực tế, nếu có tool như ctr/crictl trong container, attacker có thể nói chuyện với container runtime để list container, inspect mount, hoặc chạy workload mới trên host runtime. Nhưng để demo ổn định, mình đang dùng hostPath token theft là chính.
 
- **Exec vào build-agent**
+ **Exec vào build-agent**
 
 ```
 /tmp/kubectl exec -it -n dev build-agent \
@@ -614,7 +614,7 @@ containerd.sock là **hướng escape/impact bổ sung**. Trong thực tế, n
   
 ```
 
-Trong shell build-agent, kiểm tra nó có phải là pod nguy hiểm không bằng các lệnh sao
+Trong shell build-agent, kiểm tra nó có phải là pod nguy hiểm không bằng các lệnh sao
 
 ```
 id
@@ -646,7 +646,7 @@ done < /tmp/token-paths.txt
 
 ![](/assets/images/posts/Pasted%20image%2020260528225741.png)
 
-Lần này  thấy platform-system/node-telemetry-agent.
+Lần này  thấy platform-system/node-telemetry-agent.
 
 ![](/assets/images/posts/Pasted%20image%2020260530132439.png)
 
@@ -669,7 +669,7 @@ alias kt='/tmp/kubectl --server=$APISERVER --certificate-authority=$CACERT --tok
 ```
 
 
-Sau khi vào build-agent, tôi không cần biết trước token nào quan trọng. Tôi enum các projected ServiceAccount token mà kubelet lưu dưới /var/lib/kubelet/pods, decode JWT payload để xem namespace, pod và serviceAccount. Khi thấy token thuộc platform-system/node-telemetry-agent, đây là một DaemonSet hệ thống có khả năng là trampoline pod nên tôi kiểm tra quyền của token đó 
+Sau khi vào build-agent, tôi không cần biết trước token nào quan trọng. Tôi enum các projected ServiceAccount token mà kubelet lưu dưới /var/lib/kubelet/pods, decode JWT payload để xem namespace, pod và serviceAccount. Khi thấy token thuộc platform-system/node-telemetry-agent, đây là một DaemonSet hệ thống có khả năng là trampoline pod nên tôi kiểm tra quyền của token đó 
 
 Thì thấy cũng chả có gì hay cả , thử đổi  namespace khác xem 
 
@@ -710,7 +710,7 @@ Thì tiếp tục ở đây chúng ta có thể liệt kê được các pods qu
 
 
 
-Việc bây giờ sẽ là Patch release-controller thêm sidecar lấy token:
+Việc bây giờ sẽ là Patch release-controller thêm sidecar lấy token:
 
 ```
 /tmp/kubectl patch deployment release-controller -n kube-system --type='json' -p='[
@@ -875,11 +875,11 @@ cat /root/root.txt
 
 ![](/assets/images/posts/Pasted%20image%2020260530143852.png)
 
-chroot /host /bin/bash nghĩa là:
+chroot /host /bin/bash nghĩa là:
 
 `đổi root filesystem của process hiện tại sang thư mục /host, rồi chạy /bin/bash bên trong filesystem đó.`
 
-chroot không phải exploit riêng, mà là bước hậu khai thác sau khi attacker đã mount được root filesystem của node vào container. Khi đổi root filesystem sang /host, attacker thao tác với hệ điều hành node như root, có thể đọc file nhạy cảm hoặc ghi persistence như SSH key/cron nếu muốn chứng minh thêm impact.
+chroot không phải exploit riêng, mà là bước hậu khai thác sau khi attacker đã mount được root filesystem của node vào container. Khi đổi root filesystem sang /host, attacker thao tác với hệ điều hành node như root, có thể đọc file nhạy cảm hoặc ghi persistence như SSH key/cron nếu muốn chứng minh thêm impact.
 
 **Attack Path **
 
@@ -960,7 +960,7 @@ dùng release-controller cluster-admin token
 
 ## 1. Cài Falco bằng Helm
 
-Trên k8s-node:
+Trên k8s-node:
 
 `helm repo add falcosecurity https://falcosecurity.github.io/charts helm repo update`
 
