@@ -35,13 +35,14 @@ Bước đầu tiên của mọi lab khi có thông tin về Ip của target là
 
 ![](/assets/images/posts/Pasted%20image%2020260526221240.png)
 
-1. **NodePort Discovery**  
-    Đây chính là 30679.
+1\. **NodePort Discovery**  
+    Sau khi scan, chúng ta khám phá ra một service NodePort ở cổng 30679 trông rất đáng ngờ. Đây chính là mục tiêu để chúng ta đi sâu vào khai thác.
 
-`nmap -p 30000-32767 192.168.221.131 curl http://192.168.221.131:30679/`
+`nmap -p 30000-32767 192.168.221.131`
+`curl http://192.168.221.131:30679/`
 
 
-2. **Kube API Server Recon**  
+2\. **Kube API Server Recon**  
     Ta nhận thấy rằng có port 6443 là API của K8s nên curl thử thì bị chặn 
 
 ```
@@ -52,7 +53,7 @@ curl -k https://192.168.221.131:6443/api
 ![](/assets/images/posts/Pasted%20image%2020260528204440.png)
 
 
-3. **Kubelet API 10250**  
+3\. **Kubelet API 10250**  
     
 
 ```
@@ -66,7 +67,7 @@ curl -k https://192.168.221.131:10250/metrics
 `Unauthorized`  chứng tỏ rằng kubelet có auth đầy đủ chứ ko phải anonymous.
 
 
-4. **etcd 2379/2380**  
+4\. **etcd 2379/2380**  
     
 
 `curl -k https://192.168.221.131:2379/version curl -k https://192.168.221.131:2380/version`
@@ -76,7 +77,7 @@ curl -k https://192.168.221.131:10250/metrics
 
 ![](/assets/images/posts/Pasted%20image%2020260528204617.png)
 
-5. **kube-proxy 10256**  
+5\. **kube-proxy 10256**  
     Chỉ healthz:
 
 `curl http://192.168.221.131:10256/healthz`
